@@ -1,0 +1,94 @@
+.view-product .custom-view-product-img{
+	height: unset;
+}
+
+.custom-product-information{
+	padding-block: unset;
+}
+
+.custom-primary-color{
+	color: #FE980B ;
+}
+
+.custom-primary-color-hover:hover{
+	color: #FE980B !important;
+	transition: all 0.3s ease;
+}
+
+.custom-btn-trans{
+	transition: all 0.3s ease;
+}
+
+.or{
+	margin-inline: auto;
+}
+
+.bill-to .form-one{
+	width: unset;
+}
+
+.custom-order-btn{
+	font-size: 15px;
+	width: unset !important;
+	padding-inline: 32px !important;
+	transition: all 0.3s ease;
+}
+
+.custom-order-btn:hover{
+	opacity: 0.7;
+}
+
+.custom-hello{
+	margin-bottom: 0;
+	line-height: 36px;
+	margin-left: 12px;
+	cursor: context-menu;
+	font-size: 14px;
+	font-weight: 500;
+}
+
+.custom-search-btn:hover{
+	background-color: #FE980B;
+	opacity: 1;
+	color: #fff;
+
+}
+
+.custom-h2{
+	color: #696763;
+    font-size: 20px;
+    font-weight: 300;
+}
+.custom-detail-table{
+	width: 60%;
+}
+
+.custom-get-value{
+	display: none;
+}
+
+.custom-font-20{
+	font-size: 20px;
+}
+
+.custom-font-22{
+	font-size: 22px;
+}
+
+.custom-flex-align-center{
+	display: flex;
+	align-items: center;
+}
+
+.custom-product-img{
+	transition: all 0.3s ease;
+}
+
+.custom-product-img img{
+	transition: all 0.3s ease;
+}
+
+.custom-product-img:hover img{
+	transform: scale(1.05);
+}
+
