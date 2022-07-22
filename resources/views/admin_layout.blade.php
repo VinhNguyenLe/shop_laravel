@@ -4,7 +4,8 @@
     <title>Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="keywords" content="Visitors Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+    <meta name="keywords"
+        content="Visitors Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
  Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
     <script type="application/x-javascript">
         addEventListener("load", function() {
@@ -25,13 +26,18 @@
     <link
         href='//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic'
         rel='stylesheet' type='text/css'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+        rel="stylesheet">
     <!-- font-awesome icons -->
     <link rel="stylesheet" href="{{ asset('public/backend/css/font.css') }}" type="text/css" />
     <link href="{{ asset('public/backend/css/font-awesome.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('public/backend/css/morris.css') }}" type="text/css" />
     <!-- calendar -->
     <link rel="stylesheet" href="{{ asset('public/backend/css/monthly.css') }}">
-	<link rel="shortcut icon" href="{{ asset('public/frontend/images/NLV.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('public/frontend/images/NLV.png') }}" type="image/x-icon">
     <!-- //calendar -->
     <!-- //font-awesome icons -->
     <script src="{{ asset('public/backend/js/jquery2.0.3.min.js') }}"></script>
@@ -125,20 +131,49 @@
                         <li class="sub-menu">
                             <a href="javascript:;">
                                 <i class="fa fa-book"></i>
-                                <span>Quản lý sản phẩm</span>
+                                <span>Sản phẩm</span>
                             </a>
                             <ul class="sub">
                                 <li><a href="{{ URL::to('/add-product') }}">Thêm sản phẩm</a></li>
                                 <li><a href="{{ URL::to('/all-product') }}">Liệt kê sản phẩm</a></li>
                             </ul>
                         </li>
-						<li class="sub-menu">
+                        <li class="sub-menu">
                             <a href="javascript:;">
                                 <i class="fa fa-book"></i>
-                                <span>Quản lý đơn hàng</span>
+                                <span>Mã giảm giá</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="{{ URL::to('/add-coupon') }}">Thêm mã giảm giá</a></li>
+                                <li><a href="{{ URL::to('/list-coupon') }}">Liệt kê mã giảm giá</a></li>
+                            </ul>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-book"></i>
+                                <span>Địa chỉ vận chuyển</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="{{ URL::to('/delivery') }}">Quản lý địa chỉ vận chuyển</a></li>
+                            </ul>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-book"></i>
+                                <span>Đơn hàng</span>
                             </a>
                             <ul class="sub">
                                 <li><a href="{{ URL::to('/manager-order') }}">Đơn đặt hàng</a></li>
+                            </ul>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-book"></i>
+                                <span>Slider</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="{{ URL::to('/add-slider') }}">Thêm slider</a></li>
+                                <li><a href="{{ URL::to('/manage-slider') }}">Liệt kê slider</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -171,16 +206,114 @@
     <script src="{{ asset('public/backend/js/custom-admin.js') }}"></script>
     <script src="{{ asset('public/backend/ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('public/backend/js/jquery.form-validator.min.js') }}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            fetch_delivery();
+
+            function fetch_delivery() {
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url: '{{ url('/select-feeship') }}',
+                    method: 'POST',
+                    data: {
+                        _token: _token
+                    },
+                    success: function(data) {
+                        $('#load_delivery').html(data);
+                    }
+                });
+            }
+            $(document).on('blur', '.fee_feeship_edit', function() {
+
+                var feeship_id = $(this).data('feeship_id');
+                var fee_value = $(this).text();
+                var _token = $('input[name="_token"]').val();
+                // alert(feeship_id);
+                // alert(fee_value);
+                $.ajax({
+                    url: '{{ url('/update-delivery') }}',
+                    method: 'POST',
+                    data: {
+                        feeship_id: feeship_id,
+                        fee_value: fee_value,
+                        _token: _token
+                    },
+                    success: function(data) {
+                        fetch_delivery();
+                    }
+                });
+
+            });
+            $('.add_delivery').click(function() {
+
+                var city = $('.city').val();
+                var province = $('.province').val();
+                var wards = $('.wards').val();
+                var fee_ship = $('.fee_ship').val();
+                var _token = $('input[name="_token"]').val();
+                // alert(city);
+                // alert(province);
+                // alert(wards);
+                // alert(fee_ship);
+                $.ajax({
+                    url: '{{ url('/insert-delivery') }}',
+                    method: 'POST',
+                    data: {
+                        city: city,
+                        province: province,
+                        _token: _token,
+                        wards: wards,
+                        fee_ship: fee_ship
+                    },
+                    success: function(data) {
+                        fetch_delivery();
+                    }
+                });
+
+
+            });
+            $('.choose').on('change', function() {
+                var action = $(this).attr('id');
+                var ma_id = $(this).val();
+                var _token = $('input[name="_token"]').val();
+                var result = '';
+                // alert(action);
+                //  alert(matp);
+                //   alert(_token);
+
+                if (action == 'city') {
+                    result = 'province';
+                } else {
+                    result = 'wards';
+                }
+                $.ajax({
+                    url: '{{ url('/select-delivery') }}',
+                    method: 'POST',
+                    data: {
+                        action: action,
+                        ma_id: ma_id,
+                        _token: _token
+                    },
+                    success: function(data) {
+                        $('#' + result).html(data);
+                    }
+                });
+            });
+        })
+    </script>
+
     <script>
         // CKEDITOR: replace('ckeditor')
         CKEDITOR.replace('product-desc')
         // CKEDITOR.replace('product-content')
     </script>
-    <script type="text/javascript">
+    {{-- <script type="text/javascript">
         $.validate({
-            
+
         })
-    </script>
+    </script> --}}
     <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
 
 </body>

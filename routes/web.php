@@ -67,33 +67,69 @@ Route::post('/update-product/{product_id}', 'ProductController@update_product');
 
 //Cart
 Route::post('/save-cart', 'CartController@save_cart');
-Route::post('/add-cart-ajax', 'CartController@add_cart_ajax');
 Route::get('/show-cart', 'CartController@show_cart');
-Route::get('/gio-hang', 'CartController@show_cart_ajax');
 Route::get('/delete-to-cart/{rowId}', 'CartController@delete_to_cart');
 Route::post('/update-cart-quantity', 'CartController@update_cart_quantity');
+
+Route::get('/gio-hang', 'CartController@show_cart_ajax');
+Route::post('/add-cart-ajax', 'CartController@add_cart_ajax');
+Route::post('/update-cart-ajax', 'CartController@update_cart_ajax');
+Route::get('/delete-product-ajax/{session_id}', 'CartController@delete_product_ajax');
+Route::get('/delete-all-product-ajax', 'CartController@delete_all_product_ajax');
+
+//Coupon
+Route::post('/check-coupon', 'CouponController@check_coupon');
+Route::get('/unset-coupon', 'CouponController@unset_coupon');
+
+Route::get('/add-coupon', 'CouponController@add_coupon');
+Route::post('/insert-coupon-code', 'CouponController@insert_coupon_code');
+Route::get('/list-coupon', 'CouponController@list_coupon');
+Route::get('/delete-coupon/{coupon_id}', 'CouponController@delete_coupon');
 
 //Checkout
 Route::get('/login-checkout', 'CheckoutController@login_checkout');
 Route::get('/logout-checkout', 'CheckoutController@logout_checkout');
 Route::get('/checkout', 'CheckoutController@checkout');
 Route::get('/payment', 'CheckoutController@payment');
+Route::post('/select-delivery-home','CheckoutController@select_delivery_home');
+Route::post('/calculate-fee','CheckoutController@calculate_fee');
+Route::get('/delete-fee','CheckoutController@delete_fee');
+Route::post('/confirm-order', 'CheckoutController@confirm_order');
 
 Route::post('/add-customer', 'CheckoutController@add_customer');
 Route::post('/login-customer', 'CheckoutController@login_customer');
 Route::post('/save-checkout-customer', 'CheckoutController@save_checkout_customer');
 Route::post('/order-place', 'CheckoutController@order_place');
 
-//Admin manager order
-Route::get('/manager-order', 'CheckoutController@manager_order');
-Route::get('/view-order/{orderId}', 'CheckoutController@view_order');
+//*Admin manager order
+Route::get('/manager-order', 'OrderController@manager_order');
+Route::get('/view-order/{order_code}', 'OrderController@view_order');
+Route::get('/print-order/{checkout_code}', 'OrderController@print_order');
 
-//* Send Mail
+// Route::get('/manager-order', 'CheckoutController@manager_order');
+// Route::get('/view-order/{orderId}', 'CheckoutController@view_order');
+
+//Delivery
+Route::get('/delivery', 'DeliveryController@delivery');
+Route::post('/select-delivery','DeliveryController@select_delivery');
+Route::post('/insert-delivery','DeliveryController@insert_delivery');
+Route::post('/select-feeship','DeliveryController@select_feeship');
+Route::post('/update-delivery','DeliveryController@update_delivery');
+
+//Slider
+Route::get('/manage-slider','SliderController@manage_slider');
+Route::get('/add-slider','SliderController@add_slider');
+Route::get('/delete-slide/{slide_id}','SliderController@delete_slide');
+Route::post('/insert-slider','SliderController@insert_slider');
+Route::get('/unactive-slide/{slide_id}','SliderController@unactive_slide');
+Route::get('/active-slide/{slide_id}','SliderController@active_slide');
+
+
+//! Send Mail
 Route::get('/send-mail', 'MailController@send_mail');
 
-//* Login facebook google
+//! Login facebook google
 Route::get('/login-facebook','LoginFacebookController@login_facebook');
 Route::get('/admin/callback','LoginFacebookController@callback_facebook');
 Route::get('/login-google','LoginFacebookController@login_google');
 Route::get('/google/callback','LoginFacebookController@callback_google');
-

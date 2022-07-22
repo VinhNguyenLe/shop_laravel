@@ -1,6 +1,6 @@
 @extends('layout')
 @section('title')
-<title>Chi tiết sản phẩm | E-Shopper</title>
+    <title>Chi tiết sản phẩm | E-Shopper</title>
 @endsection
 
 {{-- @section('category-product')
@@ -45,7 +45,6 @@
 @endsection --}}
 
 @section('content')
-
     @foreach ($details_product as $key => $value)
         <div class="product-details">
             <!--product-details-->
@@ -53,16 +52,19 @@
                 <div class="view-product">
                     <img src="{{ URL::to('/public/uploads/product/' . $value->product_image) }}" alt=""
                         class="custom-view-product-img" />
-                    <h3>ZOOM</h3>
+                    {{-- <h3>ZOOM</h3> --}}
                 </div>
                 <div id="similar-product" class="carousel slide" data-ride="carousel">
 
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner">
                         <div class="item active">
-                            <a href=""><img src="{{ URL::to('public/frontend/images/similar1.jpg') }}" alt=""></a>
-                            <a href=""><img src="{{ URL::to('public/frontend/images/similar2.jpg') }}" alt=""></a>
-                            <a href=""><img src="{{ URL::to('public/frontend/images/similar3.jpg') }}" alt=""></a>
+                            <a href=""><img src="{{ URL::to('public/frontend/images/similar1.jpg') }}"
+                                    alt=""></a>
+                            <a href=""><img src="{{ URL::to('public/frontend/images/similar2.jpg') }}"
+                                    alt=""></a>
+                            <a href=""><img src="{{ URL::to('public/frontend/images/similar3.jpg') }}"
+                                    alt=""></a>
                         </div>
                     </div>
 
@@ -83,26 +85,36 @@
                     <h2>{{ $value->product_name }}</h2>
                     <p>Mã sản phẩm: 100{{ $value->product_id }}</p>
                     <img src="images/product-details/rating.png" alt="" />
-                    <form action="{{URL::to('/save-cart')}}" method="POST">
-						{{ csrf_field() }}
-						<span>
-							<span>{{ number_format($value->product_price) }} VNĐ</span>
-							<label>Quantity:</label>
-							<input name="quatity" type="number" min="1" value="1" />
-							<input name="productid_hidden" type="hidden" value="{{ $value->product_id }}" />
-							<button type="submit" class="btn btn-fefault cart">
-								<i class="fa fa-shopping-cart"></i>
-								Thêm vào giỏ hàng
-							</button>
-						</span>
-					</form>
+                    {{-- <form action="{{ URL::to('/save-cart') }}" method="POST"> --}}
+                    <form>
+                        {{ csrf_field() }}
+                        <input type="hidden" value="{{ $value->product_id }}"
+                            class="cart_product_id_{{ $value->product_id }}">
+                        <input type="hidden" value="{{ $value->product_name }}"
+                            class="cart_product_name_{{ $value->product_id }}">
+                        <input type="hidden" value="{{ $value->product_image }}"
+                            class="cart_product_image_{{ $value->product_id }}">
+                        <input type="hidden" value="{{ $value->product_price }}"
+                            class="cart_product_price_{{ $value->product_id }}">
+                        <input type="hidden" value="1" class="cart_product_qty_{{ $value->product_id }}">
+                        <span style="display: flex; align-items: center">
+                            <span>{{ number_format($value->product_price) }} VNĐ</span>
+                            <label>Quantity:</label>
+                            <input name="quatity" type="number" min="1" value="1" />
+                            <input name="productid_hidden" type="hidden" value="{{ $value->product_id }}" />
+                            <button type="button" class="btn btn-default custom-btn-primary add-to-cart"
+                                data-id="{{ $value->product_id }}" style="margin: 0 0 0 30px">Thêm
+                                vào giỏ hàng</button>
+                        </span>
+                    </form>
                     <p><b>Kho:</b> Còn hàng</p>
                     <p><b>Tình trạng:</b> Mới 100%</p>
                     <p><b>Thương hiệu:</b> <a href="{{ URL::to('/thuong-hieu-san-pham/' . $value->brand_id) }}"
                             class="custom-primary-color">{{ $value->brand_name }}</a></p>
                     <p><b>Danh muc:</b> <a href="{{ URL::to('/danh-muc-san-pham/' . $value->category_id) }}"
                             class="custom-primary-color">{{ $value->category_name }}</a></p>
-                    <a href=""><img src="images/product-details/share.png" class="share img-responsive" alt="" /></a>
+                    <a href=""><img src="images/product-details/share.png" class="share img-responsive"
+                            alt="" /></a>
                 </div>
                 <!--/product-information-->
             </div>
@@ -122,7 +134,7 @@
                 <div class="tab-pane fade active in" id="details">
                     <p class="custom-font-20">{!! $value->product_desc !!}</p>
                 </div>
-				<div class="tab-pane fade" id="companyprofile">
+                <div class="tab-pane fade" id="companyprofile">
                     {{-- Hiển thị chi tiết sản phẩm --}}
                     <p class="custom-get-value">{!! $value->product_content !!}</p>
                     <p class="custom-primary-color custom-font-20">Thông số kĩ thuật</p>
@@ -136,7 +148,7 @@
                         </tbody>
                     </table>
                 </div>
-                
+
 
                 <div class="tab-pane fade " id="reviews">
                     <div class="col-sm-12">
@@ -178,25 +190,26 @@
         <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="item active">
-					@foreach($related_product as $key => $value)
-                    <div class="col-sm-4">
-                        <div class="product-image-wrapper">
-                            <div class="single-products">
-                                <div class="productinfo text-center">
-                                    <img src="{{ URL::to('public/uploads/product/'.$value->product_image) }}" alt="" />
-                                    <h2>{{number_format($value->product_price)}} VNĐ</h2>
-                                    <p>{{$value->product_name}}</p>
-                                    <button type="button" class="btn btn-default add-to-cart"><i
-                                            class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</button>
+                    @foreach ($related_product as $key => $value)
+                        <div class="col-sm-4">
+                            <div class="product-image-wrapper">
+                                <div class="single-products">
+                                    <div class="productinfo text-center">
+                                        <img src="{{ URL::to('public/uploads/product/' . $value->product_image) }}"
+                                            alt="" />
+                                        <h2>{{ number_format($value->product_price) }} VNĐ</h2>
+                                        <p>{{ $value->product_name }}</p>
+                                        <button type="button" class="btn btn-default add-to-cart"><i
+                                                class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                   @endforeach
-                   
+                    @endforeach
+
 
                 </div>
-                
+
             </div>
             <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
                 <i class="fa fa-angle-left"></i>

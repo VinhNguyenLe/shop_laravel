@@ -126,4 +126,55 @@ class CartController extends Controller {
 			->with('meta_title', $meta_title)
 			->with('url_canonical', $url_canonical);
 	}
+
+	public function update_cart_ajax(Request $request){
+		$data = $request -> all();
+		$cart = Session::get('cart');
+		if($cart == true){
+			 foreach($data['cart_qty'] as $key => $qty){
+				foreach($cart as $session => $val){
+					if($val['session_id'] == $key){
+						$cart[$session]['product_qty'] = $qty;
+					}
+				}
+			 }
+			Session::put('cart', $cart);
+			return redirect()->back()->with('message', 'Cập nhật số lượng thành công');
+		} else {
+			return redirect()->back()->with('message', 'Cập nhật số lượng thất bại');
+
+		}
+	}
+
+	public function delete_product_ajax($session_id){
+		$cart = Session::get('cart');
+        // echo '<pre>';
+        // print_r($cart);
+        // echo '</pre>';
+        if($cart==true){
+            foreach($cart as $key => $val){
+                if($val['session_id']==$session_id){
+                    unset($cart[$key]);
+                }
+            }
+            Session::put('cart',$cart);
+            return redirect()->back()->with('message','Xóa sản phẩm thành công');
+
+        }else{
+            return redirect()->back()->with('message','Xóa sản phẩm thất bại');
+        }
+		
+	}
+
+	public function delete_all_product_ajax(){
+		$cart = Session::get('cart');
+        if($cart==true){
+            // Session::destroy();
+            Session::forget('cart');
+            Session::forget('coupon');
+            return redirect()->back()->with('message','Xóa hết giỏ thành công');
+        }
+	}
+
+	
 }

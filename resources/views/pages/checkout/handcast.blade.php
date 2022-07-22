@@ -9,8 +9,6 @@
         <div class="container" style="width: 100%">
             <div class="review-payment">
                 <h2>Cảm ơn bạn đã lựa chọn dịch vụ của cửa hàng, cửa hàng sẽ liên hệ với bạn sớm nhất!</h2>
-                
-               
             </div>
 
         </div>

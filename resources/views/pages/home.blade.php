@@ -140,7 +140,8 @@
                                         class="cart_product_image_{{ $product->product_id }}">
                                     <input type="hidden" value="{{ $product->product_price }}"
                                         class="cart_product_price_{{ $product->product_id }}">
-                                    <input type="hidden" value="1" class="cart_product_qty_{{ $product->product_id }}">
+                                    <input type="hidden" value="1"
+                                        class="cart_product_qty_{{ $product->product_id }}">
 
                                     <input type="hidden" name="cart_product_id_{{ $product->product_id }}" id="">
                                     <a href="{{ URL::to('/chi-tiet-san-pham/' . $product->product_id) }}"
@@ -150,18 +151,19 @@
                                         <h2>{{ number_format($product->product_price) }} VNĐ</h2>
                                         <p>{{ $product->product_name }}</p>
                                     </a>
-                                    <button type="button" class="btn btn-default add-to-cart"  data-id="{{$product->product_id}}">Thêm
+                                    <button type="button" class="btn btn-default add-to-cart"
+                                        data-id="{{ $product->product_id }}">Thêm
                                         vào giỏ hàng</button>
                                 </form>
                             </div>
 
                         </div>
-                        <div class="choose">
+                        {{-- <div class="choose">
                             <ul class="nav nav-pills nav-justified">
                                 <li><a href="#"><i class="fa fa-plus-square"></i>Yêu thích</a></li>
                                 <li><a href="#"><i class="fa fa-plus-square"></i>So sánh</a></li>
                             </ul>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             @endforeach

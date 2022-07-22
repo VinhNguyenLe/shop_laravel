@@ -6,11 +6,15 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Session;
+use App\Slider;
+
 
 session_start();
 
 class HomeController extends Controller {
 	public function index(Request $request) {
+        $slider = Slider::orderBy('slider_id','DESC')->where('slider_status','1')->take(4)->get();
+
 		//SEO
 		$meta_desc = "Chuyên bán điện thoại và máy tính";
 		$meta_keyword = "điện thoại, máy tính, phụ kiện điện thoại";
@@ -44,7 +48,8 @@ class HomeController extends Controller {
 			->with('meta_desc', $meta_desc)
 			->with('meta_keyword', $meta_keyword)
 			->with('meta_title', $meta_title)
-			->with('url_canonical', $url_canonical);
+			->with('url_canonical', $url_canonical)
+			->with('slider', $slider);
 	}
 
 	public function search(Request $request){

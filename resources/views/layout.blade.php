@@ -5,17 +5,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {{-- SEO --}}
-    <meta name="description" content="{{ $meta_desc }}">
+    {{-- <meta name="description" content="{{ $meta_desc }}">
     <meta name="keywords" content="{{ $meta_keyword }}">
     <link rel="canonical" href="{{ $url_canonical }}">
     <meta name="author" content="">
-    <meta name="robots" content="INDEX, FOLLOW">
+    <meta name="robots" content="INDEX, FOLLOW"> --}}
 
     {{-- <meta property="og:image" content="" /> --}}
-    <meta property="og:site_name" content="http://localhost/shop/" />
+    {{-- <meta property="og:site_name" content="http://localhost/shop/" />
     <meta property="og:description" content="" />
     <meta property="og:url" content="{{ $url_canonical }}" />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content="website" /> --}}
 
     @yield('title')
     <link href="{{ asset('public/frontend/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -108,10 +108,10 @@
 
                                 {{-- <li><a href="{{URL::to('/login-checkout')}}"><i class="fa fa-user"></i> Tài khoản</a></li> --}}
                                 <li><a href="{{ URL::to('/') }}"><i class="fa fa-star"></i> Yêu thích</a></li>
-                                {{-- <li><a href="{{ URL::to('/gio-hang') }}"><i class="fa fa-shopping-cart"></i> Giỏ
-                                    hàng</a></li> --}}
-                                    <li><a href="{{ URL::to('/show-cart') }}"><i class="fa fa-shopping-cart"></i> Giỏ
+                                <li><a href="{{ URL::to('/gio-hang') }}"><i class="fa fa-shopping-cart"></i> Giỏ
                                         hàng</a></li>
+                                {{-- <li><a href="{{ URL::to('/show-cart') }}"><i class="fa fa-shopping-cart"></i> Giỏ
+                                        hàng</a></li> --}}
                                 <?php 
 									$customer_id = Session::get('customer_id');
 									$shipping_id = Session::get('shipping_id');
@@ -171,7 +171,7 @@
                         </div>
                         <div class="mainmenu pull-left">
                             <ul class="nav navbar-nav collapse navbar-collapse">
-                                <li><a href="{{ URL::to('/') }}" class="active">Trang chủ</a></li>
+                                <li><a href="{{ URL::to('/') }}">Trang chủ</a></li>
                                 <li class="dropdown"><a href="#">Sản phẩm<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="shop.html">Products</a></li>
@@ -206,7 +206,68 @@
         <!--/header-bottom-->
     </header>
     <!--/header-->
-    @yield('slide')
+    <section id="slider">
+        <!--slider-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="slider-carousel" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            @php
+                                $j = 0;
+                            @endphp
+                            @foreach ($slider as $key => $slide)
+                                @php
+                                    $j++;
+                                @endphp
+                                <li data-target="#slider-carousel" data-slide-to={{ $j - 1 }}
+                                    class="{{ $j == 1 ? 'active' : '' }}"></li>
+                            @endforeach
+                            {{-- <li data-target="#slider-carousel" data-slide-to="0" class="active"></li>
+                            <li data-target="#slider-carousel" data-slide-to="2"></li> --}}
+                        </ol>
+                        <style type="text/css">
+                            img.img.img-responsive.img-slider {
+                                height: 350px;
+                            }
+                        </style>
+                        <div class="carousel-inner">
+                            @php
+                                $i = 0;
+                            @endphp
+                            @foreach ($slider as $key => $slide)
+                                @php
+                                    $i++;
+                                @endphp
+                                <div class="item {{ $i == 1 ? 'active' : '' }}">
+
+                                    <div class="col-sm-12">
+                                        <img alt="{{ $slide->slider_desc }}"
+                                            src="{{ asset('public/uploads/slider/' . $slide->slider_image) }}"
+                                            width="100%" class="img img-responsive img-slider"
+                                            style="object-fit: contain">
+
+                                    </div>
+                                </div>
+                            @endforeach
+
+
+                        </div>
+
+                        <a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                        <a href="#slider-carousel" class="right control-carousel hidden-xs" data-slide="next">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--/slider-->
+    <!--/slider-->
 
     <section>
         <div class="container">
@@ -224,81 +285,7 @@
         <!--Footer-->
         <div class="footer-top">
             <div class="container">
-                {{-- <div class="row">
-                    <div class="col-sm-2">
-                        <div class="companyinfo">
-                            <h2><span>e</span>-shopper</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,sed do eiusmod tempor</p>
-                        </div>
-                    </div>
-                    <div class="col-sm-7">
-                        <div class="col-sm-3">
-                            <div class="video-gallery text-center">
-                                <a href="#">
-                                    <div class="iframe-img">
-                                        <img src="{{ 'public/frontend/images/iframe1.png' }}" alt="" />
-                                    </div>
-                                    <div class="overlay-icon">
-                                        <i class="fa fa-play-circle-o"></i>
-                                    </div>
-                                </a>
-                                <p>Circle of Hands</p>
-                                <h2>24 DEC 2014</h2>
-                            </div>
-                        </div>
 
-                        <div class="col-sm-3">
-                            <div class="video-gallery text-center">
-                                <a href="#">
-                                    <div class="iframe-img">
-                                        <img src="{{ 'public/frontend/images/iframe2.png' }}" alt="" />
-                                    </div>
-                                    <div class="overlay-icon">
-                                        <i class="fa fa-play-circle-o"></i>
-                                    </div>
-                                </a>
-                                <p>Circle of Hands</p>
-                                <h2>24 DEC 2014</h2>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-3">
-                            <div class="video-gallery text-center">
-                                <a href="#">
-                                    <div class="iframe-img">
-                                        <img src="{{ 'public/frontend/images/iframe3.png' }}" alt="" />
-                                    </div>
-                                    <div class="overlay-icon">
-                                        <i class="fa fa-play-circle-o"></i>
-                                    </div>
-                                </a>
-                                <p>Circle of Hands</p>
-                                <h2>24 DEC 2014</h2>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-3">
-                            <div class="video-gallery text-center">
-                                <a href="#">
-                                    <div class="iframe-img">
-                                        <img src="{{ 'public/frontend/images/iframe4.png' }}" alt="" />
-                                    </div>
-                                    <div class="overlay-icon">
-                                        <i class="fa fa-play-circle-o"></i>
-                                    </div>
-                                </a>
-                                <p>Circle of Hands</p>
-                                <h2>24 DEC 2014</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="address">
-                            <img src="{{ 'public/frontend/images/map.png' }}" alt="" />
-                            <p>505 S Atlantic Ave Virginia Beach, VA(Virginia)</p>
-                        </div>
-                    </div>
-                </div> --}}
             </div>
         </div>
 
@@ -382,8 +369,6 @@
     </footer>
     <!--/Footer-->
 
-
-
     <script src="{{ asset('public/frontend/js/jquery.js') }}"></script>
     <script src="{{ asset('public/frontend/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('public/frontend/js/jquery.scrollUp.min.js') }}"></script>
@@ -443,6 +428,128 @@
                 })
             })
         })
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.choose').on('change', function() {
+                var action = $(this).attr('id');
+                var ma_id = $(this).val();
+                var _token = $('input[name="_token"]').val();
+                var result = '';
+                // alert(action);
+                //  alert(matp);
+                //   alert(_token);
+
+                if (action == 'city') {
+                    result = 'province';
+                } else {
+                    result = 'wards';
+                }
+                $.ajax({
+                    url: '{{ url('/select-delivery-home') }}',
+                    method: 'POST',
+                    data: {
+                        action: action,
+                        ma_id: ma_id,
+                        _token: _token
+                    },
+                    success: function(data) {
+                        $('#' + result).html(data);
+                    }
+                });
+            });
+        })
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.calculate_delivery').click(function() {
+                var matp = $('.city').val();
+                var maqh = $('.province').val();
+                var xaid = $('.wards').val();
+                var _token = $('input[name="_token"]').val();
+                if (matp == '' && maqh == '' && xaid == '') {
+                    alert('Bạn hãy chọn địa điểm để tính phí vận chuyển nhé!');
+                } else {
+                    $.ajax({
+                        url: '{{ url('/calculate-fee') }}',
+                        method: 'POST',
+                        data: {
+                            matp: matp,
+                            maqh: maqh,
+                            xaid: xaid,
+                            _token: _token
+                        },
+                        success: function() {
+                            location.reload();
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.send_order').click(function() {
+                swal({
+                        title: "Xác nhận đơn hàng",
+                        text: "Đơn hàng sẽ không được hoàn trả khi đặt,bạn có muốn đặt không?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-danger",
+                        confirmButtonText: "Cảm ơn, Mua hàng",
+
+                        cancelButtonText: "Đóng,chưa mua",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function(isConfirm) {
+                        if (isConfirm) {
+                            var shipping_email = $('.shipping_email').val();
+                            var shipping_name = $('.shipping_name').val();
+                            var shipping_address = $('.shipping_address').val();
+                            var shipping_phone = $('.shipping_phone').val();
+                            var shipping_notes = $('.shipping_notes').val();
+                            var shipping_method = $('.payment_select').val();
+                            var order_fee = $('.order_fee').val();
+                            var order_coupon = $('.order_coupon').val();
+                            var _token = $('input[name="_token"]').val();
+
+                            $.ajax({
+                                url: '{{ url('/confirm-order') }}',
+                                method: 'POST',
+                                data: {
+                                    shipping_email: shipping_email,
+                                    shipping_name: shipping_name,
+                                    shipping_address: shipping_address,
+                                    shipping_phone: shipping_phone,
+                                    shipping_notes: shipping_notes,
+                                    _token: _token,
+                                    order_fee: order_fee,
+                                    order_coupon: order_coupon,
+                                    shipping_method: shipping_method
+                                },
+                                success: function() {
+                                    swal("Đơn hàng",
+                                        "Đơn hàng của bạn đã được gửi thành công",
+                                        "success");
+                                }
+                            });
+
+                            window.setTimeout(function() {
+                                location.reload();
+                            }, 3000);
+
+                        } else {
+                            swal("Đóng", "Đơn hàng chưa được gửi, làm ơn hoàn tất đơn hàng", "error");
+
+                        }
+
+                    });
+
+
+            });
+        });
     </script>
 </body>
 
