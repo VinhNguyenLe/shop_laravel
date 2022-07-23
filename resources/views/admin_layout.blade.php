@@ -108,7 +108,17 @@
                                 <span>Tổng quan</span>
                             </a>
                         </li>
-
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-book"></i>
+                                <span>Người dùng</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="{{ URL::to('/admin') }}">Thêm người dùng</a></li>
+                                <li><a href="{{ URL::to('/admin') }}">Liệt kê người dùng</a>
+                                </li>
+                            </ul>
+                        </li>
                         <li class="sub-menu">
                             <a href="javascript:;">
                                 <i class="fa fa-book"></i>

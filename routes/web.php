@@ -134,6 +134,12 @@ Route::post('/export-product-csv','ProductController@export_product_csv');
 // Route::post('/import-csv','CategoryController@import_csv');
 
 
+//Authentication Roles
+Route::get('/register-auth','AuthController@register_auth');
+Route::post('/register','AuthController@register');
+
+
+
 //! Send Mail
 Route::get('/send-mail', 'MailController@send_mail');
 
