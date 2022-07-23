@@ -8,9 +8,12 @@ use App\Brand;
 use Illuminate\Support\Facades\Redirect;
 use Session;
 
+use App\Exports\ExcelBrandExports;
+use Excel;
+
 session_start();
 
-class BrandProduct extends Controller {
+class BrandController extends Controller {
 	public function AuthLogin() {
 		$admin_id = Session::get('admin_id');
 		if ($admin_id) {
@@ -140,4 +143,8 @@ class BrandProduct extends Controller {
 			->with('meta_title', $meta_title)
 			->with('url_canonical', $url_canonical);
 	}
+
+	public function export_brand_csv(){
+        return Excel::download(new ExcelBrandExports , 'brand_product.xlsx');
+    }
 }

@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Session;
 
+use App\Exports\ExcelProductExports;
+use Excel;
+
 session_start();
 
 class ProductController extends Controller {
@@ -41,6 +44,7 @@ class ProductController extends Controller {
 		$this->AuthLogin();
 		$data = array();
 		$data['product_name'] = $request->product_name;
+		$data['product_quantity'] = $request->product_quantity;
 		$data['product_desc'] = $request->product_desc;
 		$data['product_content'] = $request->product_content;
 		$data['product_price'] = $request->product_price;
@@ -66,7 +70,7 @@ class ProductController extends Controller {
 		$data['product_image'] = '';
 		DB::table('tbl_product')->insert($data);
 		Session::put('message', 'Thêm sản phẩm thành công');
-		return Redirect::to('add-product');
+		return Redirect::to('all-product');
 	}
 
 	public function edit_product($product_id) {
@@ -100,6 +104,7 @@ class ProductController extends Controller {
 		$this->AuthLogin();
 		$data = array();
 		$data['product_name'] = $request->product_name;
+		$data['product_quantity'] = $request->product_quantity;
 		$data['product_desc'] = $request->product_desc;
 		$data['product_content'] = $request->product_content;
 		$data['product_price'] = $request->product_price;
@@ -173,4 +178,8 @@ class ProductController extends Controller {
 			->with('meta_title', $meta_title)
 			->with('url_canonical', $url_canonical);
 	}
+
+	public function export_product_csv(){
+        return Excel::download(new ExcelProductExports , 'product_list.xlsx');
+    }
 }

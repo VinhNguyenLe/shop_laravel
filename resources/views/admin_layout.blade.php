@@ -43,6 +43,9 @@
     <script src="{{ asset('public/backend/js/jquery2.0.3.min.js') }}"></script>
     <script src="{{ asset('public/backend/js/raphael-min.js') }}"></script>
     <script src="{{ asset('public/backend/js/morris.js') }}"></script>
+
+    <link href="{{ asset('public/backend/css/custom.css') }}" rel='stylesheet' type='text/css' />
+
 </head>
 
 <body>
@@ -302,6 +305,85 @@
                 });
             });
         })
+    </script>
+    <script type="text/javascript">
+        $('.order_details').change(function() {
+            var order_status = $(this).val();
+            var order_id = $(this).children(":selected").attr("id");
+            var _token = $('input[name="_token"]').val();
+
+            quantity = []
+            $('input[name="product_sales_quantity"]').each(function() {
+                quantity.push($(this).val())
+            })
+
+            order_product_id = []
+            $('input[name="order_product_id"]').each(function() {
+                order_product_id.push($(this).val())
+            })
+
+            j = 0;
+            for (i = 0; i < order_product_id.length; i++) {
+                //SL hàng khách đặt
+                var order_qty = $('.order_qty_' + order_product_id[i]).val();
+                //SL hàng trong kho
+                var order_qty_storage = $('.order_qty_storage_' + order_product_id[i]).val();
+
+                if (parseInt(order_qty) > parseInt(order_qty_storage)) {
+                    j = j + 1;
+                    if (j == 1) {
+                        alert('Số lượng bán trong kho không đủ');
+                    }
+                    $('.color_qty_' + order_product_id[i]).css('background', '#dc3545');
+                }
+            }
+            if (j == 0) {
+                $.ajax({
+                    url: '{{ url('/update-order-qty') }}',
+                    method: 'POST',
+                    data: {
+                        _token: _token,
+                        order_status: order_status,
+                        order_id: order_id,
+                        quantity: quantity,
+                        order_product_id: order_product_id
+                    },
+                    success: function(data) {
+                        alert('Cập nhật tình trạng đơn hàng thành công');
+                        location.reload();
+                    }
+                });
+            }
+
+        });
+        //
+    </script>
+    <script type="text/javascript">
+        $('.update_quantity_order').click(function() {
+            var order_product_id = $(this).data('product_id');
+            var order_qty = $('.order_qty_' + order_product_id).val();
+            var order_code = $('.order_code').val();
+            var _token = $('input[name="_token"]').val();
+
+            $.ajax({
+                url: '{{ url('/update-qty') }}',
+
+                method: 'POST',
+
+                data: {
+                    _token: _token,
+                    order_product_id: order_product_id,
+                    order_qty: order_qty,
+                    order_code: order_code
+                },
+                // dataType:"JSON",
+                success: function(data) {
+                    alert('Cập nhật số lượng thành công');
+                    location.reload();
+                }
+            });
+
+        });
     </script>
 
     <script>

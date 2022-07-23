@@ -83,38 +83,54 @@
                     <!--/product-information-->
                     <img src="images/product-details/new.jpg" class="newarrival" alt="" />
                     <h2>{{ $value->product_name }}</h2>
-                    <p>Mã sản phẩm: 100{{ $value->product_id }}</p>
-                    <img src="images/product-details/rating.png" alt="" />
+                    <p>Mã sản phẩm: {{ $value->product_id }}</p>
+                    {{-- <img src="images/product-details/rating.png" alt="" /> --}}
                     {{-- <form action="{{ URL::to('/save-cart') }}" method="POST"> --}}
                     <form>
                         {{ csrf_field() }}
                         <input type="hidden" value="{{ $value->product_id }}"
                             class="cart_product_id_{{ $value->product_id }}">
+
                         <input type="hidden" value="{{ $value->product_name }}"
                             class="cart_product_name_{{ $value->product_id }}">
+
                         <input type="hidden" value="{{ $value->product_image }}"
                             class="cart_product_image_{{ $value->product_id }}">
+
                         <input type="hidden" value="{{ $value->product_price }}"
                             class="cart_product_price_{{ $value->product_id }}">
-                        <input type="hidden" value="1" class="cart_product_qty_{{ $value->product_id }}">
-                        <span style="display: flex; align-items: center">
+
+                        <input type="hidden" value="{{ $value->product_quantity }}"
+                            class="cart_product_quantity_{{ $value->product_id }}">
+
+                        {{-- <input type="hidden" value="1" class="cart_product_qty_{{ $value->product_id }}"> --}}
+
+                        <span>
+                            <h3 style="margin-bottom: 0">Giá:</h3>
+
                             <span>{{ number_format($value->product_price) }} VNĐ</span>
-                            <label>Quantity:</label>
-                            <input name="quatity" type="number" min="1" value="1" />
+                            <label>Số lượng:</label>
+                            <input name="qty" type="number" min="1"
+                                class="cart_product_qty_{{ $value->product_id }}" value="1" />
                             <input name="productid_hidden" type="hidden" value="{{ $value->product_id }}" />
-                            <button type="button" class="btn btn-default custom-btn-primary add-to-cart"
-                                data-id="{{ $value->product_id }}" style="margin: 0 0 0 30px">Thêm
-                                vào giỏ hàng</button>
+
                         </span>
                     </form>
-                    <p><b>Kho:</b> Còn hàng</p>
-                    <p><b>Tình trạng:</b> Mới 100%</p>
+                    <p><b>Kho: </b> {{ $value->product_quantity }}</p>
                     <p><b>Thương hiệu:</b> <a href="{{ URL::to('/thuong-hieu-san-pham/' . $value->brand_id) }}"
                             class="custom-primary-color">{{ $value->brand_name }}</a></p>
                     <p><b>Danh muc:</b> <a href="{{ URL::to('/danh-muc-san-pham/' . $value->category_id) }}"
                             class="custom-primary-color">{{ $value->category_name }}</a></p>
-                    <a href=""><img src="images/product-details/share.png" class="share img-responsive"
-                            alt="" /></a>
+                    {{-- <a href=""><img src="images/product-details/share.png" class="share img-responsive"
+                            alt="" /></a> --}}
+                    @if ($value->product_quantity > 0)
+                        <button type="button" class="btn btn-default custom-btn-primary add-to-cart"
+                            data-id="{{ $value->product_id }}" style="margin: 30px 0">Thêm
+                            vào giỏ hàng</button>
+                    @else
+                        <p style="color: #dc3545; font-size: 16px">Sản phẩm hiện hết hàng</p>
+                    @endif
+
                 </div>
                 <!--/product-information-->
             </div>
@@ -127,12 +143,12 @@
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#details" data-toggle="tab">Mô tả sản phẩm</a></li>
                     <li><a href="#companyprofile" data-toggle="tab">Chi tiết sản phẩm</a></li>
-                    <li><a href="#reviews" data-toggle="tab">Đánh giá</a></li>
+                    {{-- <li><a href="#reviews" data-toggle="tab">Đánh giá</a></li> --}}
                 </ul>
             </div>
             <div class="tab-content">
                 <div class="tab-pane fade active in" id="details">
-                    <p class="custom-font-20">{!! $value->product_desc !!}</p>
+                    <div class="custom-font-20 custom-bg-white">{!! $value->product_desc !!}</div>
                 </div>
                 <div class="tab-pane fade" id="companyprofile">
                     {{-- Hiển thị chi tiết sản phẩm --}}
@@ -150,7 +166,7 @@
                 </div>
 
 
-                <div class="tab-pane fade " id="reviews">
+                {{-- <div class="tab-pane fade " id="reviews">
                     <div class="col-sm-12">
                         <ul>
                             <li><a href=""><i class="fa fa-user"></i>EUGEN</a></li>
@@ -175,7 +191,7 @@
                             </button>
                         </form>
                     </div>
-                </div>
+                </div> --}}
 
             </div>
         </div>

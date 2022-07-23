@@ -7,9 +7,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Session;
 
+use App\Imports\ExcelImports;
+use App\Exports\ExcelCategoryExports;
+use Excel;
+
+use CategoryProduct;
+
 session_start();
 
-class CategoryProduct extends Controller {
+class CategoryController extends Controller {
 	//Admin
 	public function AuthLogin() {
 		$admin_id = Session::get('admin_id');
@@ -129,4 +135,15 @@ class CategoryProduct extends Controller {
 			->with('url_canonical', $url_canonical)
 			->with('category_name', $category_name);
 	}
+
+	public function export_category_csv(){
+        return Excel::download(new ExcelCategoryExports , 'category_product.xlsx');
+    }
+    // public function import_csv(Request $request){
+    //     $path = $request->file('file')->getRealPath();
+    //     Excel::import(new ExcelImports, $path);
+    //     return back();
+    // }
+  
+
 }

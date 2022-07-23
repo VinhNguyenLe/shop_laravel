@@ -185,11 +185,12 @@ input::-webkit-inner-spin-button {
 }
 
 .category-tab .custom-bg-white li {
-    padding-left: 20px;
-    font-size: 16px;
-    margin-bottom: 2px;
+    background-color: #fff !important;
 }
 
+.custom-bg-white ul {
+    background-color: #fff !important;
+}
 .category-tab .custom-bg-white li::before {
     content: "•";
     color: #999;

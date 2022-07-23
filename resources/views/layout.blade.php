@@ -206,68 +206,10 @@
         <!--/header-bottom-->
     </header>
     <!--/header-->
-    <section id="slider">
-        <!--slider-->
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div id="slider-carousel" class="carousel slide" data-ride="carousel">
-                        <ol class="carousel-indicators">
-                            @php
-                                $j = 0;
-                            @endphp
-                            @foreach ($slider as $key => $slide)
-                                @php
-                                    $j++;
-                                @endphp
-                                <li data-target="#slider-carousel" data-slide-to={{ $j - 1 }}
-                                    class="{{ $j == 1 ? 'active' : '' }}"></li>
-                            @endforeach
-                            {{-- <li data-target="#slider-carousel" data-slide-to="0" class="active"></li>
-                            <li data-target="#slider-carousel" data-slide-to="2"></li> --}}
-                        </ol>
-                        <style type="text/css">
-                            img.img.img-responsive.img-slider {
-                                height: 350px;
-                            }
-                        </style>
-                        <div class="carousel-inner">
-                            @php
-                                $i = 0;
-                            @endphp
-                            @foreach ($slider as $key => $slide)
-                                @php
-                                    $i++;
-                                @endphp
-                                <div class="item {{ $i == 1 ? 'active' : '' }}">
 
-                                    <div class="col-sm-12">
-                                        <img alt="{{ $slide->slider_desc }}"
-                                            src="{{ asset('public/uploads/slider/' . $slide->slider_image) }}"
-                                            width="100%" class="img img-responsive img-slider"
-                                            style="object-fit: contain">
-
-                                    </div>
-                                </div>
-                            @endforeach
-
-
-                        </div>
-
-                        <a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
-                            <i class="fa fa-angle-left"></i>
-                        </a>
-                        <a href="#slider-carousel" class="right control-carousel hidden-xs" data-slide="next">
-                            <i class="fa fa-angle-right"></i>
-                        </a>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </section>
     <!--/slider-->
     <!--/slider-->
+    @yield('slider')
 
     <section>
         <div class="container">
@@ -394,38 +336,45 @@
                 let cart_product_name = $('.cart_product_name_' + id).val();
                 let cart_product_image = $('.cart_product_image_' + id).val();
                 let cart_product_price = $('.cart_product_price_' + id).val();
+                var cart_product_quantity = $('.cart_product_quantity_' + id).val();
                 let cart_product_qty = $('.cart_product_qty_' + id).val();
                 let _token = $('input[name="_token"]').val();
 
-                $.ajax({
-                    url: '{{ url('/add-cart-ajax') }}',
-                    method: 'POST',
-                    data: {
-                        cart_product_id: cart_product_id,
-                        cart_product_name: cart_product_name,
-                        cart_product_image: cart_product_image,
-                        cart_product_price: cart_product_price,
-                        cart_product_qty: cart_product_qty,
-                        _token: _token
-                    },
-                    success: function(data) {
-                        swal({
-                                title: "Đã thêm sản phẩm vào giỏ hàng",
-                                text: "Bạn có thể mua hàng tiếp hoặc tới giỏ hàng để tiến hành thanh toán",
-                                showCancelButton: true,
-                                cancelButtonText: "Xem tiếp",
-                                confirmButtonClass: "btn-success",
-                                confirmButtonText: "Đi đến giỏ hàng",
-                                closeOnConfirm: false
+                if (parseInt(cart_product_qty) > parseInt(cart_product_quantity)) {
+                    alert('Làm ơn đặt nhỏ hơn ' + cart_product_quantity);
+                } else {
 
-                            },
-                            function() {
-                                window.location.href = "{{ url('/gio-hang') }}";
+                    $.ajax({
+                        url: '{{ url('/add-cart-ajax') }}',
+                        method: 'POST',
+                        data: {
+                            cart_product_id: cart_product_id,
+                            cart_product_name: cart_product_name,
+                            cart_product_image: cart_product_image,
+                            cart_product_price: cart_product_price,
+                            cart_product_qty: cart_product_qty,
+                            _token: _token,
+                            cart_product_quantity: cart_product_quantity
+                        },
+                        success: function() {
 
-                            }
-                        );
-                    }
-                })
+                            swal({
+                                    title: "Đã thêm sản phẩm vào giỏ hàng",
+                                    text: "Bạn có thể mua hàng tiếp hoặc tới giỏ hàng để tiến hành thanh toán",
+                                    showCancelButton: true,
+                                    cancelButtonText: "Xem tiếp",
+                                    confirmButtonClass: "btn-success",
+                                    confirmButtonText: "Đi đến giỏ hàng",
+                                    closeOnConfirm: false
+                                },
+                                function() {
+                                    window.location.href = "{{ url('/gio-hang') }}";
+                                });
+
+                        }
+
+                    });
+                }
             })
         })
     </script>

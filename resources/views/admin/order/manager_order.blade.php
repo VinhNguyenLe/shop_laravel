@@ -31,10 +31,10 @@
                 $message = Session::get('message');
                 if ($message) {
                     echo '<div class="alert alert-success">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          <strong>Thông báo:</strong> ' .
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          <strong>Thông báo:</strong> ' .
                         $message .
                         '
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>';
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>';
                     Session::put('message', null);
                 }
                 ?>
@@ -74,9 +74,15 @@
 
                                 <td>
                                     @if ($ord->order_status == 1)
-                                        Đơn hàng mới
-                                    @else
-                                        Đã xử lý
+                                        Đơn hàng chưa xử lý
+                                    @elseif($ord->order_status == 2)
+                                        <span style="color: #28a745">
+                                            Đơn hàng đã xử lý
+                                        </span>
+                                    @elseif($ord->order_status == 3)
+                                        <span style="color: #dc3545">
+                                            Đơn hàng bị hủy
+                                        </span>
                                     @endif
                                 </td>
 
@@ -85,11 +91,11 @@
                                         ui-toggle-class="" title="Xem chi tiết đơn hàng">
                                         <i class="fa fa-eye text-success text-active"></i>
                                     </a>
-                                    <a href="{{ URL::to('/delete-order/' . $ord->order_code) }}"
-                                        class="active styling-edit" ui-toggle-class="" title="Xóa đơn hàng"
+                                    {{-- <a href="{{ URL::to('/delete-order/' . $ord->order_code) }}" class="active styling-edit"
+                                        ui-toggle-class="" title="Xóa đơn hàng"
                                         onclick="return confirm('Bạn chắc chắn muốn xóa đơn hàng này không?')">
                                         <i class="fa fa-times text-danger text"></i>
-                                    </a>
+                                    </a> --}}
                                 </td>
                             </tr>
                         @endforeach

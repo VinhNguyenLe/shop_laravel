@@ -22,10 +22,10 @@
                 $message = Session::get('message');
                 if ($message) {
                     echo '<div class="alert alert-success">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    									  <strong>Thông báo:</strong> ' .
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    									  <strong>Thông báo:</strong> ' .
                         $message .
                         '
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    									</div>';
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    									</div>';
                     Session::put('message', null);
                 }
                 ?>
@@ -72,10 +72,10 @@
                 $message = Session::get('message');
                 if ($message) {
                     echo '<div class="alert alert-success">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    									  <strong>Thông báo:</strong> ' .
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    									  <strong>Thông báo:</strong> ' .
                         $message .
                         '
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    									</div>';
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    									</div>';
                     Session::put('message', null);
                 }
                 ?>
@@ -129,19 +129,20 @@
                 $message = Session::get('message');
                 if ($message) {
                     echo '<div class="alert alert-success">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    									  <strong>Thông báo:</strong> ' .
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    									  <strong>Thông báo:</strong> ' .
                         $message .
                         '
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    									</div>';
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    									</div>';
                     Session::put('message', null);
                 }
                 ?>
                 <table class="table table-striped b-t b-light">
                     <thead>
                         <tr>
-                            <th>STT</th>
+                            <th style="width:20px">STT</th>
                             <th>Tên sản phẩm</th>
-                            <th>Số lượng</th>
+                            <th>Số lượng kho</th>
+                            <th>Số lượng đặt</th>
                             <th>Mã giảm giá</th>
                             <th>Giá sản phẩm</th>
                             <th>Tổng tiền</th>
@@ -158,10 +159,33 @@
                                 $subtotal = $details->product_price * $details->product_sales_quantity;
                                 $total += $subtotal;
                             @endphp
-                            <tr>
+                            <tr class="color_qty_{{ $details->product_id }}">
+
                                 <td>{{ $i }}</td>
                                 <td>{{ $details->product_name }}</td>
-                                <td>{{ $details->product_sales_quantity }}</td>
+                                <td>{{ $details->product->product_quantity }}</td>
+                                <td>
+
+                                    <input type="number" min="1" {{ $order_status != 1 ? 'disabled' : '' }}
+                                        style="width: 30px"
+                                        class="custom-input-unarrow custom-input order_qty_{{ $details->product_id }}"
+                                        value="{{ $details->product_sales_quantity }}" name="product_sales_quantity">
+
+                                    {{-- Hidden --}}
+                                    <input type="hidden" name="order_qty_storage"
+                                        class="order_qty_storage_{{ $details->product_id }}"
+                                        value="{{ $details->product->product_quantity }}">
+                                    <input type="hidden" name="order_code" class="order_code"
+                                        value="{{ $details->order_code }}">
+                                    <input type="hidden" name="order_product_id" class="order_product_id"
+                                        value="{{ $details->product_id }}">
+                                    {{-- EndHidden --}}
+                                    @if ($order_status == 1)
+                                        <button class="custom-btn btn-success update_quantity_order"
+                                            data-product_id="{{ $details->product_id }}" name="update_quantity_order">Cập
+                                            nhật</button>
+                                    @endif
+                                </td>
                                 <td>
                                     @if ($details->product_coupon != 'no')
                                         {{ $details->product_coupon }}
@@ -175,9 +199,10 @@
                             </tr>
                         @endforeach
                         <tr>
-                            <td>
-                                <a href="{{ URL::to('/print-order/' . $details->order_code) }}"
-                                    style="color: #2ebc4f; text-decoration: underline">In đơn hàng</a>
+                            <td colspan="2">
+                                <a href="{{ URL::to('/print-order/' . $details->order_code) }}" class="btn btn-success">In
+                                    đơn
+                                    hàng</a>
                             </td>
                             <td></td>
                             <td></td>
@@ -206,14 +231,56 @@
                                 Thanh toán: {{ number_format($total_coupon, 0, ',', '.') }} VNĐ
                             </td>
                         </tr>
-                        {{-- <tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <p>Xác nhận đơn hàng:</p>
+                            </td>
+                            <td colspan="3">
+                                @foreach ($order as $key => $or)
+                                    @if ($or->order_status == 1)
+                                        <form>
+                                            @csrf
+                                            <select class="form-control order_details">
+                                                <option value="">----Chọn hình thức đơn hàng-----</option>
+                                                <option id="{{ $or->order_id }}" selected value="1">Chưa xử lý
+                                                </option>
+                                                <option id="{{ $or->order_id }}" value="2">Đã xử lý - Đã giao hàng
+                                                </option>
+                                                <option id="{{ $or->order_id }}" value="3">Hủy đơn hàng - Tạm giữ
+                                                </option>
+                                            </select>
+                                        </form>
+                                    @elseif($or->order_status == 2)
+                                        <form>
+                                            @csrf
+                                            <select class="form-control order_details">
+                                                <option value="">----Chọn hình thức đơn hàng-----</option>
+                                                <option id="{{ $or->order_id }}" value="1">Chưa xử lý</option>
+                                                <option id="{{ $or->order_id }}" selected value="2">Đã xử lý - Đã giao
+                                                    hàng</option>
+                                                <option id="{{ $or->order_id }}" value="3">Hủy đơn hàng - Tạm giữ
+                                                </option>
+                                            </select>
+                                        </form>
+                                    @else
+                                        <form>
+                                            @csrf
+                                            <select class="form-control order_details">
+                                                <option value="">----Chọn hình thức đơn hàng-----</option>
+                                                <option id="{{ $or->order_id }}" value="1">Chưa xử lý</option>
+                                                <option id="{{ $or->order_id }}" value="2">Đã xử lý - Đã giao hàng
+                                                </option>
+                                                <option id="{{ $or->order_id }}" selected value="3">Hủy đơn hàng - Tạm
+                                                    giữ</option>
+                                            </select>
+                                        </form>
+                                    @endif
+                                @endforeach
+                            </td>
                             <td></td>
                             <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>Tổng tiền:
-                                {{ number_format($total, 0, ',', '.') }} VNĐ</td>
-                        </tr> --}}
+                        </tr>
                     </tbody>
                 </table>
             </div>

@@ -1,0 +1,29 @@
+/* Chrome, Safari, Edge, Opera */
+.custom-input-unarrow::-webkit-outer-spin-button,
+.custom-input-unarrow::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+.custom-input-unarrow[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.custom-input {
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.custom-input:focus {
+    border-color: #2ebc4f;
+}
+
+.custom-btn {
+    border: none;
+    outline: unset;
+    border-radius: 3px;
+    padding-inline: 8px;
+}

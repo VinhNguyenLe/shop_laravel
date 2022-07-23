@@ -17,8 +17,8 @@ Route::get('/trang-chu', 'HomeController@index');
 Route::get('/tim-kiem', 'HomeController@search');
 
 //Home
-Route::get('/danh-muc-san-pham/{category_id}', 'CategoryProduct@show_category_home');
-Route::get('/thuong-hieu-san-pham/{brand_id}', 'BrandProduct@show_brand_home');
+Route::get('/danh-muc-san-pham/{category_id}', 'CategoryController@show_category_home');
+Route::get('/thuong-hieu-san-pham/{brand_id}', 'BrandController@show_brand_home');
 Route::get('/chi-tiet-san-pham/{product_id}', 'ProductController@details_product');
 
 //Backend
@@ -30,28 +30,28 @@ Route::get('/logout', 'AdminController@log_out');
 Route::post('/admin-dashboard', 'AdminController@dashboard');
 
 //Category Product
-Route::get('/add-category-product', 'CategoryProduct@add_category_product');
-Route::get('/edit-category-product/{category_product_id}', 'CategoryProduct@edit_category_product');
-Route::get('/delete-category-product/{category_product_id}', 'CategoryProduct@delete_category_product');
-Route::get('/all-category-product', 'CategoryProduct@all_category_product');
+Route::get('/add-category-product', 'CategoryController@add_category_product');
+Route::get('/edit-category-product/{category_product_id}', 'CategoryController@edit_category_product');
+Route::get('/delete-category-product/{category_product_id}', 'CategoryController@delete_category_product');
+Route::get('/all-category-product', 'CategoryController@all_category_product');
 
-Route::get('/active-category-product/{category_product_id}', 'CategoryProduct@active_category_product');
-Route::get('/unactive-category-product/{category_product_id}', 'CategoryProduct@unactive_category_product');
+Route::get('/active-category-product/{category_product_id}', 'CategoryController@active_category_product');
+Route::get('/unactive-category-product/{category_product_id}', 'CategoryController@unactive_category_product');
 
-Route::post('/save-category-product', 'CategoryProduct@save_category_product');
-Route::post('/update-category-product/{category_product_id}', 'CategoryProduct@update_category_product');
+Route::post('/save-category-product', 'CategoryController@save_category_product');
+Route::post('/update-category-product/{category_product_id}', 'CategoryController@update_category_product');
 
 //Brand Product
-Route::get('/add-brand-product', 'BrandProduct@add_brand_product');
-Route::get('/edit-brand-product/{brand_product_id}', 'BrandProduct@edit_brand_product');
-Route::get('/delete-brand-product/{brand_product_id}', 'BrandProduct@delete_brand_product');
-Route::get('/all-brand-product', 'BrandProduct@all_brand_product');
+Route::get('/add-brand-product', 'BrandController@add_brand_product');
+Route::get('/edit-brand-product/{brand_product_id}', 'BrandController@edit_brand_product');
+Route::get('/delete-brand-product/{brand_product_id}', 'BrandController@delete_brand_product');
+Route::get('/all-brand-product', 'BrandController@all_brand_product');
 
-Route::get('/active-brand-product/{brand_product_id}', 'BrandProduct@active_brand_product');
-Route::get('/unactive-brand-product/{brand_product_id}', 'BrandProduct@unactive_brand_product');
+Route::get('/active-brand-product/{brand_product_id}', 'BrandController@active_brand_product');
+Route::get('/unactive-brand-product/{brand_product_id}', 'BrandController@unactive_brand_product');
 
-Route::post('/save-brand-product', 'BrandProduct@save_brand_product');
-Route::post('/update-brand-product/{brand_product_id}', 'BrandProduct@update_brand_product');
+Route::post('/save-brand-product', 'BrandController@save_brand_product');
+Route::post('/update-brand-product/{brand_product_id}', 'BrandController@update_brand_product');
 
 //Product
 Route::get('/add-product', 'ProductController@add_product');
@@ -106,6 +106,9 @@ Route::get('/manager-order', 'OrderController@manager_order');
 Route::get('/view-order/{order_code}', 'OrderController@view_order');
 Route::get('/print-order/{checkout_code}', 'OrderController@print_order');
 
+Route::post('/update-order-qty','OrderController@update_order_qty');
+Route::post('/update-qty','OrderController@update_qty');
+
 // Route::get('/manager-order', 'CheckoutController@manager_order');
 // Route::get('/view-order/{orderId}', 'CheckoutController@view_order');
 
@@ -123,6 +126,12 @@ Route::get('/delete-slide/{slide_id}','SliderController@delete_slide');
 Route::post('/insert-slider','SliderController@insert_slider');
 Route::get('/unactive-slide/{slide_id}','SliderController@unactive_slide');
 Route::get('/active-slide/{slide_id}','SliderController@active_slide');
+
+//CSV
+Route::post('/export-category-csv','CategoryController@export_category_csv');
+Route::post('/export-brand-csv','BrandController@export_brand_csv');
+Route::post('/export-product-csv','ProductController@export_product_csv');
+// Route::post('/import-csv','CategoryController@import_csv');
 
 
 //! Send Mail
