@@ -4,19 +4,21 @@ namespace App\Http\Controllers;
 
 use DB;
 use Illuminate\Http\Request;
-use App\Login;
 use Illuminate\Support\Facades\Redirect;
 use Session;
+use App\Login;
 
+use Auth;
 session_start();
 
 class AdminController extends Controller {
 	public function AuthLogin() {
-		$admin_id = Session::get('admin_id');
+		// $admin_id = Session::get('admin_id');
+		$admin_id = Auth::id();
 		if ($admin_id) {
 			return Redirect::to('dashboard');
 		} else {
-			return Redirect::to('admin')->send();
+			return Redirect::to('login-auth')->send();
 		}
 	}
 

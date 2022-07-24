@@ -10,16 +10,20 @@ use Session;
 
 use App\Exports\ExcelBrandExports;
 use Excel;
+use Auth;
+
 
 session_start();
 
 class BrandController extends Controller {
 	public function AuthLogin() {
-		$admin_id = Session::get('admin_id');
+		$admin_id = Auth::id();
+
+		// $admin_id = Session::get('admin_id');
 		if ($admin_id) {
 			return Redirect::to('dashboard');
 		} else {
-			return Redirect::to('admin')->send();
+			return Redirect::to('login-auth')->send();
 		}
 	}
 	public function add_brand_product() {

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Redirect;
 use App\Coupon;
+use Auth;
 
 session_start();
 
@@ -61,11 +62,13 @@ class CouponController extends Controller
 
     //Admin
     public function AuthLogin() {
-		$admin_id = Session::get('admin_id');
+		$admin_id = Auth::id();
+
+		// $admin_id = Session::get('admin_id');
 		if ($admin_id) {
 			return Redirect::to('dashboard');
 		} else {
-			return Redirect::to('admin')->send();
+			return Redirect::to('login-auth')->send();
 		}
 	}
 

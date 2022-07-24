@@ -10,6 +10,8 @@ use Session;
 use App\Imports\ExcelImports;
 use App\Exports\ExcelCategoryExports;
 use Excel;
+use Auth;
+
 
 use CategoryProduct;
 
@@ -18,11 +20,13 @@ session_start();
 class CategoryController extends Controller {
 	//Admin
 	public function AuthLogin() {
-		$admin_id = Session::get('admin_id');
+		$admin_id = Auth::id();
+		
+		// $admin_id = Session::get('admin_id');
 		if ($admin_id) {
 			return Redirect::to('dashboard');
 		} else {
-			return Redirect::to('admin')->send();
+			return Redirect::to('login-auth')->send();
 		}
 	}
 	public function add_category_product() {

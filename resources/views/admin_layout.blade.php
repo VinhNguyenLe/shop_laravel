@@ -75,7 +75,8 @@
                             <img alt="" src="{{ asset('public/backend/images/admin-logo.jpg') }}">
                             <span class="username">
                                 <?php
-                                $name = Session::get('admin_name');
+                                // $name = Session::get('admin_name');
+                                $name = Auth::user()->admin_name;
                                 if ($name) {
                                     echo $name;
                                 }
@@ -84,9 +85,10 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu extended logout">
-                            <li><a href="#"><i class=" fa fa-suitcase"></i>Profile</a></li>
-                            <li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
-                            <li><a href="{{ URL::to('/logout') }}"><i class="fa fa-key"></i> Đăng xuất</a></li>
+                            {{-- <li><a href="#"><i class=" fa fa-suitcase"></i>Profile</a></li>
+                            <li><a href="#"><i class="fa fa-cog"></i> Settings</a></li> --}}
+                            <li><a href="{{ URL::to('/logout-auth') }}"><i class="fa fa-key"></i> Đăng xuất</a></li>
+                            {{-- <li><a href="{{ URL::to('/logout') }}"><i class="fa fa-key"></i> Đăng xuất</a></li> --}}
                         </ul>
                     </li>
                     <!-- user login dropdown end -->
@@ -108,87 +110,92 @@
                                 <span>Tổng quan</span>
                             </a>
                         </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-book"></i>
-                                <span>Người dùng</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="{{ URL::to('/admin') }}">Thêm người dùng</a></li>
-                                <li><a href="{{ URL::to('/admin') }}">Liệt kê người dùng</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-book"></i>
-                                <span>Danh mục sản phẩm</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="{{ URL::to('/add-category-product') }}">Thêm danh mục sản phẩm</a></li>
-                                <li><a href="{{ URL::to('/all-category-product') }}">Liệt kê danh mục sản phẩm</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-book"></i>
-                                <span>Thương hiệu sản phẩm</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="{{ URL::to('/add-brand-product') }}">Thêm thương hiệu sản phẩm</a></li>
-                                <li><a href="{{ URL::to('/all-brand-product') }}">Liệt kê thương hiệu sản phẩm</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-book"></i>
-                                <span>Sản phẩm</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="{{ URL::to('/add-product') }}">Thêm sản phẩm</a></li>
-                                <li><a href="{{ URL::to('/all-product') }}">Liệt kê sản phẩm</a></li>
-                            </ul>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-book"></i>
-                                <span>Mã giảm giá</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="{{ URL::to('/add-coupon') }}">Thêm mã giảm giá</a></li>
-                                <li><a href="{{ URL::to('/list-coupon') }}">Liệt kê mã giảm giá</a></li>
-                            </ul>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-book"></i>
-                                <span>Địa chỉ vận chuyển</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="{{ URL::to('/delivery') }}">Quản lý địa chỉ vận chuyển</a></li>
-                            </ul>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-book"></i>
-                                <span>Đơn hàng</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="{{ URL::to('/manager-order') }}">Đơn đặt hàng</a></li>
-                            </ul>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-book"></i>
-                                <span>Slider</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="{{ URL::to('/add-slider') }}">Thêm slider</a></li>
-                                <li><a href="{{ URL::to('/manage-slider') }}">Liệt kê slider</a></li>
-                            </ul>
-                        </li>
+                        @hasrole('admin')
+                            <li class="sub-menu">
+                                <a href="javascript:;">
+                                    <i class="fa fa-book"></i>
+                                    <span>Phân quyền nhân viên</span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="{{ URL::to('/add-user') }}">Thêm tài khoản</a></li>
+                                    <li><a href="{{ URL::to('/user') }}">Liệt kê tài khoản</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endhasrole
+                        @hasrole(['admin', 'manager'])
+                            <li class="sub-menu">
+                                <a href="javascript:;">
+                                    <i class="fa fa-book"></i>
+                                    <span>Danh mục sản phẩm</span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="{{ URL::to('/add-category-product') }}">Thêm danh mục sản phẩm</a></li>
+                                    <li><a href="{{ URL::to('/all-category-product') }}">Liệt kê danh mục sản phẩm</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="sub-menu">
+                                <a href="javascript:;">
+                                    <i class="fa fa-book"></i>
+                                    <span>Thương hiệu sản phẩm</span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="{{ URL::to('/add-brand-product') }}">Thêm thương hiệu sản phẩm</a></li>
+                                    <li><a href="{{ URL::to('/all-brand-product') }}">Liệt kê thương hiệu sản phẩm</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="sub-menu">
+                                <a href="javascript:;">
+                                    <i class="fa fa-book"></i>
+                                    <span>Sản phẩm</span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="{{ URL::to('/add-product') }}">Thêm sản phẩm</a></li>
+                                    <li><a href="{{ URL::to('/all-product') }}">Liệt kê sản phẩm</a></li>
+                                </ul>
+                            </li>
+                            <li class="sub-menu">
+                                <a href="javascript:;">
+                                    <i class="fa fa-book"></i>
+                                    <span>Mã giảm giá</span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="{{ URL::to('/add-coupon') }}">Thêm mã giảm giá</a></li>
+                                    <li><a href="{{ URL::to('/list-coupon') }}">Liệt kê mã giảm giá</a></li>
+                                </ul>
+                            </li>
+                            <li class="sub-menu">
+                                <a href="javascript:;">
+                                    <i class="fa fa-book"></i>
+                                    <span>Địa chỉ vận chuyển</span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="{{ URL::to('/delivery') }}">Quản lý địa chỉ vận chuyển</a></li>
+                                </ul>
+                            </li>
+                            <li class="sub-menu">
+                                <a href="javascript:;">
+                                    <i class="fa fa-book"></i>
+                                    <span>Đơn hàng</span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="{{ URL::to('/manager-order') }}">Đơn đặt hàng</a></li>
+                                </ul>
+                            </li>
+                            <li class="sub-menu">
+                                <a href="javascript:;">
+                                    <i class="fa fa-book"></i>
+                                    <span>Slider</span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="{{ URL::to('/add-slider') }}">Thêm slider</a></li>
+                                    <li><a href="{{ URL::to('/manage-slider') }}">Liệt kê slider</a></li>
+                                </ul>
+                            </li>
+                        @endhasrole
+
                     </ul>
                 </div>
                 <!-- sidebar menu end-->
@@ -203,10 +210,10 @@
             </section>
             <!-- footer -->
             <!-- <div class="footer">
-    <div class="wthree-copyright">
-    <p>© 2017 Visitors. All rights reserved | Design by <a href="http://w3layouts.com">W3layouts</a></p>
-    </div>
-   </div> -->
+<div class="wthree-copyright">
+<p>© 2017 Visitors. All rights reserved | Design by <a href="http://w3layouts.com">W3layouts</a></p>
+</div>
+</div> -->
             <!-- / footer -->
         </section>
         <!--main content end-->

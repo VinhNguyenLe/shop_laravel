@@ -18,17 +18,21 @@ use App\Province;
 use App\Wards;
 use App\Feeship;
 use Cart;
+use Auth;
+
 
 session_start();
 
 class CheckoutController extends Controller
 {
 	public function AuthLogin() {
-		$admin_id = Session::get('admin_id');
+		$admin_id = Auth::id();
+
+		// $admin_id = Session::get('admin_id');
 		if ($admin_id) {
 			return Redirect::to('dashboard');
 		} else {
-			return Redirect::to('admin')->send();
+			return Redirect::to('login-auth')->send();
 		}
 	}
 

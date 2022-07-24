@@ -44,7 +44,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <body>
     <div class="log-w3">
         <div class="w3layouts-main">
-            <h2>Đăng nhập</h2>
+            <h2>Đăng nhập Admin</h2>
             <?php
             $message = Session::get('message');
             if ($message) {
@@ -57,13 +57,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <input type="email" class="ggg" name="admin_email" placeholder="Nhập vào email của bạn"
                     required="">
                 <input type="password" class="ggg" name="admin_password" placeholder="Mật khẩu" required="">
-                {{-- <span><input type="checkbox" />Nhớ mật khẩu</span> --}}
-                {{-- <h6><a href="#">Quên mật khẩu?</a></h6> --}}
                 <div class="clearfix"></div>
                 <input type="submit" value="Đăng nhập" name="login">
             </form>
             {{-- <a href="{{URL::to('/login-google')}}">Đăng nhập bằng Google</a> --}}
-            <a href="{{ URL::to('/register-auth') }}">Đăng ký Authentication</a>
+            <div style="display: flex; justify-content: space-between">
+                <a href="{{ URL::to('/register-auth') }}">Đăng ký Authentication</a>
+                <a href="{{ URL::to('/login-auth') }}">Đăng nhập Authentication</a>
+            </div>
             <!-- <p>Don't Have an Account ?<a href="registration.html">Create an account</a></p> -->
         </div>
     </div>

@@ -53,18 +53,29 @@ Route::get('/unactive-brand-product/{brand_product_id}', 'BrandController@unacti
 Route::post('/save-brand-product', 'BrandController@save_brand_product');
 Route::post('/update-brand-product/{brand_product_id}', 'BrandController@update_brand_product');
 
-//Product
-Route::get('/add-product', 'ProductController@add_product');
-Route::get('/edit-product/{product_id}', 'ProductController@edit_product');
-Route::get('/delete-product/{product_id}', 'ProductController@delete_product');
-Route::get('/all-product', 'ProductController@all_product');
+Route::group(['middleware' => 'auth.roles'], function(){
+    //Product
+    Route::get('/add-product', 'ProductController@add_product');
+    Route::get('/edit-product/{product_id}', 'ProductController@edit_product');
+    Route::get('/delete-product/{product_id}', 'ProductController@delete_product');
+    Route::get('/all-product', 'ProductController@all_product');
 
-Route::get('/active-product/{product_id}', 'ProductController@active_product');
-Route::get('/unactive-product/{product_id}', 'ProductController@unactive_product');
+    Route::get('/active-product/{product_id}', 'ProductController@active_product');
+    Route::get('/unactive-product/{product_id}', 'ProductController@unactive_product');
 
-Route::post('/save-product', 'ProductController@save_product');
-Route::post('/update-product/{product_id}', 'ProductController@update_product');
+    Route::post('/save-product', 'ProductController@save_product');
+    Route::post('/update-product/{product_id}', 'ProductController@update_product');
+});
 
+Route::group(['middleware' => 'admin.roles'], function(){
+    //User
+    Route::get('/user', 'UserController@index');
+    Route::get('/add-user', 'UserController@add_user');
+    Route::post('/store-users', 'UserController@store_users');
+    Route::post('/assign-roles', 'UserController@assign_roles');
+    Route::get('/delete-user-roles/{admin_id}', 'UserController@delete_user_roles');
+
+});
 //Cart
 Route::post('/save-cart', 'CartController@save_cart');
 Route::get('/show-cart', 'CartController@show_cart');
@@ -136,7 +147,11 @@ Route::post('/export-product-csv','ProductController@export_product_csv');
 
 //Authentication Roles
 Route::get('/register-auth','AuthController@register_auth');
+Route::get('/login-auth','AuthController@login_auth');
+Route::get('/logout-auth','AuthController@logout_auth');
+
 Route::post('/register','AuthController@register');
+Route::post('/login','AuthController@login');
 
 
 
