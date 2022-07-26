@@ -51,6 +51,7 @@
         echo '<br />';
         echo Session::get('shipping_id');
     @endphp --}}
+
     <header id="header">
         <!--header-->
         <div class="header_top">
@@ -117,16 +118,16 @@
 									$shipping_id = Session::get('shipping_id');
 									if($customer_id != NULL && $shipping_id == NULL){
 								?>
-                                <li><a href="{{ URL::to('/checkout') }}"><i class="fa fa-crosshairs"></i> Thanh
+                                <li><a href="{{ URL::to('/checkout') }}"><i class="fa fa-money"></i> Thanh
                                         toán</a></li>
 
                                 <?php 
 									} elseif($customer_id != NULL && $shipping_id != NULL) { 
 								?>
-                                <li><a href="{{ URL::to('/payment') }}"><i class="fa fa-crosshairs"></i> Thanh
+                                <li><a href="{{ URL::to('/payment') }}"><i class="fa fa-money"></i> Thanh
                                         toán</a></li>
                                 <?php } else { ?>
-                                <li><a href="{{ URL::to('/login-checkout') }}"><i class="fa fa-crosshairs"></i> Thanh
+                                <li><a href="{{ URL::to('/login-checkout') }}"><i class="fa fa-money"></i> Thanh
                                         toán</a></li>
 
                                 <?php } ?>
@@ -135,7 +136,10 @@
 									$customer_id = Session::get('customer_id');
 									if($customer_id != NULL){
 								?>
-
+                                <li>
+                                    <a href="{{ URL::to('/history') }}"><i class="fa fa-bookmark"></i> Lịch sử đặt
+                                        hàng</a>
+                                </li>
                                 <li>
                                     <a href="{{ URL::to('/logout-checkout') }}"><i class="fa fa-lock"></i> Đăng
                                         xuất</a>
@@ -211,7 +215,7 @@
     <!--/slider-->
     @yield('slider')
 
-    <section>
+    <section style="min-height: 50vh">
         <div class="container">
             <div class="row">
                 @yield('category-product')
@@ -231,7 +235,7 @@
             </div>
         </div>
 
-        <div class="footer-widget">
+        <div class="footer-widget" style="margin-bottom: unset; padding-bottom: 40px">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-2">
@@ -298,15 +302,7 @@
             </div>
         </div>
 
-        <div class="footer-bottom">
-            <div class="container">
-                <div class="row">
-                    <p class="pull-left">Copyright © 2013 E-SHOPPER Inc. All rights reserved.</p>
-                    <p class="pull-right">Designed by <span><a target="_blank"
-                                href="http://www.themeum.com">Themeum</a></span></p>
-                </div>
-            </div>
-        </div>
+
 
     </footer>
     <!--/Footer-->
@@ -499,6 +495,13 @@
 
             });
         });
+    </script>
+    <script>
+        var msg = '{{ Session::get('alert') }}';
+        var exist = '{{ Session::has('alert') }}';
+        if (exist) {
+            alert(msg);
+        }
     </script>
 </body>
 

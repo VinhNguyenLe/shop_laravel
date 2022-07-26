@@ -11,12 +11,13 @@
             <div class="table-responsive">
                 <?php
                 $message = Session::get('message');
+                $error = Session::get('error');
                 if ($message) {
-                    echo '<div class="alert alert-success">
-                                                                                                                                                    <strong>Thông báo: </strong> ' .
-                        $message .
-                        '</div>';
+                    echo '<div class="alert alert-success">' . $message . '</div>';
                     Session::put('message', null);
+                } elseif ($error) {
+                    echo '<div class="alert alert-danger">' . $error . '</div>';
+                    Session::put('error', null);
                 }
                 ?>
                 <table class="table table-striped b-t b-light">

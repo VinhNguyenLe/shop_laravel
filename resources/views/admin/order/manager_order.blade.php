@@ -31,10 +31,10 @@
                 $message = Session::get('message');
                 if ($message) {
                     echo '<div class="alert alert-success">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          <strong>Thông báo:</strong> ' .
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          <strong>Thông báo:</strong> ' .
                         $message .
                         '
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>';
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>';
                     Session::put('message', null);
                 }
                 ?>
@@ -87,7 +87,7 @@
                                 </td>
 
                                 <td>
-                                    <a href="{{ URL::to('view-order/' . $ord->order_code) }}" class="active styling-edit"
+                                    <a href="{{ URL::to('/view-order/' . $ord->order_code) }}" class="active styling-edit"
                                         ui-toggle-class="" title="Xem chi tiết đơn hàng">
                                         <i class="fa fa-eye text-success text-active"></i>
                                     </a>

@@ -4,7 +4,7 @@
         <div class="col-lg-12">
             <section class="panel">
                 <header class="panel-heading">
-                    Thêm user
+                    Thêm tài khoản
                 </header>
                 <?php
                 $message = Session::get('message');
@@ -19,20 +19,21 @@
                         <form role="form" action="{{ URL::to('store-users') }}" method="post">
                             {{ csrf_field() }}
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Tên users</label>
+                                <label for="exampleInputEmail1">Tên</label>
                                 <input type="text" name="admin_name" class="form-control" id="exampleInputEmail1"
                                     placeholder="Tên danh mục">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Số điện thoại</label>
+                                <input type="text" name="admin_phone" class="form-control" id="exampleInputEmail1"
+                                    placeholder="Slug">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Email</label>
                                 <input type="text" name="admin_email" class="form-control" id="exampleInputEmail1"
                                     placeholder="Slug">
                             </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Phone</label>
-                                <input type="text" name="admin_phone" class="form-control" id="exampleInputEmail1"
-                                    placeholder="Slug">
-                            </div>
+
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Password</label>
                                 <input type="text" name="admin_password" class="form-control" id="exampleInputEmail1"

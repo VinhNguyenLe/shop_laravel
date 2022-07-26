@@ -71,7 +71,9 @@ class CheckoutController extends Controller
 			->insertGetId($data);
 		Session::put('customer_id', $customer_id);
 		Session::put('customer_name', $request->customer_name);
-		return Redirect::to('/checkout');
+		return Redirect::to('/')->with('alert', 'Đăng nhập thành công! Xin chào '.$request->customer_name.'.');
+
+		// return Redirect::to('/checkout');
 	}
 
 	public function checkout(Request $request){
@@ -143,8 +145,10 @@ class CheckoutController extends Controller
 		if($result){
 			Session::put('customer_id', $result->customer_id);
 			Session::put('customer_name', $result->customer_name);
-			return Redirect::to('/checkout');
+			
+			return Redirect::to('/')->with('alert', 'Đăng nhập thành công! Xin chào '.$result->customer_name.'.');
 		} else {
+			Session::put('error', 'Tài khoản hoặc mật khẩu không đúng');
 			return Redirect::to('/login-checkout');
 		}
 

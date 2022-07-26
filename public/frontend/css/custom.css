@@ -199,3 +199,7 @@ input::-webkit-inner-spin-button {
     margin-right: 5px;
     font-size: 14px;
 }
+
+.custom-history-table td {
+    vertical-align: middle !important;
+}

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Session;
 
 use App\Customer;
 use App\Feeship;
@@ -346,4 +347,58 @@ class OrderController extends Controller
 
 	}
 
+	public function history(){
+		$get_customer = Session::get('customer_id');
+		if(!$get_customer){
+			return redirect('/login-checkout')->with('message', 'Vui lòng đăng nhập để xem lịch sử!');
+		} else {
+			$order = Order::where('customer_id', $get_customer)->orderby('order_id', 'DESC')->get();
+			return view('pages.history.history')->with(compact('order'));
+			
+		}
+	}
+
+	public function view_history($order_code){
+
+		$get_customer = Session::get('customer_id');
+		$own_order = Order::where('order_code', $order_code)->first();
+		if(!$get_customer){
+			return redirect('/login-checkout')->with('message', 'Vui lòng đăng nhập để xem lịch sử!');
+		} 
+		elseif($get_customer != $own_order->customer_id) {
+			return redirect('/')->with('alert', 'Bạn chỉ có thể xem lịch sử đơn hàng của mình!');
+		}
+		else {
+			$getorder = Order::where('customer_id', $get_customer)->orderby('order_id', 'DESC')->get();
+				$order_details = OrderDetails::with('product')->where('order_code', $order_code)->get();
+			$order = Order::where('order_code', $order_code)->get();
+
+			foreach($order as $key => $ord){ 
+				$customer_id = $ord->customer_id;
+				$shipping_id = $ord->shipping_id;
+				$order_status = $ord->order_status;
+			}
+			
+			$customer = Customer::where('customer_id', $customer_id)->first();
+			$shipping = Shipping::where('shipping_id', $shipping_id)->first();
+
+			$order_details_product = OrderDetails::with('product')->where('order_code', $order_code)->get();
+
+			foreach($order_details_product as $key => $order_d){
+				$product_coupon = $order_d->product_coupon;
+			}
+			
+			if($product_coupon != 'no'){
+				$coupon = Coupon::where('coupon_code',$product_coupon)->first();
+				$coupon_condition = $coupon->coupon_condition;
+				$coupon_number = $coupon->coupon_number;
+			}else{
+				$coupon_condition = 2;
+				$coupon_number = 0;
+			}
+
+			return view('pages.history.history_details')
+			->with(compact('order_details', 'customer', 'shipping', 'order_details_product','coupon_condition','coupon_number', 'order', 'order_status'));
+		}
+	}
 }

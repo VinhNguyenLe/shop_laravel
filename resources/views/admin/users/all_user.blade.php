@@ -19,7 +19,6 @@
                     echo '<div class="alert alert-danger">' . $error . '</div>';
                     Session::put('error', null);
                 }
-                
                 ?>
                 <table class="table table-striped b-t b-light">
                     <thead>
