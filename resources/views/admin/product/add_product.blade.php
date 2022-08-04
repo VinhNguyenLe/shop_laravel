@@ -11,13 +11,13 @@
                     <div class="position-center">
                         <?php
                         $message = Session::get('message');
+                        $error = Session::get('error');
                         if ($message) {
-                            echo '<div class="alert alert-success">
-                                                                                                                                                							  <strong>Thông báo:</strong> ' .
-                                $message .
-                                '
-                                                                                                                                                							</div>';
+                            echo '<div class="alert alert-success">' . $message . '</div>';
                             Session::put('message', null);
+                        } elseif ($error) {
+                            echo '<div class="alert alert-danger">' . $error . '</div>';
+                            Session::put('error', null);
                         }
                         ?>
                         <form role="form" method="post" action="{{ URL::to('/save-product') }}"
@@ -31,15 +31,21 @@
                                     name="product_name">
                             </div>
                             <div class="form-group">
-                                <label for="product-price">Giá sản phẩm</label>
+                                <label for="product-cost">Giá gốc</label>
+                                <input required type="number" class="form-control" id="product-cost"
+                                    placeholder="Nhập giá..." name="product_cost">
+                            </div>
+                            <div class="form-group">
+                                <label for="product-price">Giá bán</label>
                                 <input required type="number" class="form-control" id="product-price"
-                                    placeholder="Nhập tên sản phẩm..." name="product_price">
+                                    placeholder="Nhập giá..." name="product_price">
                             </div>
                             <div class="form-group">
                                 <label for="product-quantity">Số lượng sản phẩm</label>
                                 <input required type="text" class="form-control" id="product-quantity"
                                     placeholder="Nhập SL sản phẩm..." name="product_quantity">
                             </div>
+                            <input type="hidden" name="product_sold" id="product-sold" value="0">
                             <div class="form-group">
                                 <label>Danh mục sản phẩm</label>
                                 <select class="form-control input-sm m-bot15" name="product_category">

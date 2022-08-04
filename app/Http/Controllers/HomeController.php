@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Session;
 use App\Slider;
+use App\Brand;
+use App\CategoryProduct;
 
 
 session_start();
@@ -24,16 +26,22 @@ class HomeController extends Controller {
 
 		$category_product = DB::table('tbl_category_product')
 			->where('category_status', '1')
-			->orderby('category_id', 'desc')->get();
-
-		$brand_product = DB::table('tbl_brand')
-			->where('brand_status', '1')
-			->orderby('brand_id', 'desc')->get();
+			->orderby('category_id', 'asc')->get();
+		
+		// $brand_product = DB::table('tbl_brand')
+		// 	->where('brand_status', '1')
+		// 	->orderby('brand_id', 'desc')->get();
+		$brand_data = array();
+		$brand_data_id = array();
+		$brand = Brand::all();
+		foreach ($brand as $key => $br) {
+			array_push($brand_data, $br->brand_name);
+			array_push($brand_data_id, $br->brand_id);
+		}
 
 		$all_product = DB::table('tbl_product')
 			->where('product_status', '1')
 			->orderby('product_id', 'desc')
-			->limit(9)
 			->get();
 
 		// $all_product = DB::table('tbl_product')
@@ -43,12 +51,10 @@ class HomeController extends Controller {
 
 		return view('pages.home')
 			->with('category', $category_product)
-			->with('brand', $brand_product)
+			->with('brand', $brand)
+			->with('brand_data', $brand_data)
+			->with('brand_data_id', $brand_data_id)
 			->with('all_product', $all_product)
-			->with('meta_desc', $meta_desc)
-			->with('meta_keyword', $meta_keyword)
-			->with('meta_title', $meta_title)
-			->with('url_canonical', $url_canonical)
 			->with('slider', $slider);
 	}
 
@@ -60,6 +66,14 @@ class HomeController extends Controller {
 		$url_canonical = $request->url();
 		//End SEO
 		$keyword = $request->keyword_submit;
+
+		$brand_data = array();
+		$brand_data_id = array();
+		$brand = Brand::all();
+		foreach ($brand as $key => $br) {
+			array_push($brand_data, $br->brand_name);
+			array_push($brand_data_id, $br->brand_id);
+		}
 
 		$category_product = DB::table('tbl_category_product')
 		->where('category_status', '1')
@@ -75,10 +89,31 @@ class HomeController extends Controller {
 		return view('pages.product.search')
 			->with('category', $category_product)
 			->with('brand', $brand_product)
+			->with('brand_data', $brand_data)
+			->with('brand_data_id', $brand_data_id)
 			->with('search_product', $search_product)
 			->with('meta_desc', $meta_desc)
 			->with('meta_keyword', $meta_keyword)
 			->with('meta_title', $meta_title)
 			->with('url_canonical', $url_canonical);
+	}
+
+	public function contact(){
+		$category = CategoryProduct::where('category_status', '1')
+		->orderby('category_id', 'desc')->get();
+
+		$brand = Brand::all();
+		$brand_data = array();
+		$brand_data_id = array();
+		foreach ($brand as $key => $br) {
+			array_push($brand_data, $br->brand_name);
+			array_push($brand_data_id, $br->brand_id);
+		}
+		return view('pages.contact.contact')->with(compact('category', 'brand', 'brand_data', 'brand_data_id'));
+	}
+
+	public function footer(){
+		return view('pages.contact.footer');
+
 	}
 }

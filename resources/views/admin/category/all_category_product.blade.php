@@ -3,7 +3,7 @@
     <div class="table-agile-info">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Liệt kê danh mục sản phẩm
+                danh mục sản phẩm
             </div>
             <div class="row w3-res-tb">
 
@@ -11,24 +11,24 @@
             <div class="table-responsive">
                 <?php
                 $message = Session::get('message');
+                $error = Session::get('error');
                 if ($message) {
-                    echo '<div class="alert alert-success">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           <strong>Thông báo:</strong> ' .
-                        $message .
-                        '
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </div>';
+                    echo '<div class="alert alert-success">' . $message . '</div>';
                     Session::put('message', null);
+                } elseif ($error) {
+                    echo '<div class="alert alert-danger">' . $error . '</div>';
+                    Session::put('error', null);
                 }
                 ?>
                 <table class="table table-striped b-t b-light">
                     <thead>
                         <tr>
-                            <th style="width:100px;">
+                            <th style="width:20px;text-align: center">
                                 STT
                             </th>
                             <th>Tên danh mục</th>
-                            <th>Hiển thị</th>
-                            <th style="width:200px;">Hành động</th>
+                            <th style="text-align: center">Hiển thị</th>
+                            <th style="width:200px;text-align: center">Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,31 +40,31 @@
                                 $i++;
                             @endphp
                             <tr>
-                                <td>{{ $i }}
+                                <td style="text-align: center">{{ $i }}
                                 </td>
                                 <td>{{ $cate_pro->category_name }}</td>
-                                <td><span class="text-ellipsis">
+                                <td style="text-align: center"><span class="text-ellipsis">
                                         @if ($cate_pro->category_status == 0)
                                             <a href="{{ URL::to('/active-category-product/' . $cate_pro->category_id) }}">
-                                                <span class="fa fa-eye-slash fa-thumb-styling"
+                                                <span class="fa fa-toggle-off fa-thumb-styling"
                                                     title="Chọn để hiển thị"></span>
                                             </a>'
                                         @else
                                             <a href="{{ URL::to('/unactive-category-product/' . $cate_pro->category_id) }}">
-                                                <span class="fa fa-eye fa-thumb-styling" title="Chọn để ẩn"></span>
+                                                <span class="fa fa-toggle-on fa-thumb-styling" title="Chọn để ẩn"></span>
                                             </a>
                                         @endif
 
                                     </span></td>
-                                <td>
+                                <td style="text-align: center">
                                     <a href="{{ URL::to('/edit-category-product/' . $cate_pro->category_id) }}"
-                                        class="active styling-edit" ui-toggle-class="" title="Sửa danh mục">
-                                        <i class="fa fa-pencil-square-o text-success text-active"></i>
+                                        class="btn btn-success" ui-toggle-class="" title="Sửa danh mục">
+                                        Chỉnh sửa
                                     </a>
                                     <a href="{{ URL::to('/delete-category-product/' . $cate_pro->category_id) }}"
-                                        class="active styling-edit" ui-toggle-class="" title="Xóa danh mục"
+                                        class="btn btn-danger" ui-toggle-class="" title="Xóa danh mục"
                                         onclick="return confirm('Bạn chắc chắn muốn xóa chứ?')">
-                                        <i class="fa fa-times text-danger text"></i>
+                                        Xóa
                                     </a>
                                 </td>
                             </tr>

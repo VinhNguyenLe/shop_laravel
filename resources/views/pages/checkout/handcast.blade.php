@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-    <title>Thanh toán khi nhận hàng | E-Shopper</title>
+    <title>Thanh toán khi nhận hàng | MobileShop</title>
 @endsection
 
 @section('content')

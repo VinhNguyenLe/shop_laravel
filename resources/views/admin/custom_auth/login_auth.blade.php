@@ -22,7 +22,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- Custom CSS -->
     <link href="{{ asset('public/backend/css/style.css') }}" rel='stylesheet' type='text/css' />
     <link href="{{ asset('public/backend/css/style-responsive.css') }}" rel="stylesheet" />
-    <link rel="shortcut icon" href="{{ asset('public/frontend/images/NLV.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="https://f7-zpcloud.zdn.vn/8694182849937176588/c6f480b37442b61cef53.jpg"
+        type="image/x-icon">
 
     <!-- font CSS -->
     <link
@@ -31,36 +32,45 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- font-awesome icons -->
     <link rel="stylesheet" href="{{ asset('public/backend/css/font.css') }}" type="text/css" />
     <link href="{{ asset('public/backend/css/font-awesome.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/backend/css/custom.css') }}" rel='stylesheet' type='text/css' />
+
     <!-- //font-awesome icons -->
     <script src="{{ asset('public/backend/js/jquery2.0.3.min.js') }}"></script>
 </head>
 
 <body>
     <div class="log-w3">
-        <div class="w3layouts-main">
-            <h2>Đăng nhập Authentication</h2>
-            <?php
-            $message = Session::get('message');
-            if ($message) {
-                echo '<div class="alert alert-success" style="margin-bottom: 0">' . $message . '</div>';
-                Session::put('message', null);
-            }
-            ?>
-            <form action="{{ URL::to('/login') }}" method="post">
-                {{ csrf_field() }}
-                <input type="email" class="ggg" name="admin_email" placeholder="Email đăng nhập" required>
-                <input type="password" class="ggg" name="admin_password" placeholder="Mật khẩu" required>
+        <div class="custom-login-admin">
+            <div class="w3layouts-main custom-admin-login" style="margin-block: unset">
+                <h2>Đăng nhập</h2>
 
-                <div class="clearfix"></div>
-                <input type="submit" value="Đăng nhập" name="login">
-            </form>
-            {{-- <a href="{{URL::to('/login-google')}}">Đăng nhập bằng Google</a> --}}
-            <div>
-                {{-- style="display: flex; justify-content: space-between" --}}
-                {{-- <a href="{{ URL::to('/admin') }}">Đăng nhập Admin</a> --}}
-                <a href="{{ URL::to('/register-auth') }}">Đăng ký Authentication</a>
+                <?php
+                $message = Session::get('message');
+                $error = Session::get('error');
+                if ($message) {
+                    echo '<div class="alert alert-success">' . $message . '</div>';
+                    Session::put('message', null);
+                } elseif ($error) {
+                    echo '<div class="alert alert-danger">' . $error . '</div>';
+                    Session::put('error', null);
+                }
+                ?>
+                <form action="{{ URL::to('/login') }}" method="post">
+                    {{ csrf_field() }}
+                    <input type="email" class="ggg" name="admin_email" placeholder="Email đăng nhập" required>
+                    <input type="password" class="ggg" name="admin_password" placeholder="Mật khẩu" required>
+
+                    <div class="clearfix"></div>
+                    <input type="submit" value="Đăng nhập" name="login" class="custom-login-btn">
+                </form>
+                {{-- <a href="{{URL::to('/login-google')}}">Đăng nhập bằng Google</a> --}}
+                <div>
+                    {{-- style="display: flex; justify-content: space-between" --}}
+                    {{-- <a href="{{ URL::to('/admin') }}">Đăng nhập Admin</a> --}}
+                    {{-- <a href="{{ URL::to('/register-auth') }}">Đăng ký</a> --}}
+                </div>
+                <!-- <p>Don't Have an Account ?<a href="registration.html">Create an account</a></p> -->
             </div>
-            <!-- <p>Don't Have an Account ?<a href="registration.html">Create an account</a></p> -->
         </div>
     </div>
     <script src="{{ asset('public/backend/js/bootstrap.js') }}"></script>

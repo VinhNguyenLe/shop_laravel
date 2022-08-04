@@ -27,3 +27,156 @@
     border-radius: 3px;
     padding-inline: 8px;
 }
+
+.custom-contenteditable {
+    max-width: 200px;
+    outline: 1px solid transparent;
+}
+
+.custom-contenteditable:focus {
+    outline-color: #2ebc4f;
+}
+
+.custom-btn-no-ob {
+    border: none;
+    outline: none;
+}
+
+.custom-tk-box {
+    margin-top: 16px;
+    height: 160px;
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+}
+
+.custom-tk-box h2 {
+    font-weight: 600;
+    font-size: 42px;
+    margin-top: 12px;
+}
+.custom-tk-box-1 {
+    background-color: #7536d3;
+    color: #fff;
+}
+
+.custom-tk-box-2 {
+    background-color: #4acf81;
+}
+
+.custom-tk-box-3 {
+    background-color: #f1c65b;
+}
+
+.custom-tk-box-4 {
+    background-color: #ff5c7c;
+}
+
+.custom-product-count {
+    background-color: #7536d3;
+    font-size: 20px;
+    position: relative;
+    display: inline-flex;
+    border: 4px solid #7536d3;
+    border-radius: 80px;
+    transition: all 0.3s ease;
+    margin-top: 30px;
+    animation: leftIn 0.5s ease;
+}
+
+.custom-product-count p {
+    padding: 12px;
+    color: #fff;
+}
+
+.custom-product-count span {
+    padding: 12px 20px;
+    display: inline-block;
+    background-color: #fff;
+    color: #7536d3;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+}
+
+@keyframes leftIn {
+    from {
+        transform: translateY(200px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.custom-login-admin {
+    width: 100%;
+    height: 100vh;
+    /* background: rgb(63, 187, 251); */
+    /* background: radial-gradient(
+        circle,
+        rgba(63, 187, 251, 1) 0%,
+        rgba(225, 156, 248, 1) 100%
+    ); */
+    background: url(../images/admin-bg.jpg) no-repeat top;
+
+    padding-top: 5rem;
+}
+
+.custom-admin-login {
+    border: 1px solid #7536d3;
+    background: #fff;
+}
+
+.custom-admin-login h2 {
+    color: #7536d3;
+    font-weight: 700;
+}
+
+.custom-admin-login input {
+    border-radius: 50px;
+    border: 1px solid #7536d3;
+    color: #7536d3;
+}
+
+.custom-admin-login input::placeholder {
+    color: #7536d3 !important;
+}
+
+.custom-login-btn {
+    border: 1px solid transparent !important;
+}
+
+.custom-login-btn:hover {
+    border: 1px solid #7536d3 !important;
+}
+
+.custom-table-center th,
+.custom-table-center td {
+    text-align: center;
+}
+
+.custom-toggle-btn {
+    width: 60px;
+    height: 30px;
+    position: relative;
+    border-radius: 50px;
+    background-color: #2ebc4f;
+}
+
+.custom-toggle-btn::before {
+    position: absolute;
+    content: "";
+    background-color: #fff;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    top: 3px;
+    left: 33px;
+    /* right: 3px; */
+    cursor: pointer;
+}
+
+.fa-toggle-off {
+    color: #ccc;
+}

@@ -14,7 +14,11 @@ class Coupon extends Model
         'coupon_code',
         'coupon_time',
         'coupon_number',
-        'coupon_condition'
+        'coupon_condition',
+        'coupon_date_start',
+        'coupon_date_end',
+        'coupon_status',
+        'coupon_used'
     ];
     //Khóa chính
     protected $primaryKey = 'coupon_id';

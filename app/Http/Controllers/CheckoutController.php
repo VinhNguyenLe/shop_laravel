@@ -19,6 +19,8 @@ use App\Wards;
 use App\Feeship;
 use Cart;
 use Auth;
+use Carbon\Carbon;
+use App\Brand;
 
 
 session_start();
@@ -50,10 +52,19 @@ class CheckoutController extends Controller
 		$brand_product = DB::table('tbl_brand')
 			->where('brand_status', '1')
 			->orderby('brand_id', 'desc')->get();
+			$brand_data = array();
+			$brand_data_id = array();
+			$brand = Brand::all();
+			foreach ($brand as $key => $br) {
+				array_push($brand_data, $br->brand_name);
+				array_push($brand_data_id, $br->brand_id);
+			}
 
 		return view('pages.checkout.login_checkout')
 			->with('category', $category_product)
 			->with('brand', $brand_product)
+			->with('brand_data', $brand_data)
+			->with('brand_data_id', $brand_data_id)
 			->with('meta_desc', $meta_desc)
 			->with('meta_keyword', $meta_keyword)
 			->with('meta_title', $meta_title)
@@ -71,7 +82,8 @@ class CheckoutController extends Controller
 			->insertGetId($data);
 		Session::put('customer_id', $customer_id);
 		Session::put('customer_name', $request->customer_name);
-		return Redirect::to('/')->with('alert', 'Đăng nhập thành công! Xin chào '.$request->customer_name.'.');
+		return Redirect::to('/')
+		->with('alert', 'Đăng nhập thành công! Xin chào '.$request->customer_name.'.');
 
 		// return Redirect::to('/checkout');
 	}
@@ -87,6 +99,13 @@ class CheckoutController extends Controller
 			->where('category_status', '1')
 			->orderby('category_id', 'desc')->get();
 
+			$brand_data = array();
+		$brand_data_id = array();
+		$brand = Brand::all();
+		foreach ($brand as $key => $br) {
+			array_push($brand_data, $br->brand_name);
+			array_push($brand_data_id, $br->brand_id);
+		}
 		$brand_product = DB::table('tbl_brand')
 			->where('brand_status', '1')
 			->orderby('brand_id', 'desc')->get();
@@ -96,6 +115,8 @@ class CheckoutController extends Controller
 		return view('pages.checkout.show_checkout')
 			->with('category', $category_product)
 			->with('brand', $brand_product)
+			->with('brand_data', $brand_data)
+			->with('brand_data_id', $brand_data_id)
 			->with('meta_desc', $meta_desc)
 			->with('meta_keyword', $meta_keyword)
 			->with('meta_title', $meta_title)
@@ -284,6 +305,10 @@ class CheckoutController extends Controller
 
 	public function confirm_order(Request $request){
 		$data = $request->all();
+		
+		// $coupon = Coupon::where('coupon_code', $data['order_coupon'])->first();
+		// $coupon->coupon_time = $coupon->coupon_time - 1;
+		// $coupon->save();
 
 		$shipping = new Shipping();
 		$shipping->shipping_name = $data['shipping_name'];
@@ -297,7 +322,6 @@ class CheckoutController extends Controller
 
 		$checkout_code = substr(md5(microtime()),rand(0,26),5);
 
- 
 		$order = new Order;
 		$order->customer_id = Session::get('customer_id');
 		$order->shipping_id = $shipping_id;
@@ -305,7 +329,10 @@ class CheckoutController extends Controller
 		$order->order_code = $checkout_code;
 
 		date_default_timezone_set('Asia/Ho_Chi_Minh');
-		$order->created_at = now();
+		$today = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
+		$order_date = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d');
+		$order->created_at = $today;
+		$order->order_date = $order_date;
 		$order->save();
 
 		if(Session::get('cart')==true){

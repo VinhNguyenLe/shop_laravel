@@ -1,8 +1,5 @@
 @extends('slider')
 
-@section('title')
-    <title>Trang chủ | E-Shopper</title>
-@endsection
 
 <section id="slider">
     <!--slider-->
@@ -38,14 +35,10 @@
                                 $i++;
                             @endphp
                             <div class="item {{ $i == 1 ? 'active' : '' }}">
+                                <img alt="{{ $slide->slider_desc }}"
+                                    src="{{ asset('public/uploads/slider/' . $slide->slider_image) }}" width="100%"
+                                    height="370" class="img img-responsive img-slider" style="object-fit: contain">
 
-                                <div class="col-sm-12">
-                                    <img alt="{{ $slide->slider_desc }}"
-                                        src="{{ asset('public/uploads/slider/' . $slide->slider_image) }}"
-                                        width="100%" class="img img-responsive img-slider"
-                                        style="object-fit: contain">
-
-                                </div>
                             </div>
                         @endforeach
 

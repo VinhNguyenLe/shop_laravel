@@ -31,7 +31,7 @@ class UserController extends Controller
         $admin->admin_password = md5($data['admin_password']);
         $admin->save();
         $admin->roles()->attach(Roles::where('name','user')->first());
-        Session::put('message','Thêm users thành công');
+        Session::put('message','Thêm tài khoản thành công');
         return Redirect::to('user');
     }
     
@@ -50,9 +50,9 @@ class UserController extends Controller
         if($request['manager_role']){
             $user->roles()->attach(Roles::where('name','manager')->first());     
         }
-        if($request['user_role']){
-            $user->roles()->attach(Roles::where('name','user')->first());     
-        }
+        // if($request['user_role']){
+        //     $user->roles()->attach(Roles::where('name','user')->first());     
+        // }
         return redirect()->back()->with('message', 'Phân công quyền thành công');
     }
 

@@ -3,7 +3,7 @@
     <div class="table-agile-info">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Liệt kê đơn hàng
+                Danh sách đơn hàng
             </div>
             {{-- <div class="row w3-res-tb">
                 <div class="col-sm-5 m-b-xs">
@@ -29,26 +29,26 @@
             <div class="table-responsive">
                 <?php
                 $message = Session::get('message');
+                $error = Session::get('error');
                 if ($message) {
-                    echo '<div class="alert alert-success">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          <strong>Thông báo:</strong> ' .
-                        $message .
-                        '
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>';
+                    echo '<div class="alert alert-success">' . $message . '</div>';
                     Session::put('message', null);
+                } elseif ($error) {
+                    echo '<div class="alert alert-danger">' . $error . '</div>';
+                    Session::put('error', null);
                 }
                 ?>
                 <table class="table table-striped b-t b-light">
                     <thead>
                         <tr>
-                            <th>
+                            <th style="text-align: center">
                                 STT
                             </th>
-                            <th>Mã đơn hàng</th>
-                            <th>Ngày đặt hàng</th>
-                            <th>Tên người đặt</th>
-                            <th>Tình trạng đơn hàng</th>
-                            <th>Hành động</th>
+                            <th style="text-align: center">Mã đơn hàng</th>
+                            <th style="text-align: center">Ngày đặt hàng</th>
+                            <th style="text-align: center">Tên người đặt</th>
+                            <th style="text-align: center">Tình trạng đơn hàng</th>
+                            <th style="text-align: center">Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,11 +60,11 @@
                                 $i++;
                             @endphp
                             <tr>
-                                <td>{{ $i }}</td>
-                                <td>{{ $ord->order_code }}</td>
-                                <td>{{ $ord->created_at }}</td>
+                                <td style="text-align: center">{{ $i }}</td>
+                                <td style="text-align: center">{{ $ord->order_code }}</td>
+                                <td style="text-align: center">{{ $ord->created_at }}</td>
 
-                                <td>
+                                <td style="text-align: center">
                                     @foreach ($customer as $key => $c)
                                         @if ($c->customer_id == $ord->customer_id)
                                             {{ $c->customer_name }}
@@ -72,7 +72,7 @@
                                     @endforeach
                                 </td>
 
-                                <td>
+                                <td style="text-align: center">
                                     @if ($ord->order_status == 1)
                                         Đơn hàng chưa xử lý
                                     @elseif($ord->order_status == 2)
@@ -86,10 +86,10 @@
                                     @endif
                                 </td>
 
-                                <td>
-                                    <a href="{{ URL::to('/view-order/' . $ord->order_code) }}" class="active styling-edit"
+                                <td style="text-align: center">
+                                    <a href="{{ URL::to('/view-order/' . $ord->order_code) }}" class="btn btn-success"
                                         ui-toggle-class="" title="Xem chi tiết đơn hàng">
-                                        <i class="fa fa-eye text-success text-active"></i>
+                                        Xem chi tiết
                                     </a>
                                     {{-- <a href="{{ URL::to('/delete-order/' . $ord->order_code) }}" class="active styling-edit"
                                         ui-toggle-class="" title="Xóa đơn hàng"

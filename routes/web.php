@@ -13,8 +13,20 @@
 
 //Frontend
 Route::get('/', 'HomeController@index');
-Route::get('/trang-chu', 'HomeController@index');
 Route::get('/tim-kiem', 'HomeController@search');
+
+Route::get('/lien-he','ContactController@contact');
+
+Route::get('/add-contact','ContactController@add_contact');
+Route::get('/edit-contact/{contactId}','ContactController@edit_contact');
+Route::get('/all-contact','ContactController@all_contact');
+Route::get('/delete-contact/{contactId}','ContactController@delete_contact');
+Route::post('/save-contact','ContactController@save_contact');
+Route::post('/update-contact/{contactId}','ContactController@update_contact');
+
+Route::get('/enable-contact/{contactId}','ContactController@enale_contact');
+Route::get('/disable-contact/{contactId}','ContactController@disable_contact');
+
 
 //Home
 Route::get('/danh-muc-san-pham/{category_id}', 'CategoryController@show_category_home');
@@ -25,6 +37,8 @@ Route::get('/chi-tiet-san-pham/{product_id}', 'ProductController@details_product
 //Admin
 Route::get('/admin', 'AdminController@index');
 Route::get('/dashboard', 'AdminController@show_dashboard');
+Route::post('/filter-by-date', 'AdminController@filter_by_date');
+
 Route::get('/logout', 'AdminController@log_out');
 
 Route::post('/admin-dashboard', 'AdminController@dashboard');
@@ -91,6 +105,8 @@ Route::get('/delete-all-product-ajax', 'CartController@delete_all_product_ajax')
 //Coupon
 Route::post('/check-coupon', 'CouponController@check_coupon');
 Route::get('/unset-coupon', 'CouponController@unset_coupon');
+
+Route::get('/show-all-coupon', 'CouponController@show_all_coupon');
 
 Route::get('/add-coupon', 'CouponController@add_coupon');
 Route::post('/insert-coupon-code', 'CouponController@insert_coupon_code');
@@ -159,6 +175,12 @@ Route::get('/logout-auth','AuthController@logout_auth');
 Route::post('/register','AuthController@register');
 Route::post('/login','AuthController@login');
 
+//Gallery
+Route::get('/add-gallery/{productId}', 'GalleryController@add_gallery');
+Route::post('/select-gallery', 'GalleryController@select_gallery');
+Route::post('/insert-gallery/{productId}', 'GalleryController@insert_gallery');
+Route::post('/update-gallery-name', 'GalleryController@update_gallery_name');
+Route::post('/remove-gallery', 'GalleryController@delete_gallery');
 
 
 //! Send Mail
@@ -169,3 +191,5 @@ Route::get('/login-facebook','LoginFacebookController@login_facebook');
 Route::get('/admin/callback','LoginFacebookController@callback_facebook');
 Route::get('/login-google','LoginFacebookController@login_google');
 Route::get('/google/callback','LoginFacebookController@callback_google');
+
+Route::get('/trang-chu', 'HomeController@index');

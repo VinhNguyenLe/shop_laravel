@@ -13,10 +13,10 @@
                         $message = Session::get('message');
                         if ($message) {
                             echo '<div class="alert alert-success">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <strong>Thông báo:</strong> ' .
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <strong>Thông báo:</strong> ' .
                                 $message .
                                 '
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div>';
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div>';
                             Session::put('message', null);
                         }
                         ?>
@@ -29,7 +29,7 @@
                             <div class="form-group">
                                 <label for="coupon-condition">Chọn hình thức giảm</label>
                                 <select class="form-control input-sm m-bot15" name="coupon_condition">
-                                    <option value="0">--Chọn hình thức giảm--</option>
+                                    <option>--Chọn hình thức giảm--</option>
                                     <option value="1">Giảm theo phần trăm</option>
                                     <option value="2">Giảm theo số tiền</option>
                                 </select>
@@ -39,21 +39,30 @@
                                 <input type="text" class="form-control" id="coupon-number" name="coupon_number">
                             </div>
                             <div class="form-group">
+                                <label for="coupon-time">Số lượng mã</label>
+                                <input type="text" class="form-control" id="coupon-time" name="coupon_time">
+                            </div>
+                            <div class="form-group">
+                                <label for="coupon-date-start">Ngày bắt đầu</label>
+                                <input type="text" class="form-control" id="coupon-date-start" name="coupon_date_start">
+                                {{-- <p>Date: <input type="text" id="datepicker"></p> --}}
+                            </div>
+                            <div class="form-group">
+                                <label for="coupon-date-end">Ngày kết thúc</label>
+                                <input type="text" class="form-control" id="coupon-date-end" name="coupon_date_end">
+                            </div>
+                            <div class="form-group">
                                 <label for="coupon-desc">Mã giảm giá</label>
                                 <input type="text" class="form-control" id="coupon-code" name="coupon_code">
                             </div>
+
                             <div class="form-group">
-                                <label for="coupon-time">Số lượng mã</label>
-                                <input type="number" class="form-control" id="coupon-time" name="coupon_time"
-                                    min="1">
-                            </div>
-                            {{-- <div class="form-group">
-                                <label>Hiển thị?</label>
+                                <label>Trạng thái</label>
                                 <select class="form-control input-sm m-bot15" name="coupon_status">
-                                    <option value="0">Ẩn</option>
-                                    <option value="1">Hiển thị</option>
+                                    <option value="0">Chưa kích hoạt</option>
+                                    <option value="1" selected>Kích hoạt</option>
                                 </select>
-                            </div> --}}
+                            </div>
                             <button type="submit" class="btn btn-info" name="add_coupon">Thêm mã</button>
                         </form>
                     </div>

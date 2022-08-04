@@ -4,19 +4,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {{-- SEO --}}
-    {{-- <meta name="description" content="{{ $meta_desc }}">
-    <meta name="keywords" content="{{ $meta_keyword }}">
-    <link rel="canonical" href="{{ $url_canonical }}">
-    <meta name="author" content="">
-    <meta name="robots" content="INDEX, FOLLOW"> --}}
-
-    {{-- <meta property="og:image" content="" /> --}}
-    {{-- <meta property="og:site_name" content="http://localhost/shop/" />
-    <meta property="og:description" content="" />
-    <meta property="og:url" content="{{ $url_canonical }}" />
-    <meta property="og:type" content="website" /> --}}
-
     @yield('title')
     <link href="{{ asset('public/frontend/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('public/frontend/css/font-awesome.min.css') }}" rel="stylesheet">
@@ -26,6 +13,11 @@
     <link href="{{ asset('public/frontend/css/main.css') }}" rel="stylesheet">
     <link href="{{ asset('public/frontend/css/responsive.css') }}" rel="stylesheet">
     <link href="{{ asset('public/frontend/css/sweetalert.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/frontend/css/lightslider.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/frontend/css/prettify.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/frontend/css/lightgallery.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/frontend/css/lightgallery.min.css') }}" rel="stylesheet">
+
     <link href="{{ asset('public/frontend/css/custom.css') }}" rel="stylesheet">
 
 
@@ -33,7 +25,7 @@
   <script src="js/html5shiv.js"></script>
   <script src="js/respond.min.js"></script>
   <![endif]-->
-    <link rel="shortcut icon" href="{{ 'public/frontend/images/NLV.png' }}">
+    <link rel="shortcut icon" href="https://f7-zpcloud.zdn.vn/8694182849937176588/c6f480b37442b61cef53.jpg">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
@@ -42,172 +34,142 @@
 <!--/head-->
 
 <body>
-    {{-- @php
-        echo 'customer_id';
-        echo '<br />';
-        echo Session::get('customer_id');
-        echo '<br />';
-        echo 'shipping_id';
-        echo '<br />';
-        echo Session::get('shipping_id');
-    @endphp --}}
 
-    <header id="header">
+    <header id="header" style="overflow-x: hidden">
         <!--header-->
-        <div class="header_top">
+        <div class="header_top" style="background-color: #ede1fe; color:#7d2ae8; ">
             <!--header_top-->
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-6">
-                        <div class="contactinfo">
-                            {{-- <ul class="nav nav-pills">
-                                <li><a href="#"><i class="fa fa-phone"></i> 0869023271</a></li>
-                                <li><a href="#"><i class="fa fa-envelope"></i> levinhbn99@gmail.com</a></li>
+                    <div class="col-sm-4" style="padding-block: 8px;">
+                        <div class="logo pull-left">
+                            <a href="{{ URL::to('/') }}"
+                                style="color: #7d2ae8; line-height: 40px; font-size: 32px; display: flex; align-items: center; font-weight: 700; font-style: italic">
+                                <img src="https://f6-zpcloud.zdn.vn/1371599238416775478/6dc934c2f8333a6d6322.jpg"
+                                    height="40" />
+                                <span style="margin-left: 12px">MobileShop</span>
+                            </a>
+                        </div>
 
-                            </ul> --}}
+                    </div>
+                    <div class="col-sm-4" style="padding-block: 10px">
+                        <div class="search_box pull-right">
+                            <form action="{{ URL::to('/tim-kiem') }}" method="GET" style="display: flex">
+                                <input type="text" placeholder="Tìm kiếm sản phẩm..." name="keyword_submit"
+                                    class="custom-search-input" />
+                                {{-- <input type="submit" value="Tìm kiếm"
+                                    class="btn btn-default custom-search-btn btn-sm custom-order-btn"
+                                    name='search_item'> --}}
+                                <button type="submit" value="Tìm kiếm" class="btn custom-search-btn custom-order-btn"
+                                    name='search_item'><i class="fa fa-search" aria-hidden="true"></i></button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="social-icons pull-right" style="display: flex; align-items:center; height: 56px">
+                            <?php
+                            $name = Session::get('customer_name');
+                            if ($name) {
+                                echo '<p class="custom-hello" style="height: 56px; line-height: 56px; padding-right: 12px">Xin chào, ' . $name . '</p>';
+                                echo '<input type="hidden" value="' . $name . '"/>';
+                            }
+                            ?>
+                            <div class="custom-bars-menu">
+                                <i class="fa fa-bars"></i>
+                            </div>
 
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="social-icons pull-right">
-                            <ul class="nav navbar-nav">
-                                {{-- <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                                <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li> --}}
-                                <li>
-                                    <?php
-                                    $name = Session::get('customer_name');
-                                    if ($name) {
-                                        echo '<p class="custom-hello">Xin chào, ' . $name . '</p>';
-                                    }
-                                    ?>
-                                </li>
-                            </ul>
+                </div>
+
+            </div>
+            <div class="row custom-category-wrap" style="border-bottom: 1px solid #7016e5">
+                <div class="custom-category">
+                    @foreach ($category as $key => $cate)
+                        <div class="custom-category-item">
+                            <a
+                                href="{{ URL::to('/danh-muc-san-pham/' . $cate->category_id) }}">{{ $cate->category_name }}</a>
                         </div>
-                    </div>
+                    @endforeach
+                </div>
+            </div>
+            <div class="row custom-category-wrap" style="background-color: #7016e5">
+                <div class="custom-category">
+                    @foreach ($brand_data as $key => $brand)
+                        <div class="custom-category-item">
+                            <a href="{{ URL::to('/thuong-hieu-san-pham/' . $brand_data_id[$key]) }}">
+                                {{ $brand_data[$key] }}
+                            </a>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
         <!--/header_top-->
-
-        <div class="header-middle">
-            <!--header-middle-->
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="logo pull-left">
-                            <a href="{{ URL::to('/') }}"><img src="{{ 'public/frontend/images/logo.png' }}"
-                                    alt="" /></a>
-                        </div>
-
-                    </div>
-                    <div class="col-sm-8">
-                        <div class="shop-menu pull-right">
-                            <ul class="nav navbar-nav">
-
-                                {{-- <li><a href="{{URL::to('/login-checkout')}}"><i class="fa fa-user"></i> Tài khoản</a></li> --}}
-                                <li><a href="{{ URL::to('/') }}"><i class="fa fa-star"></i> Yêu thích</a></li>
-                                <li><a href="{{ URL::to('/gio-hang') }}"><i class="fa fa-shopping-cart"></i> Giỏ
-                                        hàng</a></li>
-                                {{-- <li><a href="{{ URL::to('/show-cart') }}"><i class="fa fa-shopping-cart"></i> Giỏ
-                                        hàng</a></li> --}}
-                                <?php 
-									$customer_id = Session::get('customer_id');
-									$shipping_id = Session::get('shipping_id');
-									if($customer_id != NULL && $shipping_id == NULL){
-								?>
-                                <li><a href="{{ URL::to('/checkout') }}"><i class="fa fa-money"></i> Thanh
-                                        toán</a></li>
-
-                                <?php 
-									} elseif($customer_id != NULL && $shipping_id != NULL) { 
-								?>
-                                <li><a href="{{ URL::to('/payment') }}"><i class="fa fa-money"></i> Thanh
-                                        toán</a></li>
-                                <?php } else { ?>
-                                <li><a href="{{ URL::to('/login-checkout') }}"><i class="fa fa-money"></i> Thanh
-                                        toán</a></li>
-
-                                <?php } ?>
-
-                                <?php 
-									$customer_id = Session::get('customer_id');
-									if($customer_id != NULL){
-								?>
-                                <li>
-                                    <a href="{{ URL::to('/history') }}"><i class="fa fa-bookmark"></i> Lịch sử đặt
-                                        hàng</a>
-                                </li>
-                                <li>
-                                    <a href="{{ URL::to('/logout-checkout') }}"><i class="fa fa-lock"></i> Đăng
-                                        xuất</a>
-                                </li>
-                                <?php } else { ?>
-
-                                <li>
-                                    <a href="{{ URL::to('/login-checkout') }}"><i class="fa fa-sign-out"></i> Đăng
-                                        nhập</a>
-                                </li>
-                                <?php } ?>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+        <div class="custom-fixed-nav">
+            <div class="custom-fixed-close">
+                <i class="fa fa-times custom-fixed-close-click" aria-hidden="true"></i>
             </div>
-        </div>
-        <!--/header-middle-->
+            <ul class="custom-navbar-nav">
+                <li><a href="{{ URL::to('/') }}">
+                        <i class="fa fa-home" aria-hidden="true"></i>
+                        Trang chủ
+                    </a></li>
+                <li><a href="{{ URL::to('/lien-he') }}">
+                        <i class="fa fa-phone" aria-hidden="true"></i>
+                        Liên hệ
+                    </a></li>
+                <li><a href="{{ URL::to('/show-all-coupon') }}">
+                        <i class="fa fa-gift" aria-hidden="true"></i>
+                        Mã khuyễn mãi
+                    </a></li>
+                {{-- <li><a href="{{URL::to('/login-checkout')}}"><i class="fa fa-user"></i> Tài khoản</a></li> --}}
+                {{-- <li><a href="{{ URL::to('/') }}"><i class="fa fa-star"></i> Yêu thích</a></li> --}}
+                <li><a href="{{ URL::to('/gio-hang') }}"><i class="fa fa-shopping-cart"></i> Giỏ
+                        hàng</a></li>
+                {{-- <li><a href="{{ URL::to('/show-cart') }}"><i class="fa fa-shopping-cart"></i> Giỏ
+                    hàng</a></li> --}}
+                <?php 
+                $customer_id = Session::get('customer_id');
+                $shipping_id = Session::get('shipping_id');
+                if($customer_id != NULL && $shipping_id == NULL){
+            ?>
+                <li><a href="{{ URL::to('/checkout') }}"><i class="fa fa-money"></i> Thanh
+                        toán</a></li>
 
-        <div class="header-bottom">
-            <!--header-bottom-->
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-8">
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle" data-toggle="collapse"
-                                data-target=".navbar-collapse">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                        </div>
-                        <div class="mainmenu pull-left">
-                            <ul class="nav navbar-nav collapse navbar-collapse">
-                                <li><a href="{{ URL::to('/') }}">Trang chủ</a></li>
-                                <li class="dropdown"><a href="#">Sản phẩm<i class="fa fa-angle-down"></i></a>
-                                    <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.html">Products</a></li>
-                                        <li><a href="product-details.html">Product Details</a></li>
-                                        <li><a href="checkout.html">Checkout</a></li>
-                                        <li><a href="cart.html">Cart</a></li>
-                                        <li><a href="login.html">Login</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown"><a href="#">Tin tức</a>
+                <?php 
+                } elseif($customer_id != NULL && $shipping_id != NULL) { 
+            ?>
+                <li><a href="{{ URL::to('/payment') }}"><i class="fa fa-money"></i> Thanh
+                        toán</a></li>
+                <?php } else { ?>
+                <li><a href="{{ URL::to('/login-checkout') }}"><i class="fa fa-money"></i> Thanh
+                        toán</a></li>
+                <?php } ?>
 
-                                </li>
-                                {{-- <li><a href={{ URL::to('/show-cart') }}>Giỏ hàng</a></li> --}}
-                                <li><a href={{ URL::to('/gio-hang') }}>Giỏ hàng</a></li>
-                                <li><a href="contact-us.html">Liên hệ</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="search_box pull-right">
-                            <form action="{{ URL::to('/tim-kiem') }}" method="GET">
-                                <input type="text" placeholder="Tìm kiếm sản phẩm..." name="keyword_submit" />
-                                <input type="submit" value="Tìm kiếm"
-                                    class="btn btn-default custom-search-btn btn-sm custom-order-btn"
-                                    name='search_item'>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <?php 
+                $customer_id = Session::get('customer_id');
+                if($customer_id != NULL){
+            ?>
+                <li>
+                    <a href="{{ URL::to('/history') }}"><i class="fa fa-bookmark"></i> Lịch sử đặt
+                        hàng</a>
+                </li>
+                <li>
+                    <a href="{{ URL::to('/logout-checkout') }}"><i class="fa fa-lock"></i> Đăng
+                        xuất</a>
+                </li>
+                <?php } else { ?>
+
+                <li>
+                    <a href="{{ URL::to('/login-checkout') }}"><i class="fa fa-sign-out"></i> Đăng
+                        nhập</a>
+                </li>
+                <?php } ?>
+            </ul>
         </div>
-        <!--/header-bottom-->
+
     </header>
     <!--/header-->
 
@@ -215,10 +177,10 @@
     <!--/slider-->
     @yield('slider')
 
-    <section style="min-height: 50vh">
+    <section style="min-height: 100vh">
         <div class="container">
-            <div class="row">
-                @yield('category-product')
+            <div class="row custom-section-wrap">
+                {{-- @yield('category-product') --}}
 
 
                 @yield('content')
@@ -227,83 +189,47 @@
         </div>
     </section>
 
-    <footer id="footer">
-        <!--Footer-->
-        <div class="footer-top">
-            <div class="container">
-
-            </div>
-        </div>
-
-        <div class="footer-widget" style="margin-bottom: unset; padding-bottom: 40px">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-2">
-                        <div class="single-widget">
-                            <h2>Service</h2>
-                            <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#">Online Help</a></li>
-                                <li><a href="#">Contact Us</a></li>
-                                <li><a href="#">Order Status</a></li>
-                                <li><a href="#">Change Location</a></li>
-                                <li><a href="#">FAQ’s</a></li>
-                            </ul>
-                        </div>
+    <footer id="footer" style="">
+        <div class="footer-mid container">
+            <div class="row">
+                <div class="footer-left col-md-6">
+                    <h3>Mobile Shop</h3>
+                    <div>
+                        <a href="{{ URL::to('/') }}">
+                            Trang chủ
+                        </a>
+                        <a href="{{ URL::to('/lien-he') }}">
+                            Liên hệ
+                        </a>
+                        <a href="{{ URL::to('/show-all-coupon') }}"> Mã khuyễn mãi</a>
                     </div>
-                    <div class="col-sm-2">
-                        <div class="single-widget">
-                            <h2>Quock Shop</h2>
-                            <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#">T-Shirt</a></li>
-                                <li><a href="#">Mens</a></li>
-                                <li><a href="#">Womens</a></li>
-                                <li><a href="#">Gift Cards</a></li>
-                                <li><a href="#">Shoes</a></li>
-                            </ul>
-                        </div>
+                </div>
+                <div class="footer-right col-md-6">
+                    <div class="footer-category">
+                        <h4>Danh mục sản phẩm</h4>
+                        @foreach ($category as $key => $cate)
+                            <div class="footer-category-item">
+                                <a
+                                    href="{{ URL::to('/danh-muc-san-pham/' . $cate->category_id) }}">{{ $cate->category_name }}</a>
+                            </div>
+                        @endforeach
                     </div>
-                    <div class="col-sm-2">
-                        <div class="single-widget">
-                            <h2>Policies</h2>
-                            <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#">Terms of Use</a></li>
-                                <li><a href="#">Privecy Policy</a></li>
-                                <li><a href="#">Refund Policy</a></li>
-                                <li><a href="#">Billing System</a></li>
-                                <li><a href="#">Ticket System</a></li>
-                            </ul>
-                        </div>
+                    <div class="footer-category">
+                        <h4>Thương hiệu sản phẩm</h4>
+                        @foreach ($brand_data as $key => $brand)
+                            <div class="footer-category-item">
+                                <a href="{{ URL::to('/thuong-hieu-san-pham/' . $brand_data_id[$key]) }}">
+                                    {{ $brand_data[$key] }}
+                                </a>
+                            </div>
+                        @endforeach
                     </div>
-                    <div class="col-sm-2">
-                        <div class="single-widget">
-                            <h2>About Shopper</h2>
-                            <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#">Company Information</a></li>
-                                <li><a href="#">Careers</a></li>
-                                <li><a href="#">Store Location</a></li>
-                                <li><a href="#">Affillate Program</a></li>
-                                <li><a href="#">Copyright</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 col-sm-offset-1">
-                        <div class="single-widget">
-                            <h2>About Shopper</h2>
-                            <form action="#" class="searchform">
-                                <input type="text" placeholder="Your email address" />
-                                <button type="submit" class="btn btn-default"><i
-                                        class="fa fa-arrow-circle-o-right"></i></button>
-                                <p>Get the most recent updates from <br />our site and be updated your self...</p>
-                            </form>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
-
-
-
+        <div class="footer-bot" style="text-align: center">
+            <div class="row">Create by NLV © 2022</div>
+        </div>
     </footer>
     <!--/Footer-->
 
@@ -313,8 +239,12 @@
     <script src="{{ asset('public/frontend/js/price-range.js') }}"></script>
     <script src="{{ asset('public/frontend/js/jquery.prettyPhoto.js') }}"></script>
     <script src="{{ asset('public/frontend/js/main.js') }}"></script>
-    <script src="{{ asset('public/frontend/js/myCustom.js') }}"></script>
     <script src="{{ asset('public/frontend/js/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('public/frontend/js/lightslider.js') }}"></script>
+    <script src="{{ asset('public/frontend/js/prettify.js') }}"></script>
+    <script src="{{ asset('public/frontend/js/lightgallery-all.min.js') }}"></script>
+
+    <script src="{{ asset('public/frontend/js/myCustom.js') }}"></script>
 
     {{-- <script>
         CKEDITOR: replace('ckeditor')
@@ -353,22 +283,21 @@
                             cart_product_quantity: cart_product_quantity
                         },
                         success: function() {
-
                             swal({
                                     title: "Đã thêm sản phẩm vào giỏ hàng",
                                     text: "Bạn có thể mua hàng tiếp hoặc tới giỏ hàng để tiến hành thanh toán",
+                                    textClass: "custom-modal-swal-text",
+                                    titleClass: "custom-primary-color",
                                     showCancelButton: true,
                                     cancelButtonText: "Xem tiếp",
-                                    confirmButtonClass: "btn-success",
+                                    confirmButtonClass: "btn-success custom-btn-color-primary ",
                                     confirmButtonText: "Đi đến giỏ hàng",
                                     closeOnConfirm: false
                                 },
                                 function() {
                                     window.location.href = "{{ url('/gio-hang') }}";
                                 });
-
                         }
-
                     });
                 }
             })
@@ -503,6 +432,42 @@
             alert(msg);
         }
     </script>
+    <script>
+        $(document).ready(function() {
+            $('#imageGallery').lightSlider({
+                gallery: true,
+                item: 1,
+                loop: true,
+                thumbItem: 3,
+                slideMargin: 0,
+                enableDrag: false,
+                currentPagerPosition: 'left',
+                onSliderLoad: function(el) {
+                    el.lightGallery({
+                        selector: '#imageGallery .lslide'
+                    });
+                }
+            });
+        });
+    </script>
+    <script>
+        $(".custom-bars-menu").click(function() {
+            $(".custom-fixed-nav").toggleClass('active');
+        });
+        $(".custom-fixed-close-click").click(function() {
+            $(".custom-fixed-nav").removeClass('active');
+        });
+        $('.custom-login-customer-form p').click(function() {
+            $('.custom-login-customer-form').toggleClass('active')
+            $('.custom-register-customer-form').toggleClass('active')
+        })
+        $('.custom-register-customer-form p').click(function() {
+            $('.custom-login-customer-form').toggleClass('active')
+            $('.custom-register-customer-form').toggleClass('active')
+        })
+    </script>
+    <script></script>
+
 </body>
 
 </html>

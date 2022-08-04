@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Session;
 use App\Login;
+use App\Brand;
+use App\Order;
+use App\Product;
+use App\CategoryProduct;
+
+use App\Statistical;
+use App\OrderDetails;
 
 use Auth;
 session_start();
@@ -33,7 +40,25 @@ class AdminController extends Controller {
 	}
 	public function show_dashboard() {
 		$this->AuthLogin();
-		return view('admin.dashboard');
+		$order_unprocess = Order::where('order_status', 1)->count();
+		$order_success = Order::where('order_status', 2)->count();
+		$order_cancel = Order::where('order_status', 3)->count();
+
+		$brand = Brand::orderby('brand_id', 'DESC')->get();
+		$product = Product::orderby('product_id', 'DESC')->get();
+		$category = CategoryProduct::orderby('category_id', 'DESC')->get();
+
+		$product_count = $product->count();
+		$sold_count = 0;
+		$warehouse = 0;
+		foreach ($product as $key => $item) {
+			$sold_count += $item->product_sold;
+			$warehouse += $item->product_quantity;
+		}
+            
+		return view('admin.dashboard')
+		->with(compact('order_unprocess', 'order_success', 'order_cancel', 'sold_count', 'warehouse', 'product_count' 
+		,'brand', 'product', 'category'));
 	}
 	public function dashboard(Request $request) {
 		//* with outside link
@@ -75,5 +100,25 @@ class AdminController extends Controller {
 		Session::put('admin_name', null);
 		Session::put('admin_id', null);
 		return Redirect::to('/admin');
+	}
+
+	public function filter_by_date(Request $request){
+		$data = $request->all();
+		$from_date = $data['from_date'];
+		$to_date = $data['to_date'];
+
+		$get = Statistical::whereBetween('order_date', [$from_date, $to_date])->orderBy('order_date', 'ASC')->get();
+
+		foreach($get as $key => $val){
+			$chart_data[] = array(
+				'period' => $val->order_date,
+				'order' => $val->total_order,
+				'sales' => $val->sales,
+				'profit' => $val->profit,
+				'quantity' => $val->quantity,
+			);
+		}
+		$data = json_encode($chart_data);
+		echo $data;
 	}
 }

@@ -47,7 +47,7 @@ class AuthController extends Controller
         ])){
            return redirect('/dashboard');
         } else {
-            return redirect('/login-auth')->with('message', 'Tài khoản hoặc mật khẩu không đúng!');
+            return redirect('/login-auth')->with('error', 'Tài khoản hoặc mật khẩu không đúng!');
         }
 
     }   

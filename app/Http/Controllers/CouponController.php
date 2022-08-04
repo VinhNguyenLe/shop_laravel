@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Redirect;
 use App\Coupon;
+use App\Brand;
+use App\CategoryProduct;
 use Auth;
+use Carbon\Carbon;
 
 session_start();
 
@@ -16,7 +19,13 @@ class CouponController extends Controller
 {
     //Client
     public function check_coupon(Request $request){
+        $today = Carbon::now('asia/Ho_Chi_Minh')->format('Y-m-d');
+
         $data = $request->all();
+        $coupon = Coupon::where('coupon_code',$data['coupon'])
+        ->where('coupon_status', 1)
+        ->where('coupon_date_end', '>=', $today)
+        ->first();
         $coupon = Coupon::where('coupon_code',$data['coupon'])->first();
         if($coupon){
             $count_coupon = $coupon->count();
@@ -47,7 +56,7 @@ class CouponController extends Controller
             }
 
         }else{
-            return redirect()->back()->with('error','Mã giảm giá không đúng');
+            return redirect()->back()->with('error','Mã giảm giá không đúng hoặc đã hết hạn');
         }
     } 
 
@@ -88,6 +97,8 @@ class CouponController extends Controller
         $coupon->coupon_condition = $data['coupon_condition'];
         $coupon->coupon_number = $data['coupon_number'];
         $coupon->coupon_time = $data['coupon_time'];
+        $coupon->coupon_date_start = $data['coupon_date_start'];
+        $coupon->coupon_date_end = $data['coupon_date_end'];
         $coupon->save();
 
         Session::put('message', 'Thêm mã giảm giá thành công');
@@ -96,9 +107,9 @@ class CouponController extends Controller
 
     public function list_coupon(){
 		$this->AuthLogin();
-
+        $today = Carbon::now('asia/Ho_Chi_Minh')->format('Y-m-d');
         $coupon = Coupon::orderby('coupon_id', 'DESC')->get();
-        return view('admin.coupon.list_coupon')->with(compact('coupon'));
+        return view('admin.coupon.list_coupon')->with(compact('coupon', 'today'));
     }
 
     public function delete_coupon($coupon_id){
@@ -111,5 +122,22 @@ class CouponController extends Controller
         return Redirect::to('list-coupon');
 
 
+    }
+
+    public function show_all_coupon(){
+        $today = Carbon::now('asia/Ho_Chi_Minh')->format('Y-m-d');
+
+        $coupon = Coupon::where('coupon_status', 1)->get();
+        $category = CategoryProduct::where('category_status', '1')
+		->orderby('category_id', 'desc')->get();
+
+		$brand = Brand::all();
+		$brand_data = array();
+		$brand_data_id = array();
+		foreach ($brand as $key => $br) {
+			array_push($brand_data, $br->brand_name);
+			array_push($brand_data_id, $br->brand_id);
+		}
+        return view('pages.coupon.show_all_coupon')->with(compact('coupon', 'category', 'brand', 'today', 'brand_data', 'brand_data_id'));
     }
 }

@@ -7,6 +7,7 @@ use Session;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Redirect;
+use App\Brand;
 use Cart;
 
 session_start();
@@ -119,10 +120,20 @@ class CartController extends Controller {
 		$brand_product = DB::table('tbl_brand')
 			->where('brand_status', '1')
 			->orderby('brand_id', 'desc')->get();
+	
+			$brand_data = array();
+			$brand_data_id = array();
+			$brand = Brand::all();
+			foreach ($brand as $key => $br) {
+				array_push($brand_data, $br->brand_name);
+				array_push($brand_data_id, $br->brand_id);
+			}
 
 		return view('pages.cart.cart_ajax')
 			->with('category', $category_product)
 			->with('brand', $brand_product)
+			->with('brand_data', $brand_data)
+			->with('brand_data_id', $brand_data_id)
 			->with('meta_desc', $meta_desc)
 			->with('meta_keyword', $meta_keyword)
 			->with('meta_title', $meta_title)

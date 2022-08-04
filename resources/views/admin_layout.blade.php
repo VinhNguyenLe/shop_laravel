@@ -37,7 +37,10 @@
     <link rel="stylesheet" href="{{ asset('public/backend/css/morris.css') }}" type="text/css" />
     <!-- calendar -->
     <link rel="stylesheet" href="{{ asset('public/backend/css/monthly.css') }}">
-    <link rel="shortcut icon" href="{{ asset('public/frontend/images/NLV.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="https://f7-zpcloud.zdn.vn/8694182849937176588/c6f480b37442b61cef53.jpg"
+        type="image/x-icon">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
     <!-- //calendar -->
     <!-- //font-awesome icons -->
     <script src="{{ asset('public/backend/js/jquery2.0.3.min.js') }}"></script>
@@ -54,7 +57,7 @@
         <header class="header fixed-top clearfix">
             <!--logo start-->
             <div class="brand">
-                <a href="{{ URL::to('/dashboard') }}" class="logo">
+                <a href="{{ URL::to('/dashboard') }}" class="logo" style="text-transform: unset">
                     Dashboard
                 </a>
                 <div class="sidebar-toggle-box">
@@ -66,9 +69,7 @@
             <div class="top-nav clearfix">
                 <!--search & user info start-->
                 <ul class="nav pull-right top-menu">
-                    <li>
-                        <input type="text" class="form-control search" placeholder=" Search">
-                    </li>
+
                     <!-- user login dropdown start-->
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -85,8 +86,6 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu extended logout">
-                            {{-- <li><a href="#"><i class=" fa fa-suitcase"></i>Profile</a></li>
-                            <li><a href="#"><i class="fa fa-cog"></i> Settings</a></li> --}}
                             <li><a href="{{ URL::to('/logout-auth') }}"><i class="fa fa-key"></i> Đăng xuất</a></li>
                             {{-- <li><a href="{{ URL::to('/logout') }}"><i class="fa fa-key"></i> Đăng xuất</a></li> --}}
                         </ul>
@@ -118,7 +117,7 @@
                                 </a>
                                 <ul class="sub">
                                     <li><a href="{{ URL::to('/add-user') }}">Thêm tài khoản</a></li>
-                                    <li><a href="{{ URL::to('/user') }}">Liệt kê tài khoản</a>
+                                    <li><a href="{{ URL::to('/user') }}">Danh sách tài khoản</a>
                                     </li>
                                 </ul>
                             </li>
@@ -131,7 +130,7 @@
                                 </a>
                                 <ul class="sub">
                                     <li><a href="{{ URL::to('/add-category-product') }}">Thêm danh mục sản phẩm</a></li>
-                                    <li><a href="{{ URL::to('/all-category-product') }}">Liệt kê danh mục sản phẩm</a>
+                                    <li><a href="{{ URL::to('/all-category-product') }}">Danh sách danh mục sản phẩm</a>
                                     </li>
                                 </ul>
                             </li>
@@ -142,7 +141,7 @@
                                 </a>
                                 <ul class="sub">
                                     <li><a href="{{ URL::to('/add-brand-product') }}">Thêm thương hiệu sản phẩm</a></li>
-                                    <li><a href="{{ URL::to('/all-brand-product') }}">Liệt kê thương hiệu sản phẩm</a>
+                                    <li><a href="{{ URL::to('/all-brand-product') }}">Danh sách thương hiệu sản phẩm</a>
                                     </li>
                                 </ul>
                             </li>
@@ -153,9 +152,10 @@
                                 </a>
                                 <ul class="sub">
                                     <li><a href="{{ URL::to('/add-product') }}">Thêm sản phẩm</a></li>
-                                    <li><a href="{{ URL::to('/all-product') }}">Liệt kê sản phẩm</a></li>
+                                    <li><a href="{{ URL::to('/all-product') }}">Danh sách sản phẩm</a></li>
                                 </ul>
                             </li>
+
                             <li class="sub-menu">
                                 <a href="javascript:;">
                                     <i class="fa fa-book"></i>
@@ -163,7 +163,7 @@
                                 </a>
                                 <ul class="sub">
                                     <li><a href="{{ URL::to('/add-coupon') }}">Thêm mã giảm giá</a></li>
-                                    <li><a href="{{ URL::to('/list-coupon') }}">Liệt kê mã giảm giá</a></li>
+                                    <li><a href="{{ URL::to('/list-coupon') }}">Danh sách mã giảm giá</a></li>
                                 </ul>
                             </li>
                             <li class="sub-menu">
@@ -176,13 +176,10 @@
                                 </ul>
                             </li>
                             <li class="sub-menu">
-                                <a href="javascript:;">
+                                <a href="{{ URL::to('/manager-order') }}">
                                     <i class="fa fa-book"></i>
-                                    <span>Đơn hàng</span>
+                                    <span>Đơn đặt hàng</span>
                                 </a>
-                                <ul class="sub">
-                                    <li><a href="{{ URL::to('/manager-order') }}">Đơn đặt hàng</a></li>
-                                </ul>
                             </li>
                             <li class="sub-menu">
                                 <a href="javascript:;">
@@ -191,7 +188,20 @@
                                 </a>
                                 <ul class="sub">
                                     <li><a href="{{ URL::to('/add-slider') }}">Thêm slider</a></li>
-                                    <li><a href="{{ URL::to('/manage-slider') }}">Liệt kê slider</a></li>
+                                    <li><a href="{{ URL::to('/manage-slider') }}">Danh sách slider</a></li>
+                                </ul>
+                            </li>
+                        @endhasrole
+                        @hasrole('admin')
+                            <li class="sub-menu">
+                                <a href="javascript:;">
+                                    <i class="fa fa-book"></i>
+                                    <span>Thông tin liên hệ</span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="{{ URL::to('/add-contact') }}">Thêm thông tin</a></li>
+                                    <li><a href="{{ URL::to('/all-contact') }}">Danh sách thông tin</a>
+                                    </li>
                                 </ul>
                             </li>
                         @endhasrole
@@ -223,9 +233,16 @@
     <script src="{{ asset('public/backend/js/scripts.js') }}"></script>
     <script src="{{ asset('public/backend/js/jquery.slimscroll.js') }}"></script>
     <script src="{{ asset('public/backend/js/jquery.nicescroll.js') }}"></script>
-    <script src="{{ asset('public/backend/js/custom-admin.js') }}"></script>
     <script src="{{ asset('public/backend/ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('public/backend/js/jquery.form-validator.min.js') }}"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.2/chart.min.js"
+        integrity="sha512-zjlf0U0eJmSo1Le4/zcZI51ks5SjuQXkU0yOdsOBubjSmio9iCUp8XPLkEAADZNBdR9crRy3cniZ65LF2w8sRA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ asset('public/backend/js/custom-admin.js') }}"></script>
+
 
     <script type="text/javascript">
         $(document).ready(function() {
@@ -402,6 +419,303 @@
 
         });
     </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            loadGallery()
+
+            function loadGallery() {
+                var product_id = $('.product_id').val()
+                var _token = $('input[name="_token"]').val()
+                $.ajax({
+                    url: '{{ url('/select-gallery') }}',
+                    method: 'POST',
+                    data: {
+                        product_id: product_id,
+                        _token: _token,
+                    },
+                    success: function(data) {
+                        $('#gallery-load').html(data);
+                    }
+                })
+            }
+
+            $('#gallery_files').change(function() {
+                var error = ''
+                var files = $('#gallery_files')[0].files
+                if (files.length > 5) {
+                    error = 'Bạn chỉ được chọn 5 ảnh'
+                } else if (files.length == '') {
+                    error = 'Không được bỏ trống'
+                } else if (files.size > 2000000) {
+                    error = 'File ảnh không được lớn hơn 2MB'
+                }
+
+                if (error == '') {
+
+                } else {
+                    $('#gallery_files').val('')
+                    $('#error_gallery').html(`<p class="alert alert-danger">${error}</p>`)
+                    return false
+                }
+            })
+            $(document).on('blur', '.edit_gal_name', function() {
+                var gal_id = $(this).data('gal_id')
+                var gal_text = $(this).text()
+                var _token = $('input[name="_token"]').val()
+
+                $.ajax({
+                    url: '{{ url('/update-gallery-name') }}',
+                    method: 'POST',
+                    data: {
+                        gal_id: gal_id,
+                        gal_text: gal_text,
+                        _token: _token,
+
+                    },
+                    success: function(data) {
+                        loadGallery()
+                        $('#error_gallery').html(
+                            `<p class="alert alert-success">Cập nhật tên hình ảnh thành công!</p>`
+                        )
+
+                    }
+                })
+            })
+            $(document).on('click', '.delete_gallery', function() {
+                var gal_id = $(this).data('gallery_id')
+                var _token = $('input[name="_token"]').val()
+                if (confirm('Bạn muốn xóa hình ảnh này không?')) {
+                    $.ajax({
+                        url: '{{ url('/remove-gallery') }}',
+                        method: 'POST',
+                        data: {
+                            gal_id: gal_id,
+                            _token: _token,
+
+                        },
+                        success: function(data) {
+                            loadGallery()
+                            $('#error_gallery').html(
+                                `<p class="alert alert-success">Xóa hình ảnh thành công!</p>`
+                            )
+
+                        }
+                    })
+                }
+            })
+
+        })
+    </script>
+    <script>
+        $(function() {
+            $("#datepicker").datepicker({
+                prevText: 'Tháng trước',
+                nextText: 'Tháng sau',
+                dateFormat: 'yy-mm-dd',
+                dayNamesMin: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+                monthNames: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7",
+                    "Tháng 8",
+                    "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"
+                ],
+                duration: 'slow'
+            });
+        });
+        $(function() {
+            $("#datepicker2").datepicker({
+                prevText: 'Tháng trước',
+                nextText: 'Tháng sau',
+                dateFormat: 'yy-mm-dd',
+                dayNamesMin: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+                monthNames: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7",
+                    "Tháng 8",
+                    "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"
+                ],
+                duration: 'slow'
+            });
+        });
+        $(function() {
+            $("#coupon-date-start").datepicker({
+                prevText: 'Tháng trước',
+                nextText: 'Tháng sau',
+                dateFormat: 'yy-mm-dd',
+                dayNamesMin: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+                monthNames: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7",
+                    "Tháng 8",
+                    "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"
+                ],
+                duration: 'slow'
+            });
+        });
+        $(function() {
+            $("#coupon-date-end").datepicker({
+                prevText: 'Tháng trước',
+                nextText: 'Tháng sau',
+                dateFormat: 'yy-mm-dd',
+                dayNamesMin: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+                monthNames: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7",
+                    "Tháng 8",
+                    "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"
+                ],
+                duration: 'slow'
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            var chart = new Morris.Area({
+                element: 'myfirstchart',
+                // Chart data records -- each entry in this array corresponds to a point on
+                // the chart.
+                // The name of the data record attribute that contains x-values.
+                xkey: 'year',
+                // A list of names of data record attributes that contain y-values.
+                ykeys: ['value'],
+                // Labels for the ykeys -- will be displayed when you hover over the
+                // chart.
+                labels: ['Value']
+            });
+
+            $('#btn-dashboard-filter').click(function() {
+                var _token = $('input[name="_token"]').val()
+                var from_date = $('#datepicker').val()
+                var to_date = $('#datepicker2').val()
+
+                $.ajax({
+                    // url: '{{ url('/filter-by-date') }}',
+                    method: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        from_date: from_date,
+                        to_date: to_date,
+                        _token: _token,
+
+                    },
+                    success: function(data) {
+                        chart.setData(JSON.parse(data))
+                    }
+                })
+            })
+        })
+    </script>
+
+    <script>
+        var proCountArr = []
+        var hiddenProduct = $('.hidden-product-dash')
+        $.each(hiddenProduct, function(key, item) {
+            proCountArr.push(item.value)
+        })
+        var labels = [
+            'Số sản phẩm đã bán',
+            'Số sản phẩm còn lại trong kho'
+        ];
+
+        var data = {
+            labels: labels,
+            datasets: [{
+                label: 'My Sale Dataset',
+                data: proCountArr,
+                backgroundColor: [
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 99, 132)',
+                ],
+                hoverOffset: 4
+            }]
+        };
+
+        var config = {
+            type: 'doughnut',
+            data: data,
+            options: {
+
+            }
+        };
+        var myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+    </script>
+    <script>
+        var brandName = $.map($('.hidden-brand-qty'), function(el) {
+            return $(el).data('brandname')
+
+        });
+        var brandQty = $.map($('.hidden-brand-qty'), function(el) {
+            return $(el).data('brandqty')
+
+        });
+
+        var labelBrand = brandName;
+
+        var dataBrand = {
+            labels: labelBrand,
+            datasets: [{
+                label: 'My Brand Dataset',
+                data: brandQty,
+                backgroundColor: [
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 99, 132)',
+                    'rgb(117,54,211)',
+                    '#4acf81', '#f1c65b', '#dc3545', '#56c2e6', 'blue',
+                    '#28a745'
+                ],
+                hoverOffset: 4
+            }]
+        };
+
+        var configBrand = {
+            type: 'doughnut',
+            data: dataBrand,
+            options: {
+
+            }
+        };
+        var myChart = new Chart(
+            document.getElementById('myBrandQty'),
+            configBrand
+        );
+    </script>
+    <script>
+        var categoryName = $.map($('.hidden-category-qty'), function(el) {
+            return $(el).data('categoryname')
+
+        });
+        var categoryQty = $.map($('.hidden-category-qty'), function(el) {
+            return $(el).data('categoryqty')
+
+        });
+
+        var labelCategory = categoryName;
+
+        var dataCategory = {
+            labels: labelCategory,
+            datasets: [{
+                label: 'My Category Dataset',
+                data: categoryQty,
+                backgroundColor: [
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 99, 132)',
+                    'rgb(117,54,211)',
+                    '#4acf81', '#f1c65b', '#dc3545', '#56c2e6', 'blue',
+                    '#28a745'
+                ],
+                hoverOffset: 4
+            }]
+        };
+
+        var configCategory = {
+            type: 'doughnut',
+            data: dataCategory,
+            options: {
+
+            }
+        };
+        var myChart = new Chart(
+            document.getElementById('myCategoryQty'),
+            configCategory
+        );
+    </script>
+
 
     <script>
         // CKEDITOR: replace('ckeditor')

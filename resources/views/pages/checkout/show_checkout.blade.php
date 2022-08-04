@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-    <title>Thanh toán | E-Shopper</title>
+    <title>Thanh toán | MobileShop</title>
 @endsection
 
 @section('content')
@@ -93,8 +93,8 @@
                                             <label>Chọn hình thức thanh toán</label>
                                             <select name="payment_select"
                                                 class="form-control input-sm m-bot15 payment_select">
-                                                <option value="0">Qua chuyển khoản</option>
-                                                <option value="1">Tiền mặt</option>
+                                                <option value="0">Thanh toán qua chuyển khoản</option>
+                                                <option value="1">Thanh toán khi nhận hàng</option>
                                             </select>
                                         </div>
                                     </div>
@@ -319,7 +319,7 @@
                                             </tr>
                                         @else
                                             <tr>
-                                                <td colspan="5" style="text-align: center">
+                                                <td colspan="5" style="text-align: center; padding: 40px">
                                                     Giỏ hàng rỗng
                                                 </td>
                                             <tr>

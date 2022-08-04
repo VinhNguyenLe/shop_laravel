@@ -11,13 +11,13 @@
                     <div class="position-center">
                         <?php
                         $message = Session::get('message');
+                        $error = Session::get('error');
                         if ($message) {
-                            echo '<div class="alert alert-success">
-                                                        <strong>Thông báo:</strong> ' .
-                                $message .
-                                '
-                                                      </div>';
+                            echo '<div class="alert alert-success">' . $message . '</div>';
                             Session::put('message', null);
+                        } elseif ($error) {
+                            echo '<div class="alert alert-danger">' . $error . '</div>';
+                            Session::put('error', null);
                         }
                         ?>
                         @foreach ($edit_product as $key => $pro)
@@ -30,7 +30,12 @@
                                         value="{{ $pro->product_name }}" name="product_name">
                                 </div>
                                 <div class="form-group">
-                                    <label for="product-price">Giá sản phẩm</label>
+                                    <label for="product-cost">Giá gốc</label>
+                                    <input type="text" class="form-control" id="product-cost"
+                                        value="{{ $pro->product_cost }}" name="product_cost">
+                                </div>
+                                <div class="form-group">
+                                    <label for="product-price">Giá bán</label>
                                     <input type="text" class="form-control" id="product-price"
                                         value="{{ $pro->product_price }}" name="product_price">
                                 </div>

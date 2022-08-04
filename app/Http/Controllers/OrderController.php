@@ -13,6 +13,10 @@ use App\OrderDetails;
 use App\Coupon;
 
 use App\Product;
+use App\Brand;
+use App\CategoryProduct;
+use App\Statistical;
+use Carbon\Carbon;
 
 use PDF;
 
@@ -80,21 +84,62 @@ class OrderController extends Controller
 		$order->order_status = $data['order_status'];
 		$order->save();
 
+		$order_date = $order->order_date;
+		$statistical = Statistical::where('order_date', $order_date)->get();
+
+		// if($statistical){
+		// 	$statistical_count = $statistical->count();
+		// } else {
+		// 	$statistical_count = 0;
+		// }
+
 		if($order->order_status==2){
+			// $total_order = 0;
+			// $sales = 0;
+			// $profit = 0;
+			// $quantity = 0;
+
 			foreach($data['order_product_id'] as $key => $product_id){
  				$product = Product::find($product_id);
 				$product_quantity = $product->product_quantity;
 				$product_sold = $product->product_sold;
+
+				$product_cost = $product->product_cost;
+				$product_price = $product->product_price;
+				$now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
+
 				foreach($data['quantity'] as $key2 => $qty){
 					if($key == $key2){
 						$pro_remain = $product_quantity - $qty;
 						$product->product_quantity = $pro_remain;
 						$product->product_sold = $product_sold + $qty;
 						$product->save();
+
+						// $quantity += $qty;
+						// $total_order += 1;
+						// $sales += $product_price * $qty;
+						// $profit += ($product_price * $qty) - ($product_cost * $qty);
+						
 					}
 				}
 			}
-		}elseif($order->order_status!=2 && $order->order_status!=3){
+			// if($statistical_count > 0){
+			// 	$statistical_update = Statistical::where('order_date', $order_date)->first();
+			// 	$statistical_update->sales = $statistical_update->sales + $sales;
+			// 	$statistical_update->profit = $statistical_update->profit + $profit;
+			// 	$statistical_update->quantity = $statistical_update->quantity + $quantity;
+			// 	$statistical_update->total_order = $statistical_update->total_order + $total_order;
+			// 	$statistical_update->save();
+			// } else {
+			// 	$statistical_new = new Statistical();
+			// 	$statistical_new->order_date = $order_date;
+			// 	$statistical_new->sales = $sales;
+			// 	$statistical_new->profit = $profit;
+			// 	$statistical_new->quantity = $quantity;
+			// 	$statistical_new->total_order = $total_order;
+			// 	$statistical_new->save();
+			// }
+		} elseif ($order->order_status!=2 && $order->order_status!=3){
 			foreach($data['order_product_id'] as $key => $product_id){
 				$product = Product::find($product_id);
 				$product_quantity = $product->product_quantity;
@@ -193,7 +238,7 @@ class OrderController extends Controller
             color: #009879;
         }
 		</style>
-		<h4><center>Cửa hàng điện thoại E-Shopper</center></h4>
+		<h4><center>Cửa hàng điện thoại MobileShop</center></h4>
 		<p>Mã đơn hàng: '.$checkout_code.'</p>
 		<p>Người đặt hàng</p>
 		<table class="styled-table">
@@ -348,17 +393,38 @@ class OrderController extends Controller
 	}
 
 	public function history(){
+		$brand = Brand::where('brand_status', '1')->orderby('brand_id', 'asc')->get();
+		$brand_data = array();
+		$brand_data_id = array();
+		$brand = Brand::all();
+		foreach ($brand as $key => $br) {
+			array_push($brand_data, $br->brand_name);
+			array_push($brand_data_id, $br->brand_id);
+		}
+
+		$category = CategoryProduct::where('category_status', '1')->orderby('category_id', 'asc')->get();
 		$get_customer = Session::get('customer_id');
 		if(!$get_customer){
 			return redirect('/login-checkout')->with('message', 'Vui lòng đăng nhập để xem lịch sử!');
 		} else {
 			$order = Order::where('customer_id', $get_customer)->orderby('order_id', 'DESC')->get();
-			return view('pages.history.history')->with(compact('order'));
+			return view('pages.history.history')->with(compact('order', 'category', 'brand', 'brand_data', 'brand_data_id'));
 			
 		}
 	}
 
 	public function view_history($order_code){
+		$category = CategoryProduct::where('category_status', '1')->orderby('category_id', 'asc')->get();
+		
+		$brand = Brand::where('brand_status', '1')->orderby('brand_id', 'asc')->get();
+		$brand_data = array();
+		$brand_data_id = array();
+		$brand = Brand::all();
+		foreach ($brand as $key => $br) {
+			array_push($brand_data, $br->brand_name);
+			array_push($brand_data_id, $br->brand_id);
+		}
+
 
 		$get_customer = Session::get('customer_id');
 		$own_order = Order::where('order_code', $order_code)->first();
@@ -398,7 +464,7 @@ class OrderController extends Controller
 			}
 
 			return view('pages.history.history_details')
-			->with(compact('order_details', 'customer', 'shipping', 'order_details_product','coupon_condition','coupon_number', 'order', 'order_status'));
+			->with(compact('category', 'brand', 'brand_data', 'brand_data_id',  'order_details', 'customer', 'shipping', 'order_details_product','coupon_condition','coupon_number', 'order', 'order_status'));
 		}
 	}
 }

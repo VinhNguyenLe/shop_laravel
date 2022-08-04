@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 use Session;
 
 use App\Imports\ExcelImports;
+use App\Brand;
 use App\Exports\ExcelCategoryExports;
 use Excel;
 use Auth;
@@ -117,6 +118,13 @@ class CategoryController extends Controller {
 			->where('tbl_product.category_id', $category_id)
 			->where('product_status', '1')
 			->get();
+			$brand_data = array();
+		$brand_data_id = array();
+		$brand = Brand::all();
+		foreach ($brand as $key => $br) {
+			array_push($brand_data, $br->brand_name);
+			array_push($brand_data_id, $br->brand_id);
+		}
 
 		foreach ($category_product as $key => $val) {
 			$meta_desc = $val->category_name;
@@ -132,6 +140,8 @@ class CategoryController extends Controller {
 		return view('pages.category.show_category')
 			->with('category', $category_product)
 			->with('brand', $brand_product)
+			->with('brand_data', $brand_data)
+			->with('brand_data_id', $brand_data_id)
 			->with('category_by_id', $category_by_id)
 			->with('meta_desc', $meta_desc)
 			->with('meta_keyword', $meta_keyword)

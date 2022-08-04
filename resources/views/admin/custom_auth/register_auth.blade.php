@@ -22,7 +22,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- Custom CSS -->
     <link href="{{ asset('public/backend/css/style.css') }}" rel='stylesheet' type='text/css' />
     <link href="{{ asset('public/backend/css/style-responsive.css') }}" rel="stylesheet" />
-    <link rel="shortcut icon" href="{{ asset('public/frontend/images/NLV.png') }}" type="image/x-icon">
+    <link href="{{ asset('public/backend/css/custom.css') }}" rel='stylesheet' type='text/css' />
+    <link rel="shortcut icon" href="https://f7-zpcloud.zdn.vn/8694182849937176588/c6f480b37442b61cef53.jpg"
+        type="image/x-icon">
 
     <!-- font CSS -->
     <link
@@ -37,34 +39,37 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 <body>
     <div class="log-w3">
-        <div class="w3layouts-main">
-            <h2>Đăng ký Authentication</h2>
-            <?php
-            $message = Session::get('message');
-            if ($message) {
-                echo '<div class="alert alert-success" style="margin-bottom: 0">' . $message . '</div>';
-                Session::put('message', null);
-            }
-            ?>
-            <form action="{{ URL::to('/register') }}" method="post">
-                {{ csrf_field() }}
-                <input type="text" class="ggg" name="admin_name" placeholder="Tên của bạn" required>
-                <input type="text" class="ggg" name="admin_phone" placeholder="Số điện thoại" required>
-                <input type="email" class="ggg" name="admin_email" placeholder="Email đăng nhập" required>
-                <input type="password" class="ggg" name="admin_password" placeholder="Mật khẩu" required>
-                {{-- <input type="password" class="ggg" name="admin_password" placeholder="Mật khẩu" required> --}}
-                {{-- <span><input type="checkbox" />Nhớ mật khẩu</span> --}}
-                {{-- <h6><a href="#">Quên mật khẩu?</a></h6> --}}
-                <div class="clearfix"></div>
-                <input type="submit" value="Đăng ký" name="login">
-            </form>
-            {{-- <a href="{{URL::to('/login-google')}}">Đăng nhập bằng Google</a> --}}
-            <div>
-                {{-- style="display: flex; justify-content: space-between" --}}
-                {{-- <a href="{{ URL::to('/admin') }}">Đăng nhập Admin</a> --}}
-                <a href="{{ URL::to('/login-auth') }}">Đăng nhập Authentication</a>
+        <div class="custom-login-admin">
+
+            <div class="w3layouts-main" style="margin-block: unset">
+                <h2>Đăng ký</h2>
+                <?php
+                $message = Session::get('message');
+                if ($message) {
+                    echo '<div class="alert alert-success" style="margin-bottom: 0">' . $message . '</div>';
+                    Session::put('message', null);
+                }
+                ?>
+                <form action="{{ URL::to('/register') }}" method="post">
+                    {{ csrf_field() }}
+                    <input type="text" class="ggg" name="admin_name" placeholder="Tên của bạn" required>
+                    <input type="text" class="ggg" name="admin_phone" placeholder="Số điện thoại" required>
+                    <input type="email" class="ggg" name="admin_email" placeholder="Email đăng nhập" required>
+                    <input type="password" class="ggg" name="admin_password" placeholder="Mật khẩu" required>
+                    {{-- <input type="password" class="ggg" name="admin_password" placeholder="Mật khẩu" required> --}}
+                    {{-- <span><input type="checkbox" />Nhớ mật khẩu</span> --}}
+                    {{-- <h6><a href="#">Quên mật khẩu?</a></h6> --}}
+                    <div class="clearfix"></div>
+                    <input type="submit" value="Đăng ký" name="login">
+                </form>
+                {{-- <a href="{{URL::to('/login-google')}}">Đăng nhập bằng Google</a> --}}
+                <div>
+                    {{-- style="display: flex; justify-content: space-between" --}}
+                    {{-- <a href="{{ URL::to('/admin') }}">Đăng nhập Admin</a> --}}
+                    <a href="{{ URL::to('/login-auth') }}">Đăng nhập</a>
+                </div>
+                <!-- <p>Don't Have an Account ?<a href="registration.html">Create an account</a></p> -->
             </div>
-            <!-- <p>Don't Have an Account ?<a href="registration.html">Create an account</a></p> -->
         </div>
     </div>
     <script src="{{ asset('public/backend/js/bootstrap.js') }}"></script>

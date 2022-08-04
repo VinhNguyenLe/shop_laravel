@@ -33,8 +33,8 @@ class BrandController extends Controller {
 
 	public function all_brand_product() {
 		$this->AuthLogin();
-		// $all_brand_product = DB::table('tbl_brand')->get();
-		$all_brand_product = Brand::all();
+		$all_brand_product = DB::table('tbl_brand')->get();
+		// $all_brand_product = Brand::all();
 		$manager_brand_product = view('admin.brand.all_brand_product')->with('all_brand_product', $all_brand_product);
 		return view('admin_layout')->with('admin.brand.all_brand_product', $manager_brand_product);
 	}
@@ -120,6 +120,14 @@ class BrandController extends Controller {
 			->where('brand_status', '1')
 			->orderby('brand_id', 'desc')->get();
 
+		$brand_data = array();
+		$brand_data_id = array();
+		$brand = Brand::all();
+		foreach ($brand as $key => $br) {
+			array_push($brand_data, $br->brand_name);
+			array_push($brand_data_id, $br->brand_id);
+		}
+
 		$brand_by_id = DB::table('tbl_product')
 			->join('tbl_brand', 'tbl_product.brand_id', '=', 'tbl_brand.brand_id')
 			->where('tbl_product.brand_id', $brand_id)
@@ -141,6 +149,8 @@ class BrandController extends Controller {
 			->with('category', $category_product)
 			->with('brand', $brand_product)
 			->with('brand_by_id', $brand_by_id)
+			->with('brand_data', $brand_data)
+			->with('brand_data_id', $brand_data_id)
 			->with('brand_name', $brand_name)
 			->with('meta_desc', $meta_desc)
 			->with('meta_keyword', $meta_keyword)

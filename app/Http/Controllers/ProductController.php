@@ -10,7 +10,11 @@ use Session;
 use App\Exports\ExcelProductExports;
 use Excel;
 use Auth;
+use App\Gallery;
+use App\Brand;
+use App\Product;
 
+use File;
 
 session_start();
 
@@ -51,30 +55,40 @@ class ProductController extends Controller {
 		$data['product_quantity'] = $request->product_quantity;
 		$data['product_desc'] = $request->product_desc;
 		$data['product_content'] = $request->product_content;
+		$data['product_cost'] = $request->product_cost;
 		$data['product_price'] = $request->product_price;
+		$data['product_sold'] = 0;
 		$data['product_status'] = $request->product_status;
 		$data['category_id'] = $request->product_category;
 		$data['brand_id'] = $request->product_brand;
 		// $data['product_image'] = $request->product_image;
 
 		$get_image = $request->file('product_image');
-
+		$path = 'public/uploads/product/';
+		$path_gallery = 'public/uploads/gallery/';
+		
 		if ($get_image) {
 			$get_name_image = $get_image->getClientOriginalName();
 			$name_image = current(explode('.', $get_name_image));
 			$new_image = $name_image . rand(0, 99) . '.' . $get_image->getClientOriginalExtension();
-			$get_image->move('public/uploads/product', $new_image);
-
+			$get_image->move($path, $new_image);
+			// $get_image->move($path_gallery, $new_image);
+			File::copy($path.$new_image, $path_gallery.$new_image);
 			$data['product_image'] = $new_image;
-
-			DB::table('tbl_product')->insert($data);
-			Session::put('message', 'Thêm sản phẩm thành công');
-			return Redirect::to('add-product');
 		}
-		$data['product_image'] = '';
-		DB::table('tbl_product')->insert($data);
+		$pro_id = DB::table('tbl_product')->insertGetId($data);
+		$gallery = new Gallery();
+		$gallery->gallery_image = $new_image;
+		$gallery->gallery_name = $name_image;
+		$gallery->product_id = $pro_id;
+		$gallery->save();
+
 		Session::put('message', 'Thêm sản phẩm thành công');
 		return Redirect::to('all-product');
+		// $data['product_image'] = '';
+		// DB::table('tbl_product')->insert($data);
+		// Session::put('message', 'Thêm sản phẩm thành công');
+		// return Redirect::to('all-product');
 	}
 
 	public function edit_product($product_id) {
@@ -111,6 +125,7 @@ class ProductController extends Controller {
 		$data['product_quantity'] = $request->product_quantity;
 		$data['product_desc'] = $request->product_desc;
 		$data['product_content'] = $request->product_content;
+		$data['product_cost'] = $request->product_cost;
 		$data['product_price'] = $request->product_price;
 		$data['product_status'] = $request->product_status;
 		$data['category_id'] = $request->product_category;
@@ -150,6 +165,13 @@ class ProductController extends Controller {
 		$brand_product = DB::table('tbl_brand')
 			->where('brand_status', '1')
 			->orderby('brand_id', 'desc')->get();
+			$brand_data = array();
+			$brand_data_id = array();
+			$brand = Brand::all();
+			foreach ($brand as $key => $br) {
+				array_push($brand_data, $br->brand_name);
+				array_push($brand_data_id, $br->brand_id);
+			}
 
 		$details_product = DB::table('tbl_product')
 			->join('tbl_category_product', 'tbl_category_product.category_id', '=', 'tbl_product.category_id')
@@ -159,12 +181,16 @@ class ProductController extends Controller {
 		foreach ($details_product as $key => $value) {
 			$category_id = $value->category_id;
 			$brand_id = $value->brand_id;
+			$product_id = $value->product_id;
 
 			$meta_desc = $value->product_desc;
 			$meta_keyword = $value->product_name;
 			$meta_title = $value->product_name;
 			$url_canonical = $request->url();
 		}
+
+		$gallery = Gallery::where('product_id', $product_id)->get();
+
 
 		$related_product = DB::table('tbl_product')
 			->join('tbl_category_product', 'tbl_category_product.category_id', '=', 'tbl_product.category_id')
@@ -175,8 +201,11 @@ class ProductController extends Controller {
 		return view('pages.product.show_details')
 			->with('category', $category_product)
 			->with('brand', $brand_product)
+			->with('brand_data', $brand_data)
+			->with('brand_data_id', $brand_data_id)
 			->with('details_product', $details_product)
 			->with('related_product', $related_product)
+			->with('gallery', $gallery)
 			->with('meta_desc', $meta_desc)
 			->with('meta_keyword', $meta_keyword)
 			->with('meta_title', $meta_title)

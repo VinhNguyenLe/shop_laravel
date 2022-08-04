@@ -3,7 +3,7 @@
     <div class="table-agile-info">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Người dùng
+                Tài khoản Nhân viên
             </div>
             <div class="row w3-res-tb">
 
@@ -20,16 +20,17 @@
                     Session::put('error', null);
                 }
                 ?>
-                <table class="table table-striped b-t b-light">
-                    <thead>
+                <table class="table table-striped b-t b-light custom-table-center">
+
+                    <thead style="text-align: center">
                         <tr>
                             <th style="width:20px; text-align: center">
                                 STT
                             </th>
-                            <th>Tên</th>
-                            <th>Email</th>
-                            <th>SĐT</th>
-                            <th>Mật khẩu</th>
+                            <th style="text-align: center">Tên</th>
+                            <th style="text-align: center">Email</th>
+                            <th style="text-align: center">SĐT</th>
+                            {{-- <th style="text-align: center">Mật khẩu</th> --}}
                             <th style="text-align: center">Admin</th>
                             <th style="text-align: center">Manager</th>
                             <th style="text-align: center">User</th>
@@ -55,7 +56,7 @@
                                         <input type="hidden" name="admin_id" value="{{ $user->admin_id }}">
                                     </td>
                                     <td>{{ $user->admin_phone }}</td>
-                                    <td>{{ $user->admin_password }}</td>
+                                    {{-- <td>{{ $user->admin_password }}</td> --}}
                                     <td style="text-align: center">
                                         <input type="checkbox" name="admin_role"
                                             {{ $user->hasRole('admin') ? 'checked' : '' }}>

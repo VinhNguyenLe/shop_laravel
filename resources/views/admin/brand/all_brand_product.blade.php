@@ -3,7 +3,7 @@
     <div class="table-agile-info">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Liệt kê thương hiệu sản phẩm
+                thương hiệu sản phẩm
             </div>
             <div class="row w3-res-tb">
 
@@ -11,13 +11,13 @@
             <div class="table-responsive">
                 <?php
                 $message = Session::get('message');
+                $error = Session::get('error');
                 if ($message) {
-                    echo '<div class="alert alert-success">
-                                                                                                                                          <strong>Thông báo:</strong> ' .
-                        $message .
-                        '
-                                                                                                                                        </div>';
+                    echo '<div class="alert alert-success">' . $message . '</div>';
                     Session::put('message', null);
+                } elseif ($error) {
+                    echo '<div class="alert alert-danger">' . $error . '</div>';
+                    Session::put('error', null);
                 }
                 ?>
                 <table class="table table-striped b-t b-light">
@@ -27,8 +27,8 @@
                                 STT
                             </th>
                             <th>Tên thương hiệu</th>
-                            <th>Hiển thị</th>
-                            <th width="200px">Hành động</th>
+                            <th style="text-align: center">Hiển thị</th>
+                            <th width="200px" style="text-align: center">Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,30 +40,30 @@
                                 $i++;
                             @endphp
                             <tr>
-                                <td>{{ $i }} </td>
+                                <td style="text-align: center">{{ $i }} </td>
                                 <td>{{ $brand_pro->brand_name }}</td>
-                                <td><span class="text-ellipsis">
+                                <td style="text-align: center"><span class="text-ellipsis">
                                         @if ($brand_pro->brand_status == 0)
                                             <a href="{{ URL::to('/active-brand-product/' . $brand_pro->brand_id) }}">
-                                                <span class="fa fa-eye-slash fa-thumb-styling"
+                                                <span class="fa fa-toggle-off fa-thumb-styling"
                                                     title="Chọn để hiển thị"></span>
                                             </a>'
                                         @else
                                             <a href="{{ URL::to('/unactive-brand-product/' . $brand_pro->brand_id) }}">
-                                                <span class="fa fa-eye fa-thumb-styling" title="Chọn để ẩn"></span>
+                                                <span class="fa fa-toggle-on fa-thumb-styling" title="Chọn để ẩn"></span>
                                             </a>
                                         @endif
 
                                     </span></td>
-                                <td>
+                                <td style="text-align: center">
                                     <a href="{{ URL::to('/edit-brand-product/' . $brand_pro->brand_id) }}"
-                                        class="active styling-edit" ui-toggle-class="" title="Sửa thương hiệu">
-                                        <i class="fa fa-pencil-square-o text-success text-active"></i>
+                                        class=" btn btn-success" ui-toggle-class="" title="Sửa thương hiệu">
+                                        Chỉnh sửa
                                     </a>
                                     <a href="{{ URL::to('/delete-brand-product/' . $brand_pro->brand_id) }}"
-                                        class="active styling-edit" ui-toggle-class="" title="Xóa thương hiệu"
+                                        class="btn btn-danger" ui-toggle-class="" title="Xóa thương hiệu"
                                         onclick="return confirm('Bạn chắc chắn muốn xóa chứ?')">
-                                        <i class="fa fa-times text-danger text"></i>
+                                        Xóa
                                     </a>
                                 </td>
                             </tr>

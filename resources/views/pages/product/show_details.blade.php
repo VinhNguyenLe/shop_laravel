@@ -1,6 +1,6 @@
 @extends('layout')
 @section('title')
-    <title>Chi tiết sản phẩm | E-Shopper</title>
+    <title>Chi tiết sản phẩm | MobileShop</title>
 @endsection
 
 {{-- @section('category-product')
@@ -48,27 +48,23 @@
     @foreach ($details_product as $key => $value)
         <div class="product-details">
             <!--product-details-->
-            <div class="col-sm-5">
+            {{-- <div class="col-sm-5">
                 <div class="view-product">
                     <img src="{{ URL::to('/public/uploads/product/' . $value->product_image) }}" alt=""
                         class="custom-view-product-img" />
-                    {{-- <h3>ZOOM</h3> --}}
                 </div>
                 <div id="similar-product" class="carousel slide" data-ride="carousel">
 
-                    <!-- Wrapper for slides -->
                     <div class="carousel-inner">
                         <div class="item active">
-                            <a href=""><img src="{{ URL::to('public/frontend/images/similar1.jpg') }}"
-                                    alt=""></a>
-                            <a href=""><img src="{{ URL::to('public/frontend/images/similar2.jpg') }}"
-                                    alt=""></a>
-                            <a href=""><img src="{{ URL::to('public/frontend/images/similar3.jpg') }}"
-                                    alt=""></a>
+                            @foreach ($gallery as $key => $gal)
+                                <img src="{{ URL::to('public/uploads/gallery/' . $gal->gallery_image) }}"
+                                    alt="{{ $gal->gallery_name }}">
+                            @endforeach
+
                         </div>
                     </div>
 
-                    <!-- Controls -->
                     <a class="left item-control" href="#similar-product" data-slide="prev">
                         <i class="fa fa-angle-left"></i>
                     </a>
@@ -77,8 +73,21 @@
                     </a>
                 </div>
 
+            </div> --}}
+            <div class="col-sm-6">
+                <!-- Wrapper for slides -->
+                <ul id="imageGallery">
+                    @foreach ($gallery as $key => $gal)
+                        <li data-thumb="{{ URL::to('public/uploads/gallery/' . $gal->gallery_image) }}"
+                            data-src="{{ URL::to('public/uploads/gallery/' . $gal->gallery_image) }}">
+                            <img src="{{ URL::to('public/uploads/gallery/' . $gal->gallery_image) }}"
+                                alt="{{ $gal->gallery_name }}" width="100%">
+                        </li>
+                    @endforeach
+
+                </ul>
             </div>
-            <div class="col-sm-7">
+            <div class="col-sm-6">
                 <div class="product-information custom-product-information">
                     <!--/product-information-->
                     <img src="images/product-details/new.jpg" class="newarrival" alt="" />

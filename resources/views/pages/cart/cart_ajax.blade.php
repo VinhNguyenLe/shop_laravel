@@ -1,6 +1,6 @@
 @extends('layout')
 @section('title')
-    <title>Giỏ hàng | E-Shopper</title>
+    <title>Giỏ hàng | MobileShop</title>
 @endsection
 
 @section('content')
@@ -152,7 +152,7 @@
                             </tr>
                         @else
                             <tr>
-                                <td colspan="5" style="text-align: center">
+                                <td colspan="5" style="text-align: center; padding: 40px">
                                     Giỏ hàng rỗng
                                 </td>
                             <tr>
@@ -165,7 +165,7 @@
             </div>
             @if (Session::get('cart'))
                 <div class="coupon-wrap">
-                    <form action="{{ URL::to('/check-coupon') }}" method="POST">
+                    {{-- <form action="{{ URL::to('/check-coupon') }}" method="POST">
                         @csrf
                         <input type="text" class="custom-input-primary" name="coupon" placeholder="Nhập mã khuyến mãi">
                         <input type="submit" class="btn btn-default custom-btn-primary check_coupon" name="check_coupon"
@@ -177,7 +177,7 @@
                                 mãi</a>
                         @endif
 
-                    </form>
+                    </form> --}}
                     <div style="margin-top: 30px">
                         @if (Session::get('customer_id'))
                             <a class="btn btn-default custom-btn-second" href="{{ URL::to('/checkout') }}">Đặt hàng</a>
@@ -192,25 +192,5 @@
             @endif
         </div>
     </section>
-    <!--/#cart_items-->
-    {{-- <section id="do_action">
-        <div class="container" style="width: 100%">
-            <div class="heading">
-                <h3>Chi phí thanh toán</h3>
-            </div>
-            <div class="row">
 
-                <div class="col-sm-6">
-                    <div class="total_area">
-                        <ul>
-                        
-                        </ul>
-
-                        <a class="btn btn-default check_out" href="">Đặt hàng</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> --}}
-    <!--/#do_action-->
 @endsection

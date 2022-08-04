@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-    <title>Thanh toán giỏ hàng| E-Shopper</title>
+    <title>Thanh toán giỏ hàng| MobileShop</title>
 @endsection
 
 @section('content')
@@ -99,14 +99,17 @@
                 {{ csrf_field() }}
                 <div class="payment-options" style="margin-block: unset">
                     <span>
-                        <label><input type="radio" name="payment_option" value="1" disabled> Thanh toán bằng thẻ ATM</label>
+                        <label><input type="radio" name="payment_option" value="1" disabled> Thanh toán bằng thẻ
+                            ATM</label>
                     </span>
                     <span>
-                        <label><input type="radio" name="payment_option" value="2" required> Thanh toán tiền mặt khi nhận
+                        <label><input type="radio" name="payment_option" value="2" required> Thanh toán tiền mặt khi
+                            nhận
                             hàng</label>
                     </span>
                     <span>
-                        <label><input type="radio" name="payment_option" value="3" disabled> Sử dụng thẻ ghi nợ</label>
+                        <label><input type="radio" name="payment_option" value="3" disabled> Sử dụng thẻ ghi
+                            nợ</label>
                     </span>
                 </div>
                 <input type="submit" value="Xác nhận & đặt hàng" name="send_order"
