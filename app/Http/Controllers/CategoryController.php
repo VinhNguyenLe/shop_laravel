@@ -107,7 +107,7 @@ class CategoryController extends Controller {
 	
 		$category_product = DB::table('tbl_category_product')
 			->where('category_status', '1')
-			->orderby('category_id', 'desc')->get();
+			->orderby('category_id', 'asc')->get();
 
 		$brand_product = DB::table('tbl_brand')
 			->where('brand_status', '1')
