@@ -9,6 +9,7 @@ use Session;
 
 use App\Imports\ExcelImports;
 use App\Brand;
+use App\Product;
 use App\Exports\ExcelCategoryExports;
 use Excel;
 use Auth;
@@ -103,8 +104,6 @@ class CategoryController extends Controller {
 
 	//Home
 	public function show_category_home(Request $request, $category_id) {
-			
-	
 		$category_product = DB::table('tbl_category_product')
 			->where('category_status', '1')
 			->orderby('category_id', 'asc')->get();
@@ -113,12 +112,63 @@ class CategoryController extends Controller {
 			->where('brand_status', '1')
 			->orderby('brand_id', 'desc')->get();
 
-		$category_by_id = DB::table('tbl_product')
+		$min_price = Product::min('product_price');
+		$max_price = Product::max('product_price');
+
+		if(isset($_GET['sort_by'])){
+			$sort_by = $_GET['sort_by'];
+			if($sort_by == 'giam_dan'){
+				$category_by_id = Product::with('category')->where('category_id', $category_id)
+				->where('product_status', '1')
+				->orderBy('product_price', 'DESC')
+				->paginate(100)
+				->appends(request()->query());
+			}
+			elseif($sort_by == 'tang_dan'){
+				$category_by_id = Product::with('category')->where('category_id', $category_id)
+				->where('product_status', '1')
+				->orderBy('product_price', 'ASC')
+
+				->paginate(100)
+				->appends(request()->query());
+
+			}
+			elseif($sort_by == 'ten_az'){
+				$category_by_id = Product::with('category')->where('category_id', $category_id)
+				->where('product_status', '1')
+				->orderBy('product_name', 'ASC')
+				->paginate(100)
+				->appends(request()->query());
+
+			}
+			elseif($sort_by == 'ten_za'){
+				$category_by_id = Product::with('category')->where('category_id', $category_id)
+				->where('product_status', '1')
+				->orderBy('product_name', 'desc')
+				->paginate(100)
+				->appends(request()->query());
+
+			}
+		} elseif(isset($_GET['start_price']) && isset($_GET['end_price'])){
+			$min_price = $_GET['start_price'];
+			$max_price = $_GET['end_price'];
+			$category_by_id = Product::with('category')->where('category_id', $category_id)
+				->where('product_status', '1')
+				->whereBetween('product_price', [$min_price, $max_price])
+				->orderBy('product_price', 'ASC')
+				->paginate(100)
+				->appends(request()->query());
+		} 
+		
+		else {
+			$category_by_id = DB::table('tbl_product')
 			->join('tbl_category_product', 'tbl_product.category_id', '=', 'tbl_category_product.category_id')
 			->where('tbl_product.category_id', $category_id)
 			->where('product_status', '1')
 			->get();
-			$brand_data = array();
+		}
+
+		$brand_data = array();
 		$brand_data_id = array();
 		$brand = Brand::all();
 		foreach ($brand as $key => $br) {
@@ -143,10 +193,8 @@ class CategoryController extends Controller {
 			->with('brand_data', $brand_data)
 			->with('brand_data_id', $brand_data_id)
 			->with('category_by_id', $category_by_id)
-			->with('meta_desc', $meta_desc)
-			->with('meta_keyword', $meta_keyword)
-			->with('meta_title', $meta_title)
-			->with('url_canonical', $url_canonical)
+			->with('min_price', $min_price)
+			->with('max_price', $max_price)
 			->with('category_name', $category_name);
 	}
 

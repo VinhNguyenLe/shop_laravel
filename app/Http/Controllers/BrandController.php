@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use App\Brand;
+use App\Product;
 use Illuminate\Support\Facades\Redirect;
 use Session;
 
@@ -127,12 +128,62 @@ class BrandController extends Controller {
 			array_push($brand_data, $br->brand_name);
 			array_push($brand_data_id, $br->brand_id);
 		}
+		
+		$min_price = Product::min('product_price');
+		$max_price = Product::max('product_price');
 
-		$brand_by_id = DB::table('tbl_product')
+		if(isset($_GET['sort_by'])){
+			$sort_by = $_GET['sort_by'];
+			if($sort_by == 'giam_dan'){
+				$brand_by_id = Product::with('brand')->where('brand_id', $brand_id)
+				->where('product_status', '1')
+				->orderBy('product_price', 'DESC')
+				->paginate(100)
+				->appends(request()->query());
+			}
+			elseif($sort_by == 'tang_dan'){
+				$brand_by_id = Product::with('brand')->where('brand_id', $brand_id)
+				->where('product_status', '1')
+				->orderBy('product_price', 'ASC')
+
+				->paginate(100)
+				->appends(request()->query());
+
+			}
+			elseif($sort_by == 'ten_az'){
+				$brand_by_id = Product::with('brand')->where('brand_id', $brand_id)
+				->where('product_status', '1')
+				->orderBy('product_name', 'ASC')
+				->paginate(100)
+				->appends(request()->query());
+
+			}
+			elseif($sort_by == 'ten_za'){
+				$brand_by_id = Product::with('brand')->where('brand_id', $brand_id)
+				->where('product_status', '1')
+				->orderBy('product_name', 'desc')
+				->paginate(100)
+				->appends(request()->query());
+
+			}
+		}elseif(isset($_GET['start_price']) && isset($_GET['end_price'])){
+			$min_price = $_GET['start_price'];
+			$max_price = $_GET['end_price'];
+			$brand_by_id = Product::with('brand')->where('brand_id', $brand_id)
+				->where('product_status', '1')
+				->whereBetween('product_price', [$min_price, $max_price])
+				->orderBy('product_price', 'ASC')
+				->paginate(100)
+				->appends(request()->query());
+		} 
+		 
+		else {
+			$brand_by_id = DB::table('tbl_product')
 			->join('tbl_brand', 'tbl_product.brand_id', '=', 'tbl_brand.brand_id')
 			->where('tbl_product.brand_id', $brand_id)
 			->where('product_status', '1')
 			->get();
+		}
 
 		$brand_name = DB::table('tbl_brand')
 			->where('tbl_brand.brand_id', $brand_id)
@@ -152,10 +203,9 @@ class BrandController extends Controller {
 			->with('brand_data', $brand_data)
 			->with('brand_data_id', $brand_data_id)
 			->with('brand_name', $brand_name)
-			->with('meta_desc', $meta_desc)
-			->with('meta_keyword', $meta_keyword)
-			->with('meta_title', $meta_title)
-			->with('url_canonical', $url_canonical);
+			->with('min_price', $min_price)
+			->with('max_price', $max_price)
+			;
 	}
 
 	public function export_brand_csv(){

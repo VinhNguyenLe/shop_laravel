@@ -21,4 +21,15 @@ class Product extends Model
     ];
     protected $primaryKey = 'product_id';
  	protected $table = 'tbl_product';
+
+    // public function comment(){
+    //     return $this->hasMany('App\Comment');
+    // }
+    public function category(){
+        return $this->belongsTo('App\CategoryProduct', 'category_id');
+    }
+    
+    public function brand(){
+        return $this->belongsTo('App\Brand', 'brand_id');
+    }
 }

@@ -15,6 +15,7 @@ session_start();
 
 class HomeController extends Controller {
 	public function index(Request $request) {
+		
         $slider = Slider::orderBy('slider_id','DESC')->where('slider_status','1')->take(4)->get();
 
 		//SEO

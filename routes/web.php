@@ -183,8 +183,9 @@ Route::post('/update-gallery-name', 'GalleryController@update_gallery_name');
 Route::post('/remove-gallery', 'GalleryController@delete_gallery');
 
 
-//! Send Mail
+//Send Mail
 Route::get('/send-mail', 'MailController@send_mail');
+Route::get('mail', 'MailController@mail');
 
 //! Login facebook google
 Route::get('/login-facebook','LoginFacebookController@login_facebook');

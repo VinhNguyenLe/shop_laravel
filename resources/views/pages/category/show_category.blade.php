@@ -6,7 +6,7 @@
     @endforeach
 @endsection
 
-@section('category-product')
+{{-- @section('category-product')
     <div class="col-sm-3">
         <div class="left-sidebar">
             <h2>Danh mục sản phẩm</h2>
@@ -47,10 +47,42 @@
             <!--/brands_products-->
         </div>
     </div>
-@endsection
+@endsection --}}
 
 @section('content')
-    <div class="col-sm-12">
+    <div class="col-md-3">
+        <div>
+            <label for="amount">Sắp xếp theo</label>
+            <form>
+                @csrf
+                <select name="sort" id="sort" class="form-control">
+                    <option value="{{ Request::url() }}?sort_by=none">--Lọc sản phẩm--</option>
+                    <option value="{{ Request::url() }}?sort_by=tang_dan">Theo giá tăng dần</option>
+                    <option value="{{ Request::url() }}?sort_by=giam_dan">Theo giá giảm dần</option>
+                    <option value="{{ Request::url() }}?sort_by=ten_az">Theo tên từ A đến Z</option>
+                    <option value="{{ Request::url() }}?sort_by=ten_za">Theo tên từ Z đến A</option>
+                </select>
+            </form>
+        </div>
+        <div style="margin-top: 40px">
+            <label for="amount">Lọc giá sản phẩm</label>
+            <form>
+                <div id="slider-range"></div>
+                <input type="hidden" name="start_price" id="start_price">
+                <input type="hidden" name="end_price" id="end_price">
+
+                @if ($max_price && $min_price)
+                    <input type="hidden" name="max_price" id="max_price_product" value="{{ $max_price }}">
+                    <input type="hidden" name="min_price" id="min_price_product" value="{{ $min_price }}">
+                @endif
+
+                <input type="text" id="amount" readonly style="border:0; color:#7016e5; font-weight:bold;">
+                <input type="submit" value="Lọc giá" name="filter_price"
+                    class="btn btn-success custom-btn-primary custom-btn-trans">
+            </form>
+        </div>
+    </div>
+    <div class="col-sm-9">
         <div class="features_items">
             <h2 class="title">
                 Danh mục sản phẩm:
@@ -61,10 +93,10 @@
 
             </h2>
 
-            <div class=" custom-product-home">
+            <div class=" custom-product-home" style="grid-template-columns: 1fr 1fr 1fr 1fr">
                 @foreach ($category_by_id as $key => $product)
                     <div class="custom-product-bg">
-                        <div class="product-image-wrapper" style="border-radius: 4px">
+                        <div class="product-image-wrapper" style="border-radius: 4px;">
                             <div class="single-products">
                                 <div class="productinfo text-center">
                                     <form>
@@ -128,5 +160,5 @@
 
     </div>
     </div>
-    <div class="fb-comments" data-href="{{ $url_canonical }}" data-width="" data-numposts="5"></div>
+    {{-- <div class="fb-comments" data-href="{{ $url_canonical }}" data-width="" data-numposts="5"></div> --}}
 @endsection

@@ -17,7 +17,9 @@
     <link href="{{ asset('public/frontend/css/prettify.css') }}" rel="stylesheet">
     <link href="{{ asset('public/frontend/css/lightgallery.css') }}" rel="stylesheet">
     <link href="{{ asset('public/frontend/css/lightgallery.min.css') }}" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"
+        integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="{{ asset('public/frontend/css/custom.css') }}" rel="stylesheet">
 
 
@@ -243,6 +245,9 @@
     <script src="{{ asset('public/frontend/js/lightslider.js') }}"></script>
     <script src="{{ asset('public/frontend/js/prettify.js') }}"></script>
     <script src="{{ asset('public/frontend/js/lightgallery-all.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
+        integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script src="{{ asset('public/frontend/js/myCustom.js') }}"></script>
 
@@ -466,7 +471,39 @@
             $('.custom-register-customer-form').toggleClass('active')
         })
     </script>
-    <script></script>
+    <script>
+        $(document).ready(function() {
+            $('#sort').on('change', function() {
+                var url = $(this).val()
+                if (url) {
+                    window.location = url
+                }
+                return false
+            })
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+            var minPrice = $('#min_price_product').val()
+            var maxPrice = $('#max_price_product').val()
+            console.log(minPrice);
+            $("#slider-range").slider({
+                // orientation: "vertical",
+                range: true,
+                min: 50000,
+                max: 80000000,
+                step: 100000,
+                values: [minPrice, maxPrice],
+                slide: function(event, ui) {
+                    $("#amount").val(ui.values[0] + "đ" + " - " + ui.values[1] + "đ");
+                    $("#start_price").val(ui.values[0]);
+                    $("#end_price").val(ui.values[1]);
+                }
+            });
+            $("#amount").val($("#slider-range").slider("values", 0) + "đ" +
+                " - " + $("#slider-range").slider("values", 1) + "đ");
+        })
+    </script>
 
 </body>
 

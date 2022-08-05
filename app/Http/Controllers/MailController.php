@@ -27,4 +27,7 @@ class MailController extends Controller
 
 //--send mail
     }
+    public function mail(){
+        return view('pages.mail.mail_order');
+    }
 }
