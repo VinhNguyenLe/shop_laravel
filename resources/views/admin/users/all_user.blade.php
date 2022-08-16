@@ -50,6 +50,7 @@
                                 <tr>
                                     <td style="text-align: center">{{ $i }} </td>
                                     <td>{{ $user->admin_name }}</td>
+
                                     <td>
                                         {{ $user->admin_email }}
                                         <input type="hidden" name="admin_email" value="{{ $user->admin_email }}">
@@ -72,13 +73,18 @@
                                     <td style="text-align: center">
                                         <input type="submit" value="Phân quyền" class="btn btn-sm btn-success">
                                         <a href="{{ URL::to('/delete-user-roles/' . $user->admin_id) }}"
-                                            class="btn btn-sm btn-danger">Xóa</a>
+                                            class="btn btn-sm btn-danger"
+                                            onclick="return confirm('Bạn có chắc muốn xóa tài khoản của {{ $user->admin_name }} không?')">Xóa</a>
+
+
                                     </td>
                                 </tr>
+
                             </form>
                         @endforeach
                     </tbody>
                 </table>
+
             </div>
             {{-- <form action="{{ url('/export-brand-csv') }}" method="POST" style="padding: 20px">
                 @csrf

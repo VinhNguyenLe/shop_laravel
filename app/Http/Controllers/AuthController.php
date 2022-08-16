@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Admin;
 use App\Roles;
+use Session;
 
 use Auth;
 
@@ -65,6 +66,12 @@ class AuthController extends Controller
         Auth::logout();
         return redirect('/login-auth')->with('message', 'Đăng xuất thành công');
 
+    }
+
+    public function change_password_auth(){
+        $admin_id = Session::get('admin_id');
+        $admin_email = Session::get('admin_email');
+        return view('admin.custom_auth.change_password')->with(compact('admin_id', 'admin_email'));
     }
 
    

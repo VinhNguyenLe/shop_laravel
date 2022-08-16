@@ -63,7 +63,7 @@
                                     </a>
                                     <a href="{{ URL::to('/delete-category-product/' . $cate_pro->category_id) }}"
                                         class="btn btn-danger" ui-toggle-class="" title="Xóa danh mục"
-                                        onclick="return confirm('Bạn chắc chắn muốn xóa chứ?')">
+                                        onclick="return confirm('Bạn có chắc muốn xóa danh mục {{ $cate_pro->category_name }} không?')">
                                         Xóa
                                     </a>
                                 </td>

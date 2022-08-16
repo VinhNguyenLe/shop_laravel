@@ -5,17 +5,20 @@
             <div class="panel-heading">
                 Slider
             </div>
+            <div class="row w3-res-tb">
+                <a href="{{ URL::to('/add-slider') }}" class="btn btn-success custom-m14">Thêm slider</a>
 
+            </div>
             <div class="table-responsive">
                 <?php
                 $message = Session::get('message');
+                $error = Session::get('error');
                 if ($message) {
-                    echo '<div class="alert alert-success">
-                                                                                                                                                                                                                                                          <strong>Thông báo:</strong> ' .
-                        $message .
-                        '
-                                                                                                                                                                                                                                                        </div>';
+                    echo '<div class="alert alert-success">' . $message . '</div>';
                     Session::put('message', null);
+                } elseif ($error) {
+                    echo '<div class="alert alert-danger">' . $error . '</div>';
+                    Session::put('error', null);
                 }
                 ?>
                 <table class="table table-striped b-t b-light">

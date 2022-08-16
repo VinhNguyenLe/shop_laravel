@@ -182,7 +182,7 @@ Route::get('/register-auth','AuthController@register_auth');
 Route::get('/login-auth','AuthController@login_auth');
 Route::get('/logout-auth','AuthController@logout_auth');
 //!
-Route::get('/','AuthController@logout_auth');
+Route::get('/change-password','AuthController@change_password_auth');
 
 Route::post('/register','AuthController@register');
 Route::post('/login','AuthController@login');

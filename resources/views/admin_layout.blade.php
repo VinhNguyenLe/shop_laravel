@@ -160,23 +160,23 @@
                             </li>
 
                             <li class="sub-menu">
-                                <a href="javascript:;">
+                                <a href="{{ URL::to('/list-coupon') }}">
                                     <i class="fa fa-book"></i>
                                     <span>Mã giảm giá</span>
                                 </a>
-                                <ul class="sub">
+                                {{-- <ul class="sub">
                                     <li><a href="{{ URL::to('/add-coupon') }}">Thêm mã giảm giá</a></li>
                                     <li><a href="{{ URL::to('/list-coupon') }}">Danh sách mã giảm giá</a></li>
-                                </ul>
+                                </ul> --}}
                             </li>
                             <li class="sub-menu">
-                                <a href="javascript:;">
+                                <a href="{{ URL::to('/delivery') }}">
                                     <i class="fa fa-book"></i>
                                     <span>Địa chỉ vận chuyển</span>
                                 </a>
-                                <ul class="sub">
+                                {{-- <ul class="sub">
                                     <li><a href="{{ URL::to('/delivery') }}">Quản lý địa chỉ vận chuyển</a></li>
-                                </ul>
+                                </ul> --}}
                             </li>
                             <li class="sub-menu">
                                 <a href="{{ URL::to('/manager-order') }}">
@@ -191,14 +191,14 @@
                                 </a>
                             </li>
                             <li class="sub-menu">
-                                <a href="javascript:;">
+                                <a href="{{ URL::to('/manage-slider') }}">
                                     <i class="fa fa-book"></i>
                                     <span>Slider</span>
                                 </a>
-                                <ul class="sub">
+                                {{-- <ul class="sub">
                                     <li><a href="{{ URL::to('/add-slider') }}">Thêm slider</a></li>
                                     <li><a href="{{ URL::to('/manage-slider') }}">Danh sách slider</a></li>
-                                </ul>
+                                </ul> --}}
                             </li>
                         @endhasrole
                         @hasrole('admin')
@@ -779,6 +779,11 @@
         // CKEDITOR: replace('ckeditor')
         CKEDITOR.replace('product-desc')
         // CKEDITOR.replace('product-content')
+    </script>
+    <script>
+        // $('#myModal').on('shown.bs.modal', function() {
+        //     $('#myInput').trigger('focus')
+        // })
     </script>
     {{-- <script type="text/javascript">
         $.validate({
