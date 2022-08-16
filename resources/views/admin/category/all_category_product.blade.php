@@ -6,7 +6,7 @@
                 danh mục sản phẩm
             </div>
             <div class="row w3-res-tb">
-
+                <a href="{{ URL::to('/add-category-product') }}" class="btn btn-success custom-m14">Thêm danh mục</a>
             </div>
             <div class="table-responsive">
                 <?php

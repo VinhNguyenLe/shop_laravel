@@ -86,8 +86,11 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu extended logout">
-                            <li><a href="{{ URL::to('/logout-auth') }}"><i class="fa fa-key"></i> Đăng xuất</a></li>
+                            <li><a href="{{ URL::to('/change-password') }}"><i class="fa fa-unlock-alt"></i> Đổi mật
+                                    khẩu</a>
+                            </li>
                             {{-- <li><a href="{{ URL::to('/logout') }}"><i class="fa fa-key"></i> Đăng xuất</a></li> --}}
+                            <li><a href="{{ URL::to('/logout-auth') }}"><i class="fa fa-key"></i> Đăng xuất</a></li>
                         </ul>
                     </li>
                     <!-- user login dropdown end -->
@@ -182,6 +185,12 @@
                                 </a>
                             </li>
                             <li class="sub-menu">
+                                <a href="{{ URL::to('/list-comment') }}">
+                                    <i class="fa fa-book"></i>
+                                    <span>Bình luận khách hàng</span>
+                                </a>
+                            </li>
+                            <li class="sub-menu">
                                 <a href="javascript:;">
                                     <i class="fa fa-book"></i>
                                     <span>Slider</span>
@@ -194,15 +203,11 @@
                         @endhasrole
                         @hasrole('admin')
                             <li class="sub-menu">
-                                <a href="javascript:;">
+                                <a href="{{ URL::to('/all-contact') }}">
                                     <i class="fa fa-book"></i>
                                     <span>Thông tin liên hệ</span>
                                 </a>
-                                <ul class="sub">
-                                    <li><a href="{{ URL::to('/add-contact') }}">Thêm thông tin</a></li>
-                                    <li><a href="{{ URL::to('/all-contact') }}">Danh sách thông tin</a>
-                                    </li>
-                                </ul>
+
                             </li>
                         @endhasrole
 
@@ -716,6 +721,59 @@
         );
     </script>
 
+    <script>
+        $(document).ready(function() {
+            $('.btn-reply-comment').click(function() {
+                // var comment = $('.reply-comment').val()
+                // var comment_id = $(this).data('comment_id')
+                // var comment_product_id = $(this).data('comment-product-id')
+
+                // var notifyReply = "Bạn đã trả lời bình luận"
+                // alert(comment)
+                // alert(comment_id)
+                // alert(comment_product_id)
+                alert(123)
+                // $.ajax({
+                // url: '{{ url('/send-comment') }}',
+                // method: 'POST',
+                // data: {
+                //     product_id: product_id,
+                //     comment_name: comment_name,
+                //     comment_content: comment_content,
+                //     _token: _token,
+                // },
+                // success: function(data) {
+                //     loadComment()
+                // }
+                // })
+            })
+        })
+    </script>
+    <script>
+        $('.btn-reply-comment').click(function() {
+            var comment_id = $(this).data('comment-id')
+            var comment = $('.reply-comment-' + comment_id).val()
+            var comment_product_id = $(this).data('comment-product-id')
+            var _token = $('input[name="_token"]').val();
+
+            var notifyReply = "Bạn đã trả lời bình luận"
+
+            $.ajax({
+                url: '{{ url('/reply-comment') }}',
+                method: 'POST',
+                data: {
+                    comment: comment,
+                    comment_id: comment_id,
+                    comment_product_id: comment_product_id,
+                    _token: _token
+                },
+                success: function(data) {
+                    $('#notify-reply-comment').html(
+                        '<span>Trả lời bình luận thành công</span>')
+                }
+            })
+        })
+    </script>
 
     <script>
         // CKEDITOR: replace('ckeditor')

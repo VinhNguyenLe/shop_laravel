@@ -6,7 +6,7 @@
                 Tài khoản Nhân viên
             </div>
             <div class="row w3-res-tb">
-
+                <a href="{{ URL::to('/add-user') }}" class="btn btn-success custom-m14">Thêm tài khoản</a>
             </div>
             <div class="table-responsive">
                 <?php

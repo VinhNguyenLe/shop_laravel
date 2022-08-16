@@ -180,3 +180,24 @@
 .fa-toggle-off {
     color: #ccc;
 }
+
+.reply-comment-style {
+    resize: none;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 8px;
+    color: #000;
+    outline: none;
+}
+
+.reply-comment-style:focus {
+    border-color: #7536d3;
+}
+
+.custom-m20 {
+    margin: 20px !important;
+}
+
+.custom-m14 {
+    margin: 14px !important;
+}

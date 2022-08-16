@@ -21,7 +21,7 @@
                 }
                 ?>
                 <div style="margin: 0 0 0 12px">
-                    <a href="{{ URL::to('add-coupon') }}" class="btn btn-primary">Thêm mã khuyến mãi</a>
+                    <a href="{{ URL::to('add-coupon') }}" class="btn btn-success">Thêm mã khuyến mãi</a>
                 </div>
                 <table class="table table-striped b-t b-light custom-table-center">
                     <thead>

@@ -585,3 +585,17 @@ input::-webkit-inner-spin-button {
 .custom-register-customer-form p:hover {
     text-decoration: underline;
 }
+
+.comment_content {
+    outline: none;
+    background-color: #fff;
+    border: none;
+}
+
+.send-comment {
+    margin-top: 24px;
+}
+
+#comment_show {
+    background-color: #ede1fe;
+}

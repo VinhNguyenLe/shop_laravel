@@ -51,11 +51,11 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <h4 style="margin-bottom: 20px">Số lượng sản phẩm theo thương hiệu</h4>
+                <h4 style="margin-bottom: 20px">Phân loại sản phẩm theo thương hiệu</h4>
                 <canvas id="myBrandQty"></canvas>
             </div>
             <div class="col-md-4">
-                <h4 style="margin-bottom: 20px">Số lượng sản phẩm theo danh mục</h4>
+                <h4 style="margin-bottom: 20px">Phân loại sản phẩm theo danh mục</h4>
                 <canvas id="myCategoryQty"></canvas>
             </div>
         </div>

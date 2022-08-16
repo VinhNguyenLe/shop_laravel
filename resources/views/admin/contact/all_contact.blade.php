@@ -6,6 +6,7 @@
                 Thông tin liên hệ
             </div>
             <div class="row w3-res-tb">
+                <a href="{{ URL::to('/add-contact') }}" class="btn btn-success custom-m14">Thêm liên hệ</a>
 
             </div>
             <div class="table-responsive">

@@ -81,6 +81,16 @@ Route::group(['middleware' => 'auth.roles'], function(){
     Route::post('/update-product/{product_id}', 'ProductController@update_product');
 });
 
+//Comment
+Route::post('/load-comment', 'ProductController@load_comment');
+Route::post('/send-comment', 'ProductController@send_comment');
+
+Route::get('/list-comment', 'ProductController@list_comment');
+Route::post('/reply-comment', 'ProductController@reply_comment');
+
+
+
+
 Route::group(['middleware' => 'admin.roles'], function(){
     //User
     Route::get('/user', 'UserController@index');
@@ -171,6 +181,8 @@ Route::post('/export-product-csv','ProductController@export_product_csv');
 Route::get('/register-auth','AuthController@register_auth');
 Route::get('/login-auth','AuthController@login_auth');
 Route::get('/logout-auth','AuthController@logout_auth');
+//!
+Route::get('/','AuthController@logout_auth');
 
 Route::post('/register','AuthController@register');
 Route::post('/login','AuthController@login');

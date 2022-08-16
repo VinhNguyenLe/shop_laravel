@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 use Session;
 use App\Slider;
 use App\Brand;
+use App\Product;
 use App\CategoryProduct;
 
 
@@ -25,13 +26,10 @@ class HomeController extends Controller {
 		$url_canonical = $request->url();
 		//End SEO
 
-		$category_product = DB::table('tbl_category_product')
-			->where('category_status', '1')
-			->orderby('category_id', 'asc')->get();
+		$category_product = CategoryProduct::where('category_status', '1')->orderby('category_id', 'asc')->get();
 		
-		// $brand_product = DB::table('tbl_brand')
-		// 	->where('brand_status', '1')
-		// 	->orderby('brand_id', 'desc')->get();
+		$brand_product = Brand::where('brand_status', '1')->orderby('brand_id', 'desc')->get();
+
 		$brand_data = array();
 		$brand_data_id = array();
 		$brand = Brand::all();
@@ -40,14 +38,18 @@ class HomeController extends Controller {
 			array_push($brand_data_id, $br->brand_id);
 		}
 
-		$all_product = DB::table('tbl_product')
-			->where('product_status', '1')
-			->orderby('product_id', 'desc')
-			->get();
+		// $all_product = DB::table('tbl_product')
+		// 	->where('product_status', '1')
+		// 	->orderby('product_id', 'desc')
+		// 	->get();
+
+		$all_product = Product::where('product_status', '1')->orderby('product_id', 'desc')->get();
 
 		// $all_product = DB::table('tbl_product')
 		// ->join('tbl_category_product', 'tbl_category_product.category_id', '=', 'tbl_product.category_id')
 		// ->join('tbl_brand', 'tbl_brand.brand_id', '=', 'tbl_product.brand_id')
+		// ->where('product_status', '1')
+		
 		// ->orderby('tbl_product.product_id', 'desc')->get();
 
 		return view('pages.home')

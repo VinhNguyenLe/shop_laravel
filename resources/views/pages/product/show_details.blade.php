@@ -45,6 +45,14 @@
 @endsection --}}
 
 @section('content')
+    <div></div>
+    <?php
+    $comment_noti = Session::get('comment_noti');
+    if ($comment_noti) {
+        echo '<p class="alert alert-success">' . $comment_noti . '</p>';
+        Session::put('comment_noti', null);
+    }
+    ?>
     @foreach ($details_product as $key => $value)
         <div class="product-details">
             <!--product-details-->
@@ -145,7 +153,7 @@
             </div>
         </div>
         <!--/product-details-->
-        <div class="row">
+        <div class="row" style="margin-bottom: 40px">
             <div class="col-md-6">
                 <div class="tab-pane fade active in" id="details">
                     <h3 class="custom-primary-color custom-font-24" style="margin-bottom: 12px">Giới thiệu sản phẩm</h3>
@@ -168,9 +176,44 @@
                 </table>
             </div>
         </div>
-        <div class="row">
+
+        <div class="row" style="border-top: 1px solid #7d2ae8; padding: 0;">
+            <h3 style="margin-block: 24px; color: #1c1f4a;">Bình luận</h3>
 
         </div>
+
+        <form>
+            @csrf
+            <input type="hidden" name="product_id" class="comment_product_id" value="{{ $value->product_id }}">
+
+            <div id="comment_show"></div>
+
+        </form>
+        @if (Session::get('customer_name'))
+            <div class="row">
+                <div class="col-md-7" style="background: #ede1fe; padding: 15px">
+                    <h4 style="color: #1c1f4a; margin-bottom: 12px">Bình luận của bạn</h3>
+
+                        <form>
+                            @csrf
+
+                            <span>
+                                <input type="hidden" class="comment_name" placeholder="Tên của bạn"
+                                    value="{{ Session::get('customer_name') }}">
+                            </span>
+                            <textarea name="comment" class="comment_content" placeholder="Nội dung bình luận" required rows="4"></textarea>
+                            <button type="click" class="btn btn-success send-comment">Gửi bình luận</button>
+                        </form>
+                </div>
+            </div>
+        @else
+            <p style="color: #656768; font-style: italic; font-size: 14px; margin-top: 24px">Bạn cần đăng nhập để bình
+                luận
+            </p>
+        @endif
+
+
+
 
 
         <!--/category-tab-->

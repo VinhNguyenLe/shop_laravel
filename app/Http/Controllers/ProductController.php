@@ -13,7 +13,9 @@ use Auth;
 use App\Gallery;
 use App\Brand;
 use App\Product;
+use App\Comment;
 
+use Carbon\Carbon;
 use File;
 
 session_start();
@@ -215,4 +217,86 @@ class ProductController extends Controller {
 	public function export_product_csv(){
         return Excel::download(new ExcelProductExports , 'product_list.xlsx');
     }
+
+	public function load_comment(Request $request){
+		$product_id = $request->product_id;
+		$comment = Comment::where('comment_product_id', $product_id)->where('comment_parent_id', 0)->get();
+		$all_comment = Comment::where('comment_product_id', $product_id)->get();
+		$output = '';
+		foreach($comment as $key => $cmt){
+			// $cmt_date = $cmt->comment_date->format('d/m/Y');
+			$cmt_date = date('d/m/Y H:i:s', strtotime($cmt->comment_date));
+			$output .= '
+			<div class="row style_comment"
+				style="background-color: #ede1fe; display: flex; align-items: stretch; padding: 12px; margin-inline:unset">
+				
+				<div class="col-md-1" style="background-color: #fff; padding: 12px">
+					<img src="'.url('/public/frontend/images/avatar-icon.png').'" alt="" width="80px"
+						class="img img-responsive img-thumbnail">
+				</div>
+				<div class="col-md-8" style="background-color: #fff;">
+					<p style="color: #7d2ae8; margin-block: 12px">'.$cmt->comment_name.'</p>
+					<p style="color: #656768; font-style: italic; font-size: 12px">Ngày '.$cmt_date.'</p>
+
+					<p>'.$cmt->comment.'</p>
+				</div>
+			</div>';
+
+			foreach ($all_comment as $key => $cmt_rep){
+				$reply_date = date('d/m/Y H:i:s', strtotime($cmt_rep->comment_date));
+
+				if($cmt_rep->comment_parent_id == $cmt->comment_id){
+					$output .='
+					<div class="row style_comment"
+						style="background-color: #ede1fe; display: flex; align-items: stretch; width: 60%; padding-bottom: 8px; margin-left: 40px">
+						
+						<div class="col-md-1" style="background-color: #fff; padding: 8px; display: flex; align-items: center">
+							<img src="https://f7-zpcloud.zdn.vn/8694182849937176588/c6f480b37442b61cef53.jpg" alt="" width="80px"
+								class="img img-responsive img-thumbnail">
+						</div>
+						<div class="col-md-8" style="background-color: #fff;padding: 8px; ">
+							<p style="color: #7d2ae8; margin-block: 0px; font-size: 11px;">Cửa hàng trả lời</p>
+							<p style="color: #656768; font-style: italic; font-size: 10px; margin-block: 0px">Ngày '.$reply_date.'</p>
+		
+							<p style="margin-block: 0px; font-size: 12px;">'.$cmt_rep->comment.'</p>
+						</div>
+					</div>
+					';
+				}
+			}
+		}
+		echo $output;
+	}
+
+	public function send_comment(Request $request){
+		$product_id = $request->product_id;
+		$comment_name = $request->comment_name;
+		$comment_content = $request->comment_content;
+
+		$comment = new Comment();
+		$comment->comment_name = $comment_name;
+		$comment->comment = $comment_content;
+		$comment->comment_product_id = $product_id;
+		// $comment->comment_date = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
+
+		$comment->save();
+		Session::put('comment_noti', 'Bạn đã đăng bình luận tại sản phẩm này');
+	}
+
+	public function list_comment(){
+		$comment = Comment::with('product')->where('comment_parent_id', 0)->orderBy('comment_id', 'desc')->get();
+		$all_comment = Comment::with('product')->orderBy('comment_id', 'desc')->get();
+		return view('admin.comment.list_comment')->with(compact('comment', 'all_comment'));
+	}
+
+	public function reply_comment(Request $request){
+		$data = $request->all();
+		$comment = new Comment();
+		$comment->comment = $data['comment'];
+		$comment->comment_name = 'Cửa hàng trả lời';
+		$comment->comment_product_id = $data['comment_product_id'];
+		$comment->comment_parent_id = $data['comment_id'];
+		$comment->save();
+		Session::put('reply_cmt', 'Trả lời thành công');
+	}
 }

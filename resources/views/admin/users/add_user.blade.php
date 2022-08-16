@@ -35,7 +35,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Password</label>
+                                <label for="exampleInputEmail1">Mật khẩu</label>
                                 <input type="text" name="admin_password" class="form-control" id="exampleInputEmail1"
                                     placeholder="Slug">
                             </div>

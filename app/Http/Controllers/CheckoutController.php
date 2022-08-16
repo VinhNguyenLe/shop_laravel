@@ -53,13 +53,14 @@ class CheckoutController extends Controller
 		$brand_product = DB::table('tbl_brand')
 			->where('brand_status', '1')
 			->orderby('brand_id', 'desc')->get();
-			$brand_data = array();
-			$brand_data_id = array();
-			$brand = Brand::all();
-			foreach ($brand as $key => $br) {
-				array_push($brand_data, $br->brand_name);
-				array_push($brand_data_id, $br->brand_id);
-			}
+
+		$brand_data = array();
+		$brand_data_id = array();
+		$brand = Brand::all();
+		foreach ($brand as $key => $br) {
+			array_push($brand_data, $br->brand_name);
+			array_push($brand_data_id, $br->brand_id);
+		}
 
 		return view('pages.checkout.login_checkout')
 			->with('category', $category_product)
@@ -100,7 +101,7 @@ class CheckoutController extends Controller
 			->where('category_status', '1')
 			->orderby('category_id', 'desc')->get();
 
-			$brand_data = array();
+		$brand_data = array();
 		$brand_data_id = array();
 		$brand = Brand::all();
 		foreach ($brand as $key => $br) {
